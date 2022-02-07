@@ -1,0 +1,311 @@
+<!-- Start of Header -->
+<header class="header">
+    <div class="header-top">
+        <div class="container">
+            <div class="header-left">
+                <p class="welcome-msg">Chào mừng đến với AsiaNasa Shop!</p>
+            </div>
+            <div class="header-right">
+                <!-- <div class="dropdown">
+                    <a href="#currency">USD</a>
+                    <div class="dropdown-box">
+                        <a href="#USD">USD</a>
+                        <a href="#EUR">EUR</a>
+                    </div>
+                </div> -->
+                <!-- End of Dropdown Menu -->
+                <a href="blog.html" class="d-lg-show">Blog</a>
+                <a href="contact-us.html" class="d-lg-show">Contact Us</a>
+                <a *ngIf="userInfo.id" class="d-lg-show">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                        height="16" fill="currentColor" class="bi bi-person"
+                        viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1
+                            1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4
+                            6-4 6 3 6
+                            4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516
+                            10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168
+                            1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                        </svg>
+                        {{userInfo.fullname}}</a>
+                    <a *ngIf="!userInfo.id" class="d-lg-show">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-person"
+                            viewBox="0 0 16 16">
+                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0
+                                1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1
+                                0-1-1 1-4 6-4 6 3 6
+                                4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516
+                                10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168
+                                1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                            </svg>
+                            Vãng lai</a>
+                        <a *ngIf="!userInfo.id" (click)="loginPage()"
+                            class="d-lg-show
+                            login sign-in">Đăng nhập</a>
+                        <span *ngIf="!userInfo.id" class="delimiter d-lg-show">/</span>
+                        <a *ngIf="!userInfo.id" (click)="loginPage()"
+                            class="ml-0
+                            d-lg-show login register">Đăng ký</a>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Header Top -->
+            <div class="header-middle">
+                <div class="container">
+                    <div class="header-left mr-md-4">
+                        <a
+                            href="#"
+                            class="mobile-menu-toggle w-icon-hamburger"
+                            aria-label="menu-toggle">
+                        </a>
+                        <a (click)="homePage()" class="logo ml-lg-0">
+                            <img src="assets/images/demos/demo5/logo-1.png"
+                                alt="logo"
+                                width="145" height="45" />
+                        </a>
+                        <form method="get" action="#" class="header-search
+                            hs-expanded hs-round
+                            d-none d-md-flex
+                            input-wrapper">
+                            <div class="select-box">
+                                <select id="category" name="category"
+                                    [(ngModel)]="search.type">
+                                    <option value="">Tất cả danh mục</option>
+                                    <option *ngFor="let category of categories"
+                                        [value]="category.code">
+                                        {{ category.name }}
+                                    </option>
+                                </select>
+                            </div>
+                            <input [(ngModel)]="search.textSearch" type="text"
+                                class="form-control" name="search" id="search"
+                                placeholder="Nhập từ khóa tìm kiếm..." required
+                                />
+                            <button class="btn btn-search" type="submit"
+                                (click)="submit()">
+                                <i class="w-icon-search"></i>
+                                <!-- <svg xmlns="http://www.w3.org/2000/svg"
+                                    width="16" height="16" fill="currentColor"
+                                    class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397
+                                        1.398h-.001c.03.04.062.078.098.115l3.85
+                                        3.85a1 1 0 0 0
+                                        1.415-1.414l-3.85-3.85a1.007 1.007 0 0
+                                        0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5
+                                        5.5 0 0 1 11 0z" />
+                                </svg> -->
+                            </button>
+                        </form>
+                    </div>
+                        <div class="header-right ml-4">
+                            <div class="header-call d-xs-show d-lg-flex
+                                align-items-center">
+                                <a href="tel:#">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        width="30" height="30"
+                                        fill="currentColor" class="bi
+                                        bi-telephone" viewBox="0 0 16 16">
+                                        <path d="M3.654 1.328a.678.678 0 0
+                                            0-1.015-.063L1.605
+                                            2.3c-.483.484-.661 1.169-.45
+                                            1.77a17.568 17.568 0 0 0 4.168
+                                            6.608 17.569 17.569 0 0 0 6.608
+                                            4.168c.601.211 1.286.033
+                                            1.77-.45l1.034-1.034a.678.678 0
+                                            0
+                                            0-.063-1.015l-2.307-1.794a.678.678
+                                            0 0 0-.58-.122l-2.19.547a1.745
+                                            1.745 0 0 1-1.657-.459L5.482
+                                            8.062a1.745 1.745 0 0
+                                            1-.46-1.657l.548-2.19a.678.678 0
+                                            0 0-.122-.58L3.654
+                                            1.328zM1.884.511a1.745 1.745 0 0
+                                            1 2.612.163L6.29
+                                            2.98c.329.423.445.974.315
+                                            1.494l-.547 2.19a.678.678 0 0 0
+                                            .178.643l2.457 2.457a.678.678 0
+                                            0 0 .644.178l2.189-.547a1.745
+                                            1.745 0 0 1 1.494.315l2.306
+                                            1.794c.829.645.905 1.87.163
+                                            2.611l-1.034 1.034c-.74.74-1.846
+                                            1.065-2.877.702a18.634 18.634 0
+                                            0 1-7.01-4.42 18.634 18.634 0 0
+                                            1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"
+                                            />
+                                        </svg>
+                                    </a>
+                                    <div class="call-info d-lg-show">
+                                        <h4 class="chat
+                                            font-weight-normal font-size-md
+                                            text-normal
+                                            ls-normal
+                                            text-light
+                                            mb-0">
+                                            <a href="mailto:#"
+                                                class="text-capitalize">
+                                                Gọi ngay:</a>
+                                        </h4>
+                                        <a href="tel:#" class="phone-number
+                                            font-weight-bolder
+                                            ls-50">0(800)123-456</a>
+                                    </div>
+                                </div>
+                                <a class="wishlist label-down link d-xs-show" href="wishlist.html">
+                                    <i class="w-icon-heart"></i>
+                                    <span class="wishlist-label d-lg-show">Wishlist</span>
+                                </a>
+                                <a class="compare label-down link d-xs-show" href="compare.html">
+                                    <i class="w-icon-compare"></i>
+                                    <span class="compare-label d-lg-show">Compare</span>
+                                </a>
+                                <div class="dropdown cart-dropdown
+                                    cart-offcanvas
+                                    mr-0
+                                    mr-lg-2">
+                                    <div class="cart-overlay"></div>
+                                    <a (click)="cartPage()" class="cart-toggle
+                                        label-down
+                                        link" style="cursor: pointer;">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            width="26" height="26"
+                                            fill="currentColor" class="bi
+                                            bi-cart-check" viewBox="0 0 16 16">
+                                            <path d="M11.354 6.354a.5.5 0 0
+                                                0-.708-.708L8 8.293 6.854
+                                                7.146a.5.5 0 1 0-.708.708l1.5
+                                                1.5a.5.5 0 0 0 .708 0l3-3z" />
+                                                <path d="M.5 1a.5.5 0 0 0 0
+                                                    1h1.11l.401 1.607 1.498
+                                                    7.985A.5.5 0 0 0 4 12h1a2 2
+                                                    0 1 0 0 4 2 2 0 0 0 0-4h7a2
+                                                    2 0 1 0 0 4 2 2 0 0 0
+                                                    0-4h1a.5.5 0 0 0
+                                                    .491-.408l1.5-8A.5.5 0 0 0
+                                                    14.5 3H2.89l-.405-1.621A.5.5
+                                                    0 0 0 2 1H.5zm3.915 10L3.102
+                                                    4h10.796l-1.313 7h-8.17zM6
+                                                    14a1 1 0 1 1-2 0 1 1 0 0 1 2
+                                                    0zm7 0a1 1 0 1 1-2 0 1 1 0 0
+                                                    1 2 0z" />
+                                                </svg>
+                                                <span class="cart-count">{{count}}</span>
+                                                <!-- <i class="w-icon-cart">
+                                                    <span class="cart-count">{{count}}</span>
+                                                </i> -->
+                                                <span class="cart-label">Giỏ
+                                                    hàng</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End of Header Middle -->
+
+                            <nz-affix id="affix-container-target"
+                                [nzOffsetTop]="0"
+                                (nzChange)="onChange($event)">
+                                <div class="header-bottom sticky-content fix-top
+                                    sticky-header">
+                                    <div class="container">
+                                        <div class="inner-wrap">
+                                            <div class="header-left">
+                                                <div id="dropdownMenu"
+                                                    class="dropdown
+                                                    category-dropdown
+                                                    has-border"
+                                                    data-visible="true">
+                                                    <a href="#"
+                                                        class="text-white
+                                                        category-toggle"
+                                                        role="button"
+                                                        data-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="true"
+                                                        data-display="static"
+                                                        title="Danh
+                                                        mục">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list-ul" viewBox="0 0 16 16">
+                                                            <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                                        </svg>
+                                                        <span>Danh mục ({{
+                                                            categories.length
+                                                            }})</span>
+                                                    </a>
+
+                                                    <div
+                                                        *ngIf="categories.length>
+                                                        0"
+                                                        class="dropdown-box">
+                                                        <ul class="menu
+                                                            vertical-menu
+                                                            category-menu">
+                                                            <li *ngFor="let
+                                                                category of
+                                                                categories">
+                                                                <a
+                                                                    style="cursor:
+                                                                    pointer;"
+                                                                    (click)="onSearchProductByCategory(category.code)">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                                                                        <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                                                                    </svg>
+                                                                    {{category.name}}
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    href="shop-banner-sidebar.html"
+                                                                    class="font-weight-bold
+                                                                    text-uppercase
+                                                                    ls-25">
+                                                                    Xem tất cả
+                                                                    danh mục<i
+                                                                        class="w-icon-angle-right"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <nav class="main-nav">
+                                                    <ul class="menu
+                                                        active-underline">
+                                                        <li class="active">
+                                                            <a (click)="homePage()"
+                                                                style="cursor:
+                                                                pointer;">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-door" viewBox="0 0 16 16">
+                                                                    <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+                                                                </svg>
+                                                                Trang chủ
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a (click)="productPage()"
+                                                                style="cursor:
+                                                                pointer;">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-handbag" viewBox="0 0 16 16">
+                                                                    <path d="M8 1a2 2 0 0 1 2 2v2H6V3a2 2 0 0 1 2-2zm3 4V3a3 3 0 1 0-6 0v2H3.36a1.5 1.5 0 0 0-1.483 1.277L.85 13.13A2.5 2.5 0 0 0 3.322 16h9.355a2.5 2.5 0 0 0 2.473-2.87l-1.028-6.853A1.5 1.5 0 0 0 12.64 5H11zm-1 1v1.5a.5.5 0 0 0 1 0V6h1.639a.5.5 0 0 1 .494.426l1.028 6.851A1.5 1.5 0 0 1 12.678 15H3.322a1.5 1.5 0 0 1-1.483-1.723l1.028-6.851A.5.5 0 0 1 3.36 6H5v1.5a.5.5 0 1 0 1 0V6h4z"/>
+                                                                </svg>
+                                                                Sản phẩm
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                            <div class="header-right">
+                                                <a href="#" class="d-xl-show">
+                                                    <i class="w-icon-map-marker mr-1"></i>
+                                                    Theo dõi đơn hàng
+                                                </a>
+                                                <a href="#">
+                                                    <i class="w-icon-sale"></i>
+                                                    Giảm giá hôm nay
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nz-affix>
+                        </header>
+                        <!-- End of Header -->

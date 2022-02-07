@@ -1,0 +1,216 @@
+<div class="mb-10 pb-1 mt-8">
+    <div class="page-content">
+        <div class="container">
+            <div class="row gutter-lg">
+                <div class="main-content">
+                    <div class="product product-single row">
+                        <div class="col-md-6 mb-6">
+                            <div class="product-gallery product-gallery-sticky">
+                                <div class="swiper-container product-single-swiper swiper-theme nav-inner">
+                                    <carousel>
+                                        <slide *ngFor="let slide of productDetail.images">
+                                            <img [src]="slide"
+                                                alt="first slide" style="display: block; width: 100%; max-height: 320px !important; object-fit: contain;">
+                                        </slide>
+                                    </carousel>
+                                </div>
+                                <div class="product-thumbs-wrap swiper-container">
+                                    <carousel [itemsPerSlide]="4" [singleSlideOffset]="true" [startFromIndex]="0"
+                                        [interval]="0">
+                                        <slide *ngFor="let slide of productDetail.images">
+                                            <img [src]="slide"
+                                                alt="image slide" style="display: block; width: 100%;">
+                                        </slide>
+                                    </carousel>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4 mb-md-6">
+                            <div class="product-details" data-sticky-options="{'minWidth': 767}">
+                                <h1 class="product-title">{{productDetail?.good?.detailName2 || productDetail?.good?.detailName1}}</h1>
+
+                                <hr class="product-divider">
+
+                                <div class="product-price"><ins class="new-price">{{productDetail?.good?.price | number:'1.0-0'}} {{productDetail.type | moneytype}}</ins></div>
+
+                                <div class="ratings-container">
+                                    <div class="ratings-full">
+                                        <span class="ratings" style="width: 100%;"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    </div>
+                                    <a href="#product-tab-reviews" class="rating-reviews scroll-to">(100
+                                        Reviews)</a>
+                                </div>
+                                <hr class="product-divider">
+                                <div class="product-form product-variation-form product-size-swatch">
+                                    <label class="mb-1">Loại:</label>
+                                    <div class="flex-wrap d-flex align-items-center product-variations">
+                                        <a *ngFor="let detail of productDetail.details" class="size">{{detail?.detail2Parent || detail?.detail1Parent}}</a>
+                                    </div>
+                                </div>
+
+                                <div class="product-variation-price">
+                                    <span></span>
+                                </div>
+
+                                <div class="fix-bottom product-sticky-content sticky-content">
+                                    <div class="product-form container">
+                                        <div class="product-qty-form">
+                                            <div class="input-group">
+                                                <input class="quantity form-control" type="number" min="1"
+                                                    max="10000000" [(ngModel)]="productSell" name="productSell">
+                                                <button class="quantity-plus w-icon-plus" (click)="increaseQty()"></button>
+                                                <button class="quantity-minus w-icon-minus" (click)="reduceQty()"></button>
+                                            </div>
+                                        </div>
+                                        <button class="btn btn-primary btn-cart" (click)="addToCart()">
+                                            <i class="w-icon-cart"></i>
+                                            <span>Thêm vào giỏ hàng</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab tab-nav-boxed tab-nav-underline product-tabs">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a href="#product-tab-description" class="nav-link active">Mô tả sản phẩm</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="product-tab-description" [innerHTML]="productDetail.description">
+                            </div>
+                        </div>
+                    </div>
+                    <section class="vendor-product-section">
+                        <div class="title-link-wrapper mb-4">
+                            <h4 class="title text-left">Sản phẩm cùng danh mục</h4>
+                            <a href="#" class="btn btn-dark btn-link btn-slide-right btn-icon-right">Xem thêm<i class="w-icon-long-arrow-right"></i></a>
+                        </div>
+                        <div class="swiper-container swiper-theme">
+                            <div class="swiper-wrapper row cols-lg-3 cols-md-4 cols-sm-3 cols-2">
+                                <div *ngFor="let item of productInCategories" class="swiper-slide product">
+                                    <figure class="product-media">
+                                        <a href="product-default.html">
+                                            <img [src]="item.images?.[0]" alt="Product"
+                                                width="300" height="338" />
+                                            <img [src]="item.images?.[1]" alt="Product"
+                                                width="300" height="338" />
+                                        </a>
+                                    </figure>
+                                    <div class="product-details">
+                                        <h4 class="product-name"><a [routerLink]="['/product-detail', item.id]">{{item.name}}</a>
+                                        </h4>
+                                        <div class="ratings-container">
+                                            <div class="ratings-full">
+                                                <span class="ratings" style="width: 100%;"></span>
+                                                <span class="tooltiptext tooltip-top"></span>
+                                            </div>
+                                            <a [routerLink]="['/product-detail', item.id]" class="rating-reviews">(100 reviews)</a>
+                                        </div>
+                                        <div class="product-pa-wrapper">
+                                            <div class="product-price">{{item.price | number:'1.0-0'}} {{item.type | moneytype}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <!-- End of Main Content -->
+                <aside class="sidebar product-sidebar sidebar-fixed right-sidebar sticky-sidebar-wrapper">
+                    <div class="sidebar-overlay"></div>
+                    <a class="sidebar-close" href="#"><i class="close-icon"></i></a>
+                    <a href="#" class="sidebar-toggle d-flex d-lg-none"><i class="fas fa-chevron-left"></i></a>
+                    <div class="sidebar-content scrollable">
+                        <div class="sticky-sidebar">
+                            <div class="widget widget-icon-box mb-6">
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon text-dark">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-truck" viewBox="0 0 16 16"><path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5v-7zm1.294 7.456A1.999 1.999 0 0 1 4.732 11h5.536a2.01 2.01 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456zM12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12v4zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg>
+                                    </span>
+                                    <div class="icon-box-content">
+                                        <h4 class="icon-box-title">Miễn phí ship và đổi trả</h4>
+                                        <p>Dành cho tất cả đơn hàng từ 99K</p>
+                                    </div>
+                                </div>
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon text-dark">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-briefcase" viewBox="0 0 16 16"><path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v8A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5zm1.886 6.914L15 7.151V12.5a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5V7.15l6.614 1.764a1.5 1.5 0 0 0 .772 0zM1.5 4h13a.5.5 0 0 1 .5.5v1.616L8.129 7.948a.5.5 0 0 1-.258 0L1 6.116V4.5a.5.5 0 0 1 .5-.5z"/></svg>
+                                    </span>
+                                    <div class="icon-box-content">
+                                        <h4 class="icon-box-title">Thanh toán an toàn</h4>
+                                        <p>Các phương thức thanh toán an toàn</p>
+                                    </div>
+                                </div>
+                                <div class="icon-box icon-box-side">
+                                    <span class="icon-box-icon text-dark">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16"><path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/><path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/></svg>
+                                    </span>
+                                    <div class="icon-box-content">
+                                        <h4 class="icon-box-title">Chế độ bảo hành</h4>
+                                        <p>Đổi trả trong vòng 30 ngày</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget widget-banner mb-9">
+                                <div class="banner banner-fixed br-sm">
+                                    <figure>
+                                        <img src="assets/images/shop/banner3.jpg" alt="Banner" width="266" height="220"
+                                            style="background-color: #1D2D44;" />
+                                    </figure>
+                                    <div class="banner-content">
+                                        <div class="banner-price-info font-weight-bolder text-white lh-1 ls-25">
+                                            40<sup class="font-weight-bold">%</sup><sub
+                                                class="font-weight-bold text-uppercase ls-25">Off</sub>
+                                        </div>
+                                        <h4 class="banner-subtitle text-white font-weight-bolder text-uppercase mb-0">
+                                            Ultimate Sale</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="widget widget-products">
+                                <div class="title-link-wrapper mb-2">
+                                    <h4 class="title title-link font-weight-bold">Xem thêm</h4>
+                                </div>
+                                <div class="swiper nav-top">
+                                    <div class="swiper-container swiper-theme nav-top">
+                                        <div class="swiper-wrapper">
+                                            <div class="widget-col swiper-slide">
+                                                <div *ngFor="let item of topProductSelles" class="product product-widget">
+                                                    <figure class="product-media">
+                                                        <a href="#">
+                                                            <img [src]="item.images?.[0]" alt="Product"
+                                                                width="100" height="113" />
+                                                        </a>
+                                                    </figure>
+                                                    <div class="product-details">
+                                                        <h4 class="product-name">
+                                                            <a href="#">{{item.name}}</a>
+                                                        </h4>
+                                                        <div class="ratings-container">
+                                                            <div class="ratings-full">
+                                                                <span class="ratings" style="width: 100%;"></span>
+                                                                <span class="tooltiptext tooltip-top"></span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-price">{{item.price | number:'1.0-0'}} {{item.type | moneytype}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="swiper-button-next"></button>
+                                        <button class="swiper-button-prev"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,359 @@
+<div class="container">
+    <div class="intro-wrapper">
+        <div class="row">
+            <div class="col-md-8">
+                <div nz-row [nzGutter]="16">
+                    <div nz-col nzSpan="24">
+                        <carousel>
+                            <slide *ngFor="let s of sliders">
+                                <img [src]="s" alt="first slide"
+                                    class="img-slide">
+                            </slide>
+                        </carousel>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div nz-row nzJustify="space-between" [nzGutter]="16">
+                    <div nz-col nzSpan="24">
+                        <img [src]="sliders[1]" class="img-slide-right">
+                    </div>
+                    <div nz-col nzSpan="24">
+                        <img [src]="sliders[2]" class="img-slide-right">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Intro-wrapper -->
+    <div class="swiper-container swiper-theme icon-box-wrapper br-sm bg-white">
+        <div class="swiper-wrapper row cols-md-4 cols-sm-3 cols-1">
+            <div *ngFor="let box of boxSides" class="swiper-slide icon-box
+                icon-box-side text-dark">
+                <span class="icon-box-icon icon-shipping" [innerHTML]="box.icon">
+                    <!-- <i [class]="box.icon"></i> -->
+                </span>
+                <div class="icon-box-content">
+                    <h4 class="icon-box-title font-weight-bolder ls-normal">{{box.value}}</h4>
+                    <p class="text-default">{{box.content}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Iocn Box Wrapper -->
+
+    <div class="title-link-wrapper title-deals mb-4">
+        <h2 class="title title-link">KM Hôm nay</h2>
+        <div class="product-countdown-container font-size-sm text-white
+            align-items-center mr-auto" style="background-color: #fff
+            !important;">
+            <!-- <label>Offer Ends in: </label>
+            <div class="product-countdown countdown-compact ml-1
+                font-weight-bold" data-until="+10d" data-relative="true"
+                data-compact="true">10days,00:00:00</div> -->
+        </div>
+        <a href="#" class="ml-0">Xem thêm
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Danh sách sản phẩm -->
+    <div class="swiper-container swiper-theme mb-6">
+        <div class="swiper-wrapper row cols-lg-5 cols-md-4 cols-sm-3 cols-2">
+            <div *ngFor="let prod of products" class="swiper-slide
+                product-wrap">
+                <div class="product text-center">
+                    <figure class="product-media">
+                        <a [routerLink]="['/product-detail', prod.id]">
+                            <img *ngFor="let imgProd of prod.images"
+                                [src]="imgProd" alt="Product" width="300"
+                                height="338" />
+                        </a>
+                        <div class="product-action-vertical">
+                            <a href="#" class="btn-product-icon btn-cart
+                                w-icon-cart" title="Thêm vào giỏ hàng"></a>
+                        </div>
+                    </figure>
+                    <div class="product-details">
+                        <h4 class="product-name">
+                            <a [routerLink]="['/product-detail', prod.id]">{{prod.name}}</a>
+                        </h4>
+                        <div class="ratings-container">
+                            <div class="ratings-full">
+                                <span class="ratings" style="width: 80%"></span>
+                                <span class="tooltiptext tooltip-top"></span>
+                            </div>
+                            <a [routerLink]="['/product-detail', prod.id]"
+                                class="rating-reviews">({{prod.reviews}}
+                                Reviews)</a>
+                        </div>
+                        <div class="product-price">
+                            <ins class="new-price">{{(prod.discountPrice ?
+                                prod.discountPrice : prod.price)}} {{prod.type |
+                                moneytype}}</ins><del *ngIf="prod.discountPrice"
+                                class="old-price">{{prod.price}} {{prod.type |
+                                moneytype}}</del>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+
+<!-- Sản phẩm nổi bật  -->
+<section class="grey-section pt-10 pb-10">
+    <div class="container mb-2">
+        <div class="title-link-wrapper mb-4">
+            <h2 class="title title-link">Sản phẩm nổi bật</h2>
+            <a href="#">Xem thêm
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+                </svg>
+            </a>
+        </div>
+        <div class="row grid grid-type">
+            <div class="grid-item grid-item-single">
+                <div class="product product-single">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="product-gallery mb-0">
+                                <figure class="product-image">
+                                    <img
+                                        [src]="products?.[0]?.images?.[0]"
+                                        [alt]="products?.[0]?.name" width="800"
+                                        height="900" style="object-fit: contain;"/>
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="col-md-6 pr-md-4 mt-4 mt-md-0">
+                            <div class="product-details scrollable pl-0">
+                                <h2 class="product-title mb-1">
+                                    <a [routerLink]="['/product-detail', products?.[0]?.id]">{{products?.[0]?.name}}</a>
+                                </h2>
+
+                                <hr class="product-divider" />
+
+                                <div class="product-price mb-2">
+                                    <ins class="new-price ls-50">{{products?.[0]?.discountPrice}}
+                                        {{products?.[0]?.type | moneytype}}</ins>
+                                </div>
+
+                                <div class="ratings-container mb-4">
+                                    <div class="ratings-full">
+                                        <span class="ratings" style="width:
+                                            100%"></span>
+                                        <span class="tooltiptext tooltip-top"></span>
+                                    </div>
+                                    <a href="#" class="rating-reviews">({{products?.[0]?.reviews}}
+                                        Reviews)</a>
+                                </div>
+
+                                <div class="product-variation-price">
+                                    <span></span>
+                                </div>
+
+                                <div class="product-form pt-4">
+                                    <div class="product-qty-form mb-2 mr-2">
+                                        <div class="input-group">
+                                            <input class="quantity form-control"
+                                                type="number" min="1"
+                                                max="10000000" />
+                                            <button class="quantity-plus
+                                                w-icon-plus"></button>
+                                            <button class="quantity-minus
+                                                w-icon-minus"></button>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary btn-cart">
+                                        <i class="w-icon-cart"></i>
+                                        <span>Thêm giỏ hàng</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngFor="let product of products">
+                <div class="grid-item grid-item-widget">
+                    <div class="product product-widget">
+                        <figure class="product-media-popular">
+                            <a [routerLink]="['/product-detail', product.id]">
+                                <img
+                                    [src]="product?.images?.[0]"
+                                    [alt]="product?.name" width="300" height="338" />
+                            </a>
+                        </figure>
+                        <div class="product-details">
+                            <h4 class="product-name">
+                                <a [routerLink]="['/product-detail', product.id]">{{product?.name}}</a>
+                            </h4>
+                            <div class="ratings-container">
+                                <div class="ratings-full">
+                                    <span class="ratings" style="width: 100%"></span>
+                                    <span class="tooltiptext tooltip-top"></span>
+                                </div>
+                            </div>
+                            <div class="product-price">
+                                <ins class="new-price">{{product.price}} {{product.type | moneytype}}</ins>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</section>
+
+<div class="container mt-5 pt-2">
+    <!-- Xem nhiều nhất -->
+    <div class="title-link-wrapper mb-4">
+        <h2 class="title title-link title-viewed">Xem nhiều nhất</h2>
+        <a href="shop-list.html" class="font-weight-bold font-size-normal
+            ls-normal">
+            Xem thêm
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+            </svg>
+        </a>
+    </div>
+    <div class="swiper-container swiper-theme shadow-swiper pb-4 mb-8">
+        <div class="swiper-wrapper row cols-xl-8 cols-lg-6 cols-md-4 cols-2">
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/3-5.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Headkerchief</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/1-1-1.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Leather Stripe Watch</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/4-1-1.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Red Cap Sound Marker</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/2-3.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Smartphone Electronic
+                            Charger</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/2-5.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Blue Ski Boots</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/2-8.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Soft Sound Marker</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/3-1-1.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Multi function Watch</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+            <div class="swiper-slide product-wrap">
+                <div class="product text-center product-absolute">
+                    <figure class="product-media">
+                        <a href="product-defaproduct-default.html">
+                            <img
+                                src="assets/images/demos/demo5/products/1-2.jpg"
+                                alt="Category image" width="130" height="146"
+                                style="background-color: #fff" />
+                        </a>
+                    </figure>
+                    <h4 class="product-name">
+                        <a href="product-default.html">Running Machine</a>
+                    </h4>
+                </div>
+            </div>
+            <!-- End of Product Wrap -->
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+    <!-- End of Reviewed Producs -->
+</div>

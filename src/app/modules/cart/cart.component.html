@@ -1,0 +1,167 @@
+<!-- Start of Main -->
+<div class="cart mt-5">
+    <!-- Start of PageContent -->
+    <div class="page-content">
+        <div class="container">
+            <div class="row gutter-lg mb-10">
+                <div class="col-lg-8 pr-lg-4 mb-6">
+                    <nz-table #headerTable [nzData]="cartModel.goods">
+                        <thead>
+                            <tr class="header-custom">
+                                <th nzWidth="120px" class="text-left">Sản phẩm</th>
+                                <th></th>
+                                <th nzWidth="100px">Giá</th>
+                                <th nzWidth="60px">Số lượng</th>
+                                <th nzWidth="130px">Tổng tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of headerTable.data">
+                                <td>
+                                    <div class="p-relative-custom">
+                                        <a href="#">
+                                            <figure>
+                                                <img class="img-item"
+                                                    [src]="item?.good?.images?.[0]"
+                                                    alt="product" width="300"
+                                                    height="338">
+                                            </figure>
+                                        </a>
+                                        <a class="btn-close-custom">
+                                            <i nz-icon nzType="close"
+                                                nzTheme="outline"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                                <td>{{item?.good?.name}}</td>
+                                <td class="text-center">{{item?.good?.price |
+                                    number:'1.0-0'}}</td>
+                                <td class="text-center">
+                                    <div class="input-group quantity-custom">
+                                        <input type="number"
+                                            [(ngModel)]="item.quantity"
+                                            name="item.quantity"
+                                            class="form-control
+                                            input-custom">
+                                        <div>
+                                            <button class="btn btn-light"
+                                                (click)="reduceQty(item)">-</button>
+                                            <button class="btn btn-light"
+                                                (click)="increaseQty(item)">+</button>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-center">{{item?.totalPrice}}
+                                    {{item?.good?.type | moneytype}}</td>
+                            </tr>
+                        </tbody>
+                    </nz-table>
+                    <div class="cart-action mb-6 cart-custom">
+                        <a href="#" class="btn btn-dark btn-rounded
+                            btn-icon-left btn-shopping mr-auto"><i
+                                class="w-icon-long-arrow-left"></i>Tiếp tụ mua
+                            hàng</a>
+                        <div>
+                            <button type="submit" class="btn btn-rounded
+                                btn-default
+                                btn-clear" name="clear_cart"
+                                value="Clear Cart">Xóa giỏ hàng</button>
+                            <button type="submit" class="btn btn-rounded
+                                btn-update
+                                disabled" name="update_cart"
+                                value="Update Cart">Cập nhật giỏ hàng</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 sticky-sidebar-wrapper">
+                    <div class="sticky-sidebar">
+                        <div class="cart-summary-custom mb-4">
+                            <h3 class="cart-title text-uppercase">Tổng giỏ hàng</h3>
+                            <div class="cart-subtotal d-flex align-items-center
+                                justify-content-between">
+                                <label class="ls-25 font-weight-bold">Giá đơn
+                                    hàng</label>
+                                <span>{{cartModel?.totalPrice}}</span>
+                            </div>
+                            <hr class="divider">
+                            <div class="shipping-calculator mt-3">
+                                <p class="shipping-destination lh-1">Địa chỉ
+                                    nhận hàng:</p>
+
+                                <form class="shipping-calculator-form">
+                                    <div class="form-group mb-3">
+                                        <select name="country"
+                                            [(ngModel)]="provinceId"
+                                            name="provinceId"
+                                            (ngModelChange)="getDistrict()"
+                                            class="form-control
+                                            form-control-md">
+                                            <option value="" disabled selected>Tỉnh/TP</option>
+                                            <option *ngFor="let option of
+                                                provinces"
+                                                [value]="option.value">{{option.key}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <select [(ngModel)]="districtId"
+                                            class="form-control form-control-md"
+                                            name="districtId"
+                                            (ngModelChange)="getWard()">
+                                            <option value="" disabled selected>Quận/Huyện</option>
+                                            <option *ngFor="let option of
+                                                districts"
+                                                [value]="option.value">{{option.key}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <select [(ngModel)]="wardId"
+                                            class="form-control form-control-md"
+                                            name="wardId">
+                                            <option value="" disabled selected>Xã/Phường</option>
+                                            <option *ngFor="let option of wards"
+                                                [value]="option.value">{{option.key}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <input class="form-control
+                                            form-control-md" type="text"
+                                            name="town-city"
+                                            [(ngModel)]="shippingAddress"
+                                            name="shippingAddress"
+                                            placeholder="Địa chỉ nhận hàng">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <input class="form-control
+                                            form-control-md" type="text"
+                                            name="town-city"
+                                            [(ngModel)]="fullName"
+                                            name="fullName"
+                                            placeholder="Tên người nhận hàng">
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <input class="form-control
+                                            form-control-md" type="text"
+                                            name="town-city" [(ngModel)]="tell"
+                                            name="tell"
+                                            placeholder="Số điện thoại">
+                                    </div>
+                                </form>
+                            </div>
+
+                            <hr class="divider mb-6">
+                            <div class="order-total d-flex
+                                justify-content-between align-items-center">
+                                <label calss="font-weight-bold">Tổng</label>
+                                <span class="ls-50 font-weight-bold">{{cartModel?.totalPrice}}</span>
+                            </div>
+                            <a href="#" class="btn btn-block btn-dark
+                                btn-icon-right btn-rounded btn-checkout">
+                                Đặt hàng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
