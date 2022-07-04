@@ -1,0 +1,310 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.layout-config .layout-config-button {
+    display: none;
+}
+
+.p-inputtext,
+.p-checkbox .p-checkbox-box,
+.p-dropdown {
+    border-color: var(--primary-color);
+}
+
+// Suggested location to add your overrides so that migration would be easy by just updating the SASS folder in the future
+@media screen and (max-width: 769px) {
+    .p-dialog .p-dialog-footer {
+        display: flex;
+        justify-content: center;
+        text-align: unset;
+    }
+
+    .p-dialog {
+        max-width: 90%;
+    }
+
+    .p-paginator .p-paginator-current {
+        display: none;
+    }
+}
+
+.p-carousel .p-carousel-content .p-carousel-prev,
+.p-carousel .p-carousel-content .p-carousel-next {
+    display: none;
+}
+
+.p-carousel .p-carousel-indicators .p-carousel-indicator button {
+    margin-left: 8px;
+    border-radius: 4px;
+    height: 8px;
+}
+
+h1, h2, h3, h4, h5, h6, .p-dialog .p-dialog-header,
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month,
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,
+.p-datepicker table th>span, .p-datepicker .p-datepicker-header .p-datepicker-prev,
+.p-datepicker .p-datepicker-header .p-datepicker-next {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.p-menubar .p-menubar-button,
+.layout-topbar .layout-topbar-menu-button {
+    display: none;
+}
+
+.layout-menu li a.router-link-exact-active {
+    color: white;
+    background-color: var(--primary-color);
+    font-weight: normal;
+}
+
+.layout-menu li a {
+    border-radius: 8px;
+}
+
+.p-menubar-end {
+    min-width: 200px;
+}
+
+.p-component {
+    font-family: noto-sans-cjk-kr, sans-serif !important;
+}
+
+.layout-topbar .layout-topbar-logo {
+    width: auto;
+}
+
+.p-speeddial-button.p-button.p-button-icon-only {
+    width: 2rem;
+    height: 2rem;
+}
+
+.field {
+    margin-bottom: 0;
+}
+
+.field-radiobutton {
+    margin-bottom: 8px;
+}
+
+// css dropdown
+.p-dropdown-panel .p-dropdown-items:not(.p-dropdown-virtualscroll) {
+    padding-bottom: 0;
+}
+
+// css dialog
+.p-dialog {
+    max-width: 85%;
+}
+
+.p-dialog .p-dialog-header {
+    color: white;
+    background-color: var(--primary-color);
+    padding: 1rem;
+}
+
+.p-dialog .p-dialog-header .p-dialog-header-icon {
+    color: white;
+}
+
+.p-dialog .p-dialog-footer {
+    padding: 1.5rem;
+}
+
+// css dropdown
+.p-fluid .p-dropdown .p-inputtext {
+    min-height: 38px !important;
+}
+
+.p-inputtext {
+    width: 100%;
+}
+
+.p-inputgroup .p-inputtext,
+.p-fluid .p-inputgroup .p-inputtext,
+.p-inputgroup .p-inputwrapper,
+.p-inputgroup .p-inputwrapper>.p-component {
+    width: auto;
+}
+
+.p-fluid .p-inputtext {
+    min-height: 40px;
+}
+
+// css table
+.p-dialog .p-dialog-content {
+    padding: 2rem 1.5rem;
+}
+
+.p-datatable .p-datatable-thead>tr>th,
+.field>label, .p-column-title {
+    color: var(--primary-color);
+    font-weight: normal;
+}
+
+// css radio button
+.p-radiobutton .p-radiobutton-box {
+    margin-top: -1px;
+}
+
+.p-datatable-responsive-scroll>.p-datatable-wrapper::-webkit-scrollbar-track,
+.p-dialog .p-dialog-content::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.p-datatable-responsive-scroll>.p-datatable-wrapper::-webkit-scrollbar,
+.p-dialog .p-dialog-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: #F5F5F5;
+}
+
+.p-fluid .p-button-icon-only {
+    width: 1.8rem;
+    height: 1.5rem;
+}
+
+.p-column-filter-overlay {
+    min-width: 250px;
+}
+
+.p-column-filter-buttonbar {
+    display: none !important;
+}
+
+.field-radiobutton {
+    margin: 7px 0 !important;
+}
+
+// css scrollbar
+.p-datatable-responsive-scroll>.p-datatable-wrapper::-webkit-scrollbar-thumb,
+.p-dialog .p-dialog-content::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear,
+            left top,
+            right bottom,
+            color-stop(0.76, var(--light-primary-color)),
+            color-stop(0.52, var(--primary-color-text)),
+            color-stop(0.44, var(--primary-color)));
+}
+
+.sidebar-custom::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.sidebar-custom::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.sidebar-custom::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear,
+            left bottom,
+            left top,
+            color-stop(0.76, var(--primary-color)),
+            color-stop(0.52, var(--primary-color-text)),
+            color-stop(0.44, var(--light-primary-color)));
+}
+
+.p-dropdown-items-wrapper::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #F5F5F5;
+    border-radius: 10px;
+}
+
+.p-dropdown-items-wrapper::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+.p-dropdown-items-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-image: -webkit-gradient(linear,
+            left bottom,
+            left top,
+            color-stop(0.76, var(--primary-color)),
+            color-stop(0.52, var(--primary-color-text)),
+            color-stop(0.44, var(--light-primary-color)));
+}
+
+.p-dropdown {
+    width: 100%;
+}
+
+.p-dropdown-panel {
+    max-width: 200px;
+}
+
+.p-disabled,
+.p-component:disabled {
+    opacity: 1;
+}
+
+.p-datatable.p-datatable-gridlines .p-paginator-bottom {
+    gap: 8px;
+    padding-bottom: 12px;
+}
+
+.p-datatable.p-datatable-gridlines .p-datatable-tbody>tr>td {
+    word-wrap: break-word;
+    gap: 8px;
+}
+
+.p-paginator .p-dropdown {
+    margin: 0;
+}
+
+// css custom
+.card-table {
+    min-height: calc(100vh - 9rem);
+}
+
+.gap-4 {
+    gap: 4px !important;
+}
+
+.gap-8 {
+    gap: 8px !important;
+}
+
+.content-date {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 18px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.01em;
+    font-feature-settings: "case" on, "ss02" on;
+}
+
+.primary-color {
+    color: var(--primary-color);
+}
+
+.country-item div .icon-flag {
+    margin-right: 8px;
+    margin-top: -1.2px;
+    height: 14px !important;
+    width: 20px !important;
+}
+
+.country-item-value div .icon-flag {
+    margin-top: 1.5px;
+}
+
+.p-menubar-root-list>.p-menuitem-active>p-menubarsub>.p-submenu-list {
+    z-index: 10000;
+}
+
+// .p-menubar {
+//     background-color: var(--primary-color);
+// }

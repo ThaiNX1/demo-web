@@ -1,0 +1,108 @@
+{
+    "app_title": "Recruit Online management system",
+    "left_menu": {
+        "account_management": "Account management",
+        "my_account": "My account",
+        "my_company": "My company",
+        "job_posting_management": "Job posting management",
+        "create_new_job_posting": "Create new job posting",
+        "job_posting_list": "Job posting list",
+        "setting": "Setting",
+        "sign_out": "Sign out"
+    },
+    "label": {
+        "empty": " ",
+        "not_required": "Not required",
+        "sign_in_to_continue": "Sign in to continue",
+        "enter_username_to_reset_password": "Enter username to reset default password",
+        "username": "Username",
+        "password": "Password",
+        "confirm_password": "Confirm password",
+        "remember_me": "Remember me",
+        "forgot_password": "Forgotten password",
+        "search": "Search",
+        "name": "Name",
+        "full_name": "Fullname",
+        "recruiter_name": "Recruiter name",
+        "email": "Email",
+        "phone_number": "Phone Number",
+        "ascending": "Ascending",
+        "descending": "Descending",
+        "recruit_position": "Recruit position"
+    },
+    "button": {
+        "sign_in": "Sign In",
+        "regist": "Regist",
+        "regist_user": "Regist user",
+        "regist_employer": "Regist employer",
+        "cancel": "Cancel",
+        "apply": "Apply",
+        "export": "Export",
+        "add": "Add",
+        "save": "Save",
+        "add_job": "Add job",
+        "reset": "Reset"
+    },
+   "type": {
+        "role_action": {
+            "admin": "Admin",
+            "write": "Writer",
+            "read_only": "Reader"
+        }
+    },
+    "success": {
+
+    },
+    "error": {
+        "601": "Account don't existed",
+        "602": "Password incorrect"
+    },
+    "info": {
+        "please_check_again": "Please check data again",
+        "enter_account_info": "Enter account information",
+        "enter_personal_info": "Enter personal information",
+        "enter_education_level_info": "Enter education level information",
+        "enter_personal_status_info": "Enter personal status information",
+        "enter_job_description_info": "Enter job description information",
+        "enter_place_work_info": "Enter place work information",
+        "enter_work_info": "Enter work information",
+        "enter_unemployee_time_info": "Enter unemployee time information",
+        "enter_economic_activity_info": "Enter economic activity information",
+        "enter_job_position_info": "Enter job position information",
+        "enter_language_info": "Enter language information",
+        "enter_name_info": "Enter fullname information",
+        "enter_date_of_birth_info": "Enter date of birth information",
+        "enter_identity_number_info": "Enter identity number information",
+        "enter_place_origin_info": "Enter place origin information",
+        "enter_place_residence_info": "Enter place residence information",
+        "enter_education_max_level_info": "Enter information about the highest level of general education graduated/gained",
+        "enter_qualification_info": "Enter qualification information",
+        "enter_job_info": "Enter job information",
+        "enter_nationality_info": "Enter nationality information",
+        "enter_passport_info": "Enter passport number information",
+        "enter_passport_date_info": "Enter passport date information",
+        "enter_permit_date_info": "Enter permit date information",
+        "enter_company_name_info": "Enter company name information",
+        "enter_company_code_info": "Enter company code information",
+        "enter_company_address_info": "Enter company address information",
+        "enter_company_type_info": "Enter company type information",
+        "enter_position_info": "Enter position information",
+        "enter_start_date_info": "Enter start date information",
+        "enter_end_date_info": "Enter end date information",
+        "confirm_password_not_match_password": "Confirm the password doesn't match the password",
+         "invalid_recruiter_name_info": "Enter recruiter name information",
+        "invalid_code_info": "Enter code information",
+        "invalid_address": "Enter address information",
+        "invalid_address_industrial": "Enter address industrial information",
+        "invalid_industry_product": "Enter industry product information",
+        "invalid_amount_recruit": "Enter amount recruit information",
+        "invalid_email": "Email is an invalid",
+        "invalid_phone_number": "Phone number is an invalid",
+        "invalid_password": "Enter at least 8 characters, including numbers and characters",
+        "invalid_ethnic_inority": "Enter ethnic minority information",
+        "invalid_username": "Username is invalid"
+    },
+    "warning": {
+
+    }
+}

@@ -3,9 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  // serverApi: 'http://127.0.0.1:5000',
-  serverApi: 'http://lhpm.asianasa.com:8080',
+    production: false,
+    serverURL: 'http://127.0.0.1:5081',
+    // serverURL: 'http://employee.asianasa.com:8080',
+    facebookAppId: '5307382049341024',
 };
 
 /*

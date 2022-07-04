@@ -1,4 +1,22 @@
-::ng-deep.ant-affix{
-    width: 100% !important;
-    z-index: 10;
+.logo {
+    object-fit: fill;
+}
+
+.header-button {
+    outline: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-button:hover {
+    background-color: #FFFFFF !important;
+    color: #451da0 !important;
+    div{
+        color: #FFFFFF;
+    }
+}
+.btn-new{
+    background-color: #da2300 !important;
 }

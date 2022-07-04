@@ -1,0 +1,37 @@
+export class LaborForeigner {
+    id?: number;
+    email?: string;
+    telephoneNumber?: number;
+    password?: string;
+    provinceIdWork?: number;
+    districtIdWork?: number;
+    wardIdWork?: number;
+    roleId?: number;
+    language?: string;
+    note?: string;
+    identityNumber?: number;
+    name?: string;
+    birthDate?: string;
+    gender?: string;
+    nationality?: string;
+    placeOrigin?: string;
+    provinceIdPlaceOrigin?: number;
+    districtIdPlaceOrigin?: number;
+    wardIdPlaceOrigin?: number;
+    placeResidence?: string;
+    provinceIdPlaceResidence?: number;
+    districtIdPlaceResidence?: number;
+    wardIdPlaceResidence?: number;
+    priorityPerson?: number;
+    educationLevel?: number;
+    qualification?: number;
+    specialized?: string;
+    isJob?: boolean;
+    economicActivity?: number;
+    position?: string;
+    jobDescription?: string;
+    placeWork?: string;
+    isWorked?: boolean;
+    unemployeeTime?: number;
+    ethnicMinority?: string;
+}

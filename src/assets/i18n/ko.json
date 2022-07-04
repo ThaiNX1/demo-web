@@ -1,0 +1,108 @@
+{
+    "app_title": "[KO]Recruit Online management system",
+    "left_menu": {
+        "account_management": "[KO]Account management",
+        "my_account": "[KO]My account",
+        "my_company": "[KO]My company",
+        "job_posting_management": "[KO]Job posting management",
+        "create_new_job_posting": "[KO]Create new job posting",
+        "job_posting_list": "[KO]Job posting list",
+        "setting": "[KO]Setting",
+        "sign_out": "[KO]Sign out"
+    },
+    "label": {
+        "empty": " ",
+        "not_required": "[KO]Not required",
+        "sign_in_to_continue": "[KO]Sign in to continue",
+        "enter_username_to_reset_password": "[KO]Enter username to reset default password",
+        "username": "[KO]Username",
+        "password": "[KO]Password",
+        "confirm_password": "[KO]Confirm password",
+        "remember_me": "[KO]Remember me",
+        "forgot_password": "[KO]Forgot password",
+        "search": "[KO]Search",
+        "name": "[KO]Name",
+        "full_name": "[KO]Fullname",
+        "recruiter_name": "[KO]Recruiter name",
+        "email": "[KO]Email",
+        "phone_number": "[KO]Phone Number",
+        "ascending": "[KO]Ascending",
+        "descending": "[KO]Descending",
+        "recruit_position": "[KO]Recruit position"
+    },
+    "button": {
+        "sign_in": "[KO]Sign In",
+        "regist": "[KO]Regist",
+        "regist_user": "Đăng ký người tìm việc",
+        "regist_employer": "Đăng ký nhà tuyển dụng",
+        "cancel": "[KO]Cancel",
+        "apply": "[KO]Apply",
+        "export": "[KO]Export",
+        "add": "[KO]Add",
+        "save": "[KO]Save",
+        "add_job": "[KO]Add job",
+        "reset": "[KO]Reset"
+    },
+    "type": {
+        "role_action": {
+            "admin": "[KO]Admin",
+            "write": "[KO]Writer",
+            "read_only": "[KO]Reader"
+        }
+    },
+    "success": {
+
+    },
+    "error": {
+        "601": "[KO]Account don't existed",
+        "602": "[KO]Password incorrect"
+    },
+    "info": {
+        "please_check_again": "[KO]Please check data again",
+        "enter_account_info": "[KO]Enter account information",
+        "enter_personal_info": "[KO]Enter personal information",
+        "enter_education_level_info": "[KO]Enter education level information",
+        "enter_personal_status_info": "[KO]Enter personal status information",
+        "enter_job_description_info": "[KO]Enter job description information",
+        "enter_place_work_info": "[KO]Enter place work information",
+        "enter_work_info": "[KO]Enter work information",
+        "enter_unemployee_time_info": "[KO]Enter unemployee time information",
+        "enter_economic_activity_info": "[KO]Enter economic activity information",
+        "enter_job_position_info": "[KO]Enter job position information",
+        "enter_language_info": "[KO]Enter language information",
+        "enter_name_info": "[KO]Enter fullname information",
+        "enter_date_of_birth_info": "[KO]Enter date of birth information",
+        "enter_identity_number_info": "[KO]Enter identity number information",
+        "enter_place_origin_info": "[KO]Enter place origin information",
+        "enter_place_residence_info": "[KO]Enter place residence information",
+        "enter_education_max_level_info": "[KO]Enter information about the highest level of general education graduated/gained",
+        "enter_qualification_info": "[KO]Enter qualification information",
+        "enter_job_info": "[KO]Enter job information",
+        "enter_nationality_info": "[KO]Enter nationality information",
+        "enter_passport_info": "[KO]Enter passport number information",
+        "enter_passport_date_info": "[KO]Enter passport date information",
+        "enter_permit_date_info": "[KO]Enter permit date information",
+        "enter_company_name_info": "[KO]Enter company name information",
+        "enter_company_code_info": "[KO]Enter company code information",
+        "enter_company_address_info": "[KO]Enter company address information",
+        "enter_company_type_info": "[KO]Enter company type information",
+        "enter_position_info": "[KO]Enter position information",
+        "enter_start_date_info": "[KO]Enter start date information",
+        "enter_end_date_info": "[KO]Enter end date information",
+        "confirm_password_not_match_password": "[KO]Confirm the password doesn't match the password",
+        "invalid_recruiter_name_info": "[KO]Enter recruiter name information",
+        "invalid_code_info": "[KO]Enter code information",
+        "invalid_address": "[KO]Enter address information",
+        "invalid_address_industrial": "[KO]Enter address industrial information",
+        "invalid_industry_product": "[KO]Enter industry product information",
+        "invalid_amount_recruit": "[KO]Enter amount recruit information",
+        "invalid_email": "[KO]Email is an invalid",
+        "invalid_phone_number": "[KO]Phone number is an invalid",
+        "invalid_password": "[KO]Enter at least 8 characters, including numbers and characters",
+        "invalid_ethnic_inority": "[KO]Enter ethnic minority information",
+        "invalid_username": "Username is invalid"
+    },
+    "warning": {
+
+    }
+}

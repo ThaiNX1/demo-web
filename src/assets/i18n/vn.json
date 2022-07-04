@@ -1,0 +1,108 @@
+{
+    "app_title": "Hệ thống quản lý tuyển dụng trực tuyến",
+    "left_menu": {
+        "account_management": "Quản lý tài khoản",
+        "my_account": "Tài khoản của bạn",
+        "my_company": "Thông tin công ty",
+        "job_posting_management": "Quản lý đăng tuyển",
+        "create_new_job_posting": "Tạo tin tuyển dụng",
+        "job_posting_list": "Danh sách tin đăng",
+        "setting": "Cấu hình",
+        "sign_out": "Đăng xuất"
+    },
+    "label": {
+        "empty": " ",
+        "not_required": "Không bắt buộc",
+        "sign_in_to_continue": "Đăng nhập để tiếp tục",
+        "enter_username_to_reset_password": "Nhập tên tài khoản để khôi phục mật khẩu mặc định",
+        "username": "Tên đăng nhập",
+        "password": "Mật khẩu",
+        "confirm_password": "Nhập lại mật khẩu",
+        "remember_me": "Nhớ tài khoản",
+        "forgot_password": "Đặt lại mật khẩu",
+        "search": "Tìm kiếm",
+        "name": "Tên",
+        "full_name": "Họ tên",
+        "recruiter_name": "Tên nhà tuyển dụng",
+        "email": "Email",
+        "phone_number": "Số điện thoại",
+        "ascending": "Tăng dần",
+        "descending": "Giảm dần",
+        "recruit_position": "Vị trí cần tuyển"
+    },
+    "button": {
+        "sign_in": "Đăng nhập",
+        "regist": "Đăng ký",
+        "regist_user": "Đăng ký người tìm việc",
+        "regist_employer": "Đăng ký nhà tuyển dụng",
+        "cancel": "Thoát",
+        "apply": "Áp dụng",
+        "export": "Tải xuống",
+        "add": "Thêm",
+        "save": "Lưu",
+        "add_job": "Thêm việc làm",
+        "reset": "Khôi phục"
+    },
+    "type": {
+        "role_action": {
+            "admin": "Admin",
+            "write": "Được chỉnh sửa",
+            "read_only": "Chỉ đọc"
+        }
+    },
+    "success": {
+
+    },
+    "error": {
+        "601": "Tài khoản không tồn tại",
+        "602": "Mật khẩu không đúng"
+    },
+    "info": {
+        "please_check_again": "Kiểm tra lại thông tin",
+        "enter_account_info": "Nhập thông tin tài khoản",
+        "enter_personal_info": "Nhập thông tin thông tin cá nhân",
+        "enter_education_level_info": "Nhập thông tin trình độ học vấn",
+        "enter_personal_status_info": "Nhập thông tin tình trạng cá nhân",
+        "enter_job_description_info": "Nhập thông tin công việc cụ thể đang làm",
+        "enter_place_work_info": "Nhập thông tin nơi làm việc",
+        "enter_work_info": "Nhập thông tin làm việc",
+        "enter_unemployee_time_info": "Nhập thông tin thời gian thất nghiệp",
+        "enter_economic_activity_info": "Nhập thông tin hoạt động kinh tế",
+        "enter_job_position_info": "Nhập thông tin vị trí việc làm",
+        "enter_language_info": "Nhập thông tin ngôn ngữ",
+        "enter_name_info": "Nhập thông tin ngôn ngữ",
+        "enter_date_of_birth_info": "Nhập thông tin ngày sinh",
+        "enter_identity_number_info": "Nhập thông tin CMND/CCCD",
+        "enter_place_origin_info": "Nhập thông tin thường trú",
+        "enter_place_residence_info": "Nhập thông tin nơi ở hiện tại",
+        "enter_education_max_level_info": "Nhập thông tin trình độ giáo dục phổ thông cao nhất đã tốt nghiệp/đạt được",
+        "enter_qualification_info": "Nhập thông tin bằng cấp",
+        "enter_job_info": "Nhập thông tin công việc",
+        "enter_nationality_info": "Nhập thông tin quốc tịch",
+        "enter_passport_info": "Nhập thông tin số hộ chiếu",
+        "enter_passport_date_info": "Nhập thông tin ngày cấp",
+        "enter_permit_date_info": "Nhập thông tin ngày cho phép",
+        "enter_company_name_info": "Nhập thông tin tên doanh nghiệp, tổ chức",
+        "enter_company_code_info": "Nhập thông tin mã số",
+        "enter_company_address_info": "Nhập thông tin địa chỉ",
+        "enter_company_type_info": "Nhập thông tin loại hình doanh nghiệp, tổ chức làm việc",
+        "enter_position_info": "Nhập thông tin vị trí công việc",
+        "enter_start_date_info": "Nhập thông tin từ ngày",
+        "enter_end_date_info": "Nhập thông tin đến ngày",
+        "confirm_password_not_match_password": "Nhập lại mật khẩu không trùng với mật khẩu",
+        "invalid_recruiter_name": "Nhập thông tin tên nhà tuyển dụng",
+        "invalid_code": "Nhập thông tin mã số",
+        "invalid_address": "Nhập thông tin địa chỉ",
+        "invalid_address_industrial": "Nhập thông tin KCN/KKT",
+        "invalid_industry_product": "Nhập thông tin mặt hàng/sản phẩm dịch vụ chính",
+        "invalid_amount_recruit": "Nhập thông tin số lao động tuyển dụng 6 tháng tới",
+        "invalid_email": "Email nhập không đúng định dạng",
+        "invalid_phone_number": "Số điện thoại không đúng",
+        "invalid_password": "Nhập ít nhất 8 ký tự, bao gồm chữ và số",
+        "invalid_ethnic_inority": "Nhập thông tin dân tộc thiểu số",
+        "invalid_username": "Tên đăng nhập không đúng"
+    },
+    "warning": {
+
+    }
+}

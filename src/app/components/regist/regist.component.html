@@ -1,0 +1,79 @@
+<div id="home" class="surface-0 overflow-hidden" [@fadeIn]="{ value: fadeIn, params: { timing: 1, delay: 0 } }">
+    <app-navbar></app-navbar>
+
+    <div class="grid p-4 sm:p-0" style="min-height: 48rem;">
+        <div class="col-12 sm:col-6">
+            <video src="/assets/video/olla_background_video.mp4" autoplay loop playsinline [muted]="'muted'" width="100%" height="100%"></video>
+        </div>
+        <div class="col-12 sm:col-6 flex align-items-center">
+            <form class="w-12" [formGroup]="registFrm" (submit)="doRegist()" autocomplete="off">
+                <div class="w-full md:w-8 mx-auto">
+                    <h2 class="m-0">Chào bạn đến với JWKJOB,</h2>
+                    <h4 class="m-0 mb-2" style="color: black;">Đăng ký người tìm việc</h4>
+                    <div class="flex align-items-center justify-content-center gap-8">
+                        <p-button label="Login with Facebook" icon="pi pi-facebook"></p-button>
+                        <p-button id="login-gmail" label="Login with Gmail">
+                            <i><img [src]="'assets/images/login_gmail.png'" width="17" height="17" /></i>
+                        </p-button>
+                    </div>
+                    <p-divider align="center">
+                        <span class="p-tag p-2 pl-3 pr-3">Hoặc email của bạn</span>
+                    </p-divider>
+
+                    <!--username-->
+                    <div class="flex align-items-center mt-2">
+                        <label for="username" class="block text-900 font-bold" style="min-width: 130px;"
+                            [translate]="'label.username'"></label>
+                        <input id="username" type="text" [placeholder]="'label.username' | translate" formControlName="username"
+                            [(ngModel)]="registFrm.value.username" pInputText class="w-full">
+                    </div>
+
+                    <!--password-->
+                    <div class="flex align-items-center mt-2">
+                        <label for="password" class="block text-900 font-bold" style="min-width: 130px;"
+                            [translate]="'label.password'"></label>
+                        <p-password id="password" [(ngModel)]="registFrm.value.password" placeholder="{{'label.password' | translate}}"
+                            formControlName="password" [toggleMask]="registFrm.value.password"></p-password>
+                    </div>
+
+                    <!--confirmPassword-->
+                    <div class="flex align-items-center mt-2">
+                        <label for="confirmPassword" class="block text-900 font-bold" style="min-width: 130px;"
+                            [translate]="'label.confirm_password'"></label>
+                        <p-password id="confirmPassword" [(ngModel)]="registFrm.value.confirmPassword"
+                            placeholder="{{'label.confirm_password' | translate}}" formControlName="confirmPassword"
+                            [toggleMask]="registFrm.value.confirmPassword">
+                        </p-password>
+                    </div>
+
+                    <!--name-->
+                    <div class="flex align-items-center mt-2">
+                        <label for="fullName" class="block text-900 font-bold" style="min-width: 130px;"
+                            [translate]="'label.full_name'"></label>
+                        <input id="fullName" type="text" [placeholder]="'label.full_name' | translate" formControlName="fullName"
+                            [(ngModel)]="registFrm.value.fullName" pInputText class="w-full">
+                    </div>
+
+                    <!--email-->
+                    <div class="flex align-items-center mt-2">
+                        <label for="email" class="block text-900 font-bold" style="min-width: 130px;" [translate]="'label.email'"></label>
+                        <input id="email" type="text" [placeholder]="'label.email' | translate" formControlName="email"
+                            [(ngModel)]="registFrm.value.email" pInputText class="w-full">
+                    </div>
+
+                    <!--phone-->
+                    <div class="flex align-items-center mt-2">
+                        <label for="telephoneNumber" class="block text-900 font-bold" style="min-width: 130px;" [translate]="'label.phone_number'"></label>
+                        <input id="telephoneNumber" type="text" [placeholder]="'label.phone_number' | translate" formControlName="telephoneNumber"
+                            [(ngModel)]="registFrm.value.telephoneNumber" pInputText class="w-full">
+                    </div>
+
+                    <div class="flex align-items-center justify-content-between mb-5 mt-2">
+                        <span>Bằng việc nhấn nút đăng ký, bạn đã đồng ý với <a href="#">Điều khoản sử dụng</a> và <a href="#">Chính sách bảo mật</a> của <strong style="color: var(--primary-color);">JWKJOB</strong></span>
+                    </div>
+                    <button [disabled]="registFrm.invalid" pButton pRipple [label]="'button.regist' | translate" class="w-full p-3 text-xl"></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
