@@ -1,69 +1,84 @@
-<div id="home" class="surface-0 overflow-hidden" [@fadeIn]="{ value: fadeIn, params: { timing: 1, delay: 0 } }">
-    <app-navbar></app-navbar>
-
-    <div id="searchGroup" class="sm:absolute sm:ml-8" style="z-index: 1; box-shadow: none;">
-        <p-card id="searchbox" class="pl-4 sm:pl-0">
-            <div>
-                <div class="p-inputgroup">
-                    <button style="cursor: default;" pButton pRipple icon="pi pi-search"></button>
-                    <input type="text" pInputText placeholder="Keyword" />
-                    <button type="button" pButton pRipple icon="pi pi-filter" [label]="'Tìm kiếm'"></button>
-                </div>
-            </div>
-            <div class="grid mt-2">
-                <p-dropdown class="col-12 sm:col-6" [options]="jobs" [(ngModel)]="selectedJob" [ngModelOptions]="{ standalone: true }"
-                    placeholder="Tất cả ngành nghề" optionLabel="name" optionValue="id" [showClear]="true" [filter]="true" filterBy="name"></p-dropdown>
-                <p-dropdown class="col-12 sm:col-6" [options]="provinces" [(ngModel)]="selectedProvince" [ngModelOptions]="{ standalone: true }"
-                    placeholder="Tất cả tỉnh thành" optionLabel="name" optionValue="id" [showClear]="true" [filter]="true" filterBy="name"></p-dropdown>
-            </div>
-        </p-card>
-    </div>
-    <!--job types-->
-    <!-- {{jobTypes | json}} -->
-    <div class="flex flex-wrap justify-content-center mt-4 px-2" style="gap: 12px;">
-        <div *ngFor="let job of jobTypes">
-            <p-badge class="jobType" [value]="job.nameVn"></p-badge>
+<div class="w-full h-full flex flex-column">
+    <div class="w-full flex flex-row align-items-center justify-content-between">
+        <div class="flex -flex-row align-items-center justify-content-start py-2">
+            <i class="pi pi-list" style="font-size: 2rem"></i>
+            <a class="text-black-alpha-80 font-semibold">Nhân viên kinh doanh</a>
+            <a class="text-black-alpha-80 font-semibold">Kế toán-kiểm toán</a>
+            <a class="text-black-alpha-80 font-semibold">Xây dựng</a>
+            <a class="text-black-alpha-80 font-semibold">Bán hàng</a>
+            <a class="text-black-alpha-80 font-semibold">Kỹ thuật</a>
+            <a class="text-black-alpha-80 font-semibold">Hành chính-văn phòng</a>
         </div>
-    </div>
-
-    <p-divider></p-divider>
-    <!--banner-->
-    <p-carousel [value]="products" styleClass="custom-carousel" [numVisible]="1" [circular]="true"
-        [autoplayInterval]="3000" [responsiveOptions]="responsiveOptions">
-        <ng-template pTemplate="header">
-            <!-- <h5>Circular, AutoPlay, 3 Items per Page and Scroll by 1</h5> -->
-        </ng-template>
-        <ng-template let-product pTemplate="item">
-            <div class="mb-3 text-center">
-                <img [src]="product.image" [alt]="product.name" class="w-full h-full" style="min-height: 150px;" />
-            </div>
-            <h4 class="m-0 flex justify-content-center">{{product.name}}</h4>
-        </ng-template>
-    </p-carousel>
-
-    <p-divider></p-divider>
-
-    <!--employer list-->
-    <div class="flex flex-wrap justify-content-center px-2">
-        <div *ngFor="let employer of employers">
-            <p-card class="p-1">
-                <div class="flex flex-column align-items-center" style="min-height: 100px;">
-                    <!-- {{employer.avatar | json}} -->
-                    <img src="assets/images/avatar-default.jpg" width="150" height="75" />
-                    <span class="mt-2 text-center font-bold text-primary">{{employer.name}}</span>
-                    <span class="mt-4 text-center flex align-items-center">
-                        <i class="pi pi-briefcase"></i>
-                        <span class="text-primary px-1 font-bold">{{employer.amountHiring}}</span>
-                        <span>{{'label.recruit_position' | translate}}</span>
-                    </span>
-                </div>
-            </p-card>
+        <div class="h-full flex flex-row align-items-center justify-content-center cursor-pointer bg-blue-50 text-primary">
+            <p class="mb-0">Tạo hồ sơ</p>
+            <i class="pi pi-arrow-right"></i>
         </div>
-    </div>
-
-    <p-divider></p-divider>
-
-    <div id="main">
-
     </div>
 </div>
+<!--<div id="home" class="surface-0 overflow-hidden" [@fadeIn]="{ value: fadeIn, params: { timing: 1, delay: 0 } }">-->
+<!--   <div id="searchGroup" class="sm:absolute sm:ml-8" style="z-index: 1; box-shadow: none;">-->
+<!--        <p-card id="searchbox" class="pl-4 sm:pl-0">-->
+<!--            <div>-->
+<!--                <div class="p-inputgroup">-->
+<!--                    <button style="cursor: default;" pButton pRipple icon="pi pi-search"></button>-->
+<!--                    <input type="text" pInputText placeholder="Keyword" />-->
+<!--                    <button type="button" pButton pRipple icon="pi pi-filter" [label]="'Tìm kiếm'"></button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="grid mt-2">-->
+<!--                <p-dropdown class="col-12 sm:col-6" [options]="jobs" [(ngModel)]="selectedJob" [ngModelOptions]="{ standalone: true }"-->
+<!--                    placeholder="Tất cả ngành nghề" optionLabel="name" optionValue="id" [showClear]="true" [filter]="true" filterBy="name"></p-dropdown>-->
+<!--                <p-dropdown class="col-12 sm:col-6" [options]="provinces" [(ngModel)]="selectedProvince" [ngModelOptions]="{ standalone: true }"-->
+<!--                    placeholder="Tất cả tỉnh thành" optionLabel="name" optionValue="id" [showClear]="true" [filter]="true" filterBy="name"></p-dropdown>-->
+<!--            </div>-->
+<!--        </p-card>-->
+<!--    </div>-->
+<!--    &lt;!&ndash;job types&ndash;&gt;-->
+<!--    &lt;!&ndash; {{jobTypes | json}} &ndash;&gt;-->
+<!--    <div class="flex flex-wrap justify-content-center mt-4 px-2" style="gap: 12px;">-->
+<!--        <div *ngFor="let job of jobTypes">-->
+<!--            <p-badge class="jobType" [value]="job.nameVn"></p-badge>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <p-divider></p-divider>-->
+<!--    &lt;!&ndash;banner&ndash;&gt;-->
+<!--    <p-carousel [value]="products" styleClass="custom-carousel" [numVisible]="1" [circular]="true"-->
+<!--        [autoplayInterval]="3000" [responsiveOptions]="responsiveOptions">-->
+<!--        <ng-template pTemplate="header">-->
+<!--            &lt;!&ndash; <h5>Circular, AutoPlay, 3 Items per Page and Scroll by 1</h5> &ndash;&gt;-->
+<!--        </ng-template>-->
+<!--        <ng-template let-product pTemplate="item">-->
+<!--            <div class="mb-3 text-center">-->
+<!--                <img [src]="product.image" [alt]="product.name" class="w-full h-full" style="min-height: 150px;" />-->
+<!--            </div>-->
+<!--            <h4 class="m-0 flex justify-content-center">{{product.name}}</h4>-->
+<!--        </ng-template>-->
+<!--    </p-carousel>-->
+
+<!--    <p-divider></p-divider>-->
+
+<!--    &lt;!&ndash;employer list&ndash;&gt;-->
+<!--    <div class="flex flex-wrap justify-content-center px-2">-->
+<!--        <div *ngFor="let employer of employers">-->
+<!--            <p-card class="p-1">-->
+<!--                <div class="flex flex-column align-items-center" style="min-height: 100px;">-->
+<!--                    &lt;!&ndash; {{employer.avatar | json}} &ndash;&gt;-->
+<!--                    <img src="assets/images/avatar-default.jpg" width="150" height="75" />-->
+<!--                    <span class="mt-2 text-center font-bold text-primary">{{employer.name}}</span>-->
+<!--                    <span class="mt-4 text-center flex align-items-center">-->
+<!--                        <i class="pi pi-briefcase"></i>-->
+<!--                        <span class="text-primary px-1 font-bold">{{employer.amountHiring}}</span>-->
+<!--                        <span>{{'label.recruit_position' | translate}}</span>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </p-card>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <p-divider></p-divider>-->
+
+<!--    <div id="main">-->
+
+<!--    </div>-->
+<!--</div>-->

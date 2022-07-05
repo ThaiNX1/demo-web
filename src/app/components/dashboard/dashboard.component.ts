@@ -16,58 +16,7 @@ import { EmployerService } from 'src/app/service/employer.service';
     animations: [
         trigger('fadeIn', [transition('* => *', useAnimation(fadeIn))]),
     ],
-    styles: [
-        `
-            #main {
-                min-height: 300px;
-            }
-
-            :host ::ng-deep {
-                #searchbox .p-card .p-card-body {
-                    width: 612px;
-                    height: 200px;
-                }
-
-                .jobType .p-badge {
-                    height: 35px;
-                    padding: 14px;
-                    font-size: 11px;
-                    display: flex;
-                    align-items: center;
-                }
-
-                #searchGroup {
-                    margin-top: 200px;
-                }
-            }
-
-            @media screen and (max-width: 768px) {
-                :host ::ng-deep {
-                    .p-inputgroup .p-inputtext {
-                        width: 1%;
-                    }
-
-                    #searchbox .p-card .p-card-body {
-                        max-width: 375px;
-                        height: auto;
-                        padding-bottom: 6px;
-                    }
-
-                    .p-card .p-card-content {
-                        padding: 0.25rem 0;
-                    }
-
-                    .p-carousel .p-carousel-indicators {
-                        padding: 0.5rem;
-                    }
-
-                    #searchGroup {
-                        margin-top: 0;
-                    }
-                }
-            }
-        `,
-    ],
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
     config: AppConfig;
