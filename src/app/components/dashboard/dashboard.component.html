@@ -48,6 +48,265 @@
             </p-card>
         </div>
     </div>
+    <div class="grid py-4 px-2">
+        <div class="col-2 border-1 border-300 hover:shadow-4">
+            <a class="flex flex-column align-items-center justify-content-center">
+                <img
+                    src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/db13c1356f7bf4d85ae588cb3babf50b_1425543387_logo.w-96.h-96.jpeg">
+                <p class="text-center">
+                    <i class="pi pi-briefcase"></i>
+                    <span>8 vị trí tuyển dụng</span>
+                </p>
+            </a>
+        </div>
+        <div class="col-2 border-1 border-300 hover:shadow-4">
+            <a class="flex flex-column align-items-center justify-content-center">
+                <img
+                    src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/db13c1356f7bf4d85ae588cb3babf50b_1425543387_logo.w-96.h-96.jpeg">
+                <p class="text-center">
+                    <i class="pi pi-briefcase"></i>
+                    <span>8 vị trí tuyển dụng</span>
+                </p>
+            </a>
+        </div>
+        <div class="col-2 border-1 border-300 hover:shadow-4">
+            <a class="flex flex-column align-items-center justify-content-center">
+                <img
+                    src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/db13c1356f7bf4d85ae588cb3babf50b_1425543387_logo.w-96.h-96.jpeg">
+                <p class="text-center">
+                    <i class="pi pi-briefcase"></i>
+                    <span>8 vị trí tuyển dụng</span>
+                </p>
+            </a>
+        </div>
+        <div class="col-2 border-1 border-300 hover:shadow-4">
+            <a class="flex flex-column align-items-center justify-content-center">
+                <img
+                    src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/db13c1356f7bf4d85ae588cb3babf50b_1425543387_logo.w-96.h-96.jpeg">
+                <p class="text-center">
+                    <i class="pi pi-briefcase"></i>
+                    <span>8 vị trí tuyển dụng</span>
+                </p>
+            </a>
+        </div>
+        <div class="col-2 border-1 border-300 hover:shadow-4">
+            <a class="flex flex-column align-items-center justify-content-center">
+                <img
+                    src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/db13c1356f7bf4d85ae588cb3babf50b_1425543387_logo.w-96.h-96.jpeg">
+                <p class="text-center">
+                    <i class="pi pi-briefcase"></i>
+                    <span>8 vị trí tuyển dụng</span>
+                </p>
+            </a>
+        </div>
+        <div class="col-2 border-1 border-300 hover:shadow-4">
+            <a class="flex flex-column align-items-center justify-content-center">
+                <img
+                    src="https://cdn1.vieclam24h.vn/images/old_employer_avatar/images/db13c1356f7bf4d85ae588cb3babf50b_1425543387_logo.w-96.h-96.jpeg">
+                <p class="text-center">
+                    <i class="pi pi-briefcase"></i>
+                    <span class="pl-2">8 vị trí tuyển dụng</span>
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="hot-job w-full border-round-xl">
+        <div class="flex flex-row align-items-center justify-content-start p-3">
+            <h3 class="text-color mb-0">Việc làm tuyển gấp</h3>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Tất cả</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Việc làm theo chuyển môn</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Việc làm quản lý</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Lao động phổ thông</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Bán thời gian</a>
+        </div>
+        <div class="w-full flex flex-column">
+            <p-carousel [value]="hotJobs" [numVisible]="1" [numScroll]="3" [circular]="true">
+                <ng-template let-hotJob pTemplate="item">
+                    <div class="hot-job-item w-full">
+                        <div class="grid m-0">
+                            <ng-container *ngFor="let job of hotJob.jobs">
+                                <div class="col-4">
+                                    <div
+                                        class="w-full flex flex-column border-1 border-round-md border-blue-200 bg-white hover:border-blue-500">
+                                        <div class="flex align-items-center justify-content-between p-3">
+                                            <p class="text-color font-semibold mb-0">{{job?.name}}</p>
+                                            <i class="pi pi-heart"></i>
+                                        </div>
+                                        <div class="grid p2 m-0">
+                                            <div class="col-4">
+                                                <img class="img-job-item" [src]="job?.url">
+                                            </div>
+                                            <div
+                                                class="col-8 flex flex-column align-items-start justify-content-between">
+                                                <p class="text-color mb-0">{{job?.companyName}}</p>
+                                                <div class="flex align-items-center justify-content-start">
+                                                    <i class="pi pi-money-bill"></i>
+                                                    <p class="mb-0">{{job?.salary}}</p>
+                                                    <i class="pi pi-map-marker ml-3"></i>
+                                                    <p class="mb-0">{{job?.address}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
+        </div>
+    </div>
+
+    <div class="employer flex flex-column my-6">
+        <h2 class="w-full text-center text-color">Nhà tuyển dụng hàng đầu</h2>
+        <p-carousel [value]="employers" [numVisible]="1" [numScroll]="3" [circular]="true">
+            <ng-template let-employer pTemplate="item">
+                <div class="w-full grid m-0">
+                    <ng-container *ngFor="let item of employer.list">
+                        <div class="col-2">
+                            <a class="w-full px-3 flex flex-column align-items-center justify-content-center">
+                                <img class="img-employer-item bg-white border-1 border-300 hover:shadow-5"
+                                     [src]="item.url">
+                                <p class="text-color font-semibold text-xs pt-2">{{item.name}}</p>
+                            </a>
+                        </div>
+                    </ng-container>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+
+    <div class="hot-job w-full border-round-xl">
+        <div class="flex flex-row align-items-center justify-content-start p-3">
+            <h3 class="text-color mb-0">Việc làm mới nhất</h3>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Tất cả</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Việc làm theo chuyển môn</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Việc làm quản lý</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Lao động phổ thông</a>
+            <a class="text-color font-semibold pl-3 cursor-pointer hover:text-blue-500">Bán thời gian</a>
+        </div>
+        <div class="w-full flex flex-column">
+            <p-carousel [value]="hotJobs" [numVisible]="1" [numScroll]="3" [circular]="true">
+                <ng-template let-hotJob pTemplate="item">
+                    <div class="hot-job-item w-full">
+                        <div class="grid m-0">
+                            <ng-container *ngFor="let job of hotJob.jobs">
+                                <div class="col-4">
+                                    <div
+                                        class="w-full flex flex-column border-1 border-round-md border-blue-200 bg-white hover:border-blue-500">
+                                        <div class="flex align-items-center justify-content-between p-3">
+                                            <p class="text-color font-semibold mb-0">{{job?.name}}</p>
+                                            <i class="pi pi-heart"></i>
+                                        </div>
+                                        <div class="grid p2 m-0">
+                                            <div class="col-4">
+                                                <img class="img-job-item" [src]="job?.url">
+                                            </div>
+                                            <div
+                                                class="col-8 flex flex-column align-items-start justify-content-between">
+                                                <p class="text-color mb-0">{{job?.companyName}}</p>
+                                                <div class="flex align-items-center justify-content-start">
+                                                    <i class="pi pi-money-bill"></i>
+                                                    <p class="mb-0">{{job?.salary}}</p>
+                                                    <i class="pi pi-map-marker ml-3"></i>
+                                                    <p class="mb-0">{{job?.address}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-carousel>
+        </div>
+    </div>
+
+
+    <div class="flex flex-column my-6">
+        <h2 class="w-full text-center text-color">Cảm nang nghề nghiệp</h2>
+        <div class="w-full grid">
+            <div class="col-4 p-3">
+                <div class="flex flex-column align-items-center justify-content-center">
+                    <img class="w-full career-img border-round-top-sm"
+                         src="https://nghenghiep.vieclam24h.vn/wp-content/uploads/2022/07/shutterstock_1472941637.png">
+                    <h4 class="text-color">Có nên dựa vào review công ty để ứng tuyển công việc mới?</h4>
+                    <p class="w-full career-detail text-overflow-ellipsis">Review công ty đang trở thành xu hướng trong
+                        bối cảnh lên ngôi của chủ nghĩa “minh bạch thông
+                        tin”. Sự phát triển đa dạng của muôn vàn ứng dụng xã hội đã tạo tiền đề cho người dùng dễ dàng
+                        truy cập, tìm kiếm mọi thông tin mình cần. Cũng chính vì lẽ ấy, việc ứng viên chủ động tìm hiểu
+                        về tính chất công việc, môi trường làm việc của doanh nghiệp trước khi đưa ra quyết định ứng
+                        tuyển đã trở thành một nét văn hoá săn việc thời đại số.</p>
+                </div>
+            </div>
+            <div class="col-4 p-3">
+                <div class="flex flex-column align-items-center justify-content-center">
+                    <img class="w-full career-img border-round-top-sm"
+                         src="https://nghenghiep.vieclam24h.vn/wp-content/uploads/2022/07/shutterstock_1472941637.png">
+                    <h4 class="text-color">Có nên dựa vào review công ty để ứng tuyển công việc mới?</h4>
+                    <p class="w-full career-detail text-overflow-ellipsis">Review công ty đang trở thành xu hướng trong
+                        bối cảnh lên ngôi của chủ nghĩa “minh bạch thông
+                        tin”. Sự phát triển đa dạng của muôn vàn ứng dụng xã hội đã tạo tiền đề cho người dùng dễ dàng
+                        truy cập, tìm kiếm mọi thông tin mình cần. Cũng chính vì lẽ ấy, việc ứng viên chủ động tìm hiểu
+                        về tính chất công việc, môi trường làm việc của doanh nghiệp trước khi đưa ra quyết định ứng
+                        tuyển đã trở thành một nét văn hoá săn việc thời đại số.</p>
+                </div>
+            </div>
+            <div class="col-4 p-3">
+                <div class="flex flex-column align-items-center justify-content-center">
+                    <img class="w-full career-img border-round-top-sm"
+                         src="https://nghenghiep.vieclam24h.vn/wp-content/uploads/2022/07/shutterstock_1472941637.png">
+                    <h4 class="text-color">Có nên dựa vào review công ty để ứng tuyển công việc mới?</h4>
+                    <p class="w-full career-detail text-overflow-ellipsis">Review công ty đang trở thành xu hướng trong
+                        bối cảnh lên ngôi của chủ nghĩa “minh bạch thông
+                        tin”. Sự phát triển đa dạng của muôn vàn ứng dụng xã hội đã tạo tiền đề cho người dùng dễ dàng
+                        truy cập, tìm kiếm mọi thông tin mình cần. Cũng chính vì lẽ ấy, việc ứng viên chủ động tìm hiểu
+                        về tính chất công việc, môi trường làm việc của doanh nghiệp trước khi đưa ra quyết định ứng
+                        tuyển đã trở thành một nét văn hoá săn việc thời đại số.</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex align-items-center justify-content-center py-4">
+            <a class="border-1 border-blue-200 border-round-sm text-purple-600 font-semibold p-2">XEM THÊM CẨM NANG NGHÊ NGHIỆP</a>
+        </div>
+    </div>
+
+    <div class="hot-job w-full border-round-xl p-4 mb-4">
+        <div class="grid w-full">
+            <div class="col-4 flex flex-column">
+                <h5 class="text-color font-semibold">Việc làm theo ngành nghề</h5>
+                <div class="flex flex-column">
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                </div>
+            </div>
+            <div class="col-4 flex flex-column">
+                <h5 class="text-color font-semibold">Việc làm theo ngành nghề</h5>
+                <div class="flex flex-column">
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                </div>
+            </div>
+            <div class="col-4 flex flex-column">
+                <h5 class="text-color font-semibold">Việc làm theo ngành nghề</h5>
+                <div class="flex flex-column">
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                    <p>Việc làm bán thời gian</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div *ngIf="visibleSidebarTop" class="all-menu">

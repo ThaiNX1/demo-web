@@ -40,4 +40,25 @@
     background: rgba(0, 0, 0, 0.24);
     border-radius: 16px;
 }
+.hot-job{
+    background: #fafaff;
+}
+.img-job-item{
+    height: 80px;
+    width: 80px;
+    object-fit: scale-down;
+}
+.img-employer-item{
+    height: 120px;
+    width: 120px;
+    object-fit: scale-down;
+}
+.career-img{
+    height: 195px;
+    object-fit: fill;
+}
+.career-detail{
+    max-height: 80px;
+    overflow: hidden;
+}
 
