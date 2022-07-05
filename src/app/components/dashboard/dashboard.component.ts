@@ -19,6 +19,8 @@ import { EmployerService } from 'src/app/service/employer.service';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+    visibleSidebarTop = false;
+
     config: AppConfig;
 
     subscription: Subscription;
@@ -70,24 +72,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 this.config = config;
             }
         );
-        this.jobService.getListJobWebHome().subscribe((res) => {
-            this.jobTypes = res.data;
-        });
-        this.employerService.getListEmployerWebHome().subscribe((res) => {
-            this.employers = res.data;
-        });
+        // this.jobService.getListJobWebHome().subscribe((res) => {
+        //     this.jobTypes = res.data;
+        // });
+        // this.employerService.getListEmployerWebHome().subscribe((res) => {
+        //     this.employers = res.data;
+        // });
         this.products = [
             {
-                name: 'Trắc nghiệm tính cách',
+                // name: 'Trắc nghiệm tính cách',
                 image: 'assets/images/banner-dashboard-2.jpg',
             },
             {
-                name: 'JWKJOB - Phần mềm "Chất", Doanh nghiệp "Chất"',
+                // name: 'JWKJOB - Phần mềm "Chất", Doanh nghiệp "Chất"',
                 image: 'assets/images/banner-dashboard-1.jpg',
-                url: '',
+                // url: '',
             },
             {
-                name: 'Tìm ghế trong mơ - Đập tan nỗi sợ',
+                // name: 'Tìm ghế trong mơ - Đập tan nỗi sợ',
                 image: 'assets/images/banner-dashboard-3.jpg',
             },
         ];

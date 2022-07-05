@@ -1,20 +1,184 @@
 <div class="w-full h-full flex flex-column">
     <div class="w-full flex flex-row align-items-center justify-content-between">
-        <div class="flex -flex-row align-items-center justify-content-start py-2">
-            <i class="pi pi-list" style="font-size: 2rem"></i>
-            <a class="text-black-alpha-80 font-semibold">Nhân viên kinh doanh</a>
-            <a class="text-black-alpha-80 font-semibold">Kế toán-kiểm toán</a>
-            <a class="text-black-alpha-80 font-semibold">Xây dựng</a>
-            <a class="text-black-alpha-80 font-semibold">Bán hàng</a>
-            <a class="text-black-alpha-80 font-semibold">Kỹ thuật</a>
-            <a class="text-black-alpha-80 font-semibold">Hành chính-văn phòng</a>
+        <div class="flex flex-row align-items-center justify-content-start py-2">
+            <i class="pi pi-list text-4xl cursor-pointer" pTooltip="Tất cả các ngành" tooltipPosition="bottom"
+               (click)="visibleSidebarTop = true"></i>
+            <a class="text-black-alpha-80 font-semibold pl-3 cursor-pointer">Nhân viên kinh doanh</a>
+            <a class="text-black-alpha-80 font-semibold pl-3 cursor-pointer">Kế toán-kiểm toán</a>
+            <a class="text-black-alpha-80 font-semibold pl-3 cursor-pointer">Xây dựng</a>
+            <a class="text-black-alpha-80 font-semibold pl-3 cursor-pointer">Bán hàng</a>
+            <a class="text-black-alpha-80 font-semibold pl-3 cursor-pointer">Kỹ thuật</a>
+            <a class="text-black-alpha-80 font-semibold pl-3 cursor-pointer">Hành chính-văn phòng</a>
         </div>
-        <div class="h-full flex flex-row align-items-center justify-content-center cursor-pointer bg-blue-50 text-primary">
+        <div
+            class="h-full flex flex-row align-items-center justify-content-center cursor-pointer text-blue-500 font-semibold bg-blue-50 py-3 px-7">
             <p class="mb-0">Tạo hồ sơ</p>
-            <i class="pi pi-arrow-right"></i>
+            <i class="pl-3 pi pi-arrow-right"></i>
+        </div>
+    </div>
+    <div class="slider-dashboard w-full md:relative xl:relative">
+        <p-carousel [value]="products" styleClass="custom-carousel" [numVisible]="1" [circular]="true"
+                    [autoplayInterval]="3000" [responsiveOptions]="responsiveOptions" [showIndicators]="false">
+            <ng-template let-product pTemplate="item">
+                <div class="mb-3 text-center">
+                    <img [src]="product.image" [alt]="product.name" class="w-full h-full" style="min-height: 150px;"/>
+                </div>
+                <h4 class="m-0 flex justify-content-center">{{product.name}}</h4>
+            </ng-template>
+        </p-carousel>
+        <div class="box-search md:absolute xl:absolute">
+            <p-card id="searchbox" class="pl-4 sm:pl-0">
+                <div>
+                    <div class="p-inputgroup">
+                        <button style="cursor: default;" pButton pRipple icon="pi pi-search"></button>
+                        <input type="text" pInputText placeholder="Keyword"/>
+                        <button type="button" pButton pRipple icon="pi pi-filter" [label]="'Tìm kiếm'"></button>
+                    </div>
+                </div>
+                <div class="grid mt-2">
+                    <p-dropdown class="col-12 sm:col-6" [options]="jobs" [(ngModel)]="selectedJob"
+                                [ngModelOptions]="{ standalone: true }"
+                                placeholder="Tất cả ngành nghề" optionLabel="name" optionValue="id" [showClear]="true"
+                                [filter]="true" filterBy="name"></p-dropdown>
+                    <p-dropdown class="col-12 sm:col-6" [options]="provinces" [(ngModel)]="selectedProvince"
+                                [ngModelOptions]="{ standalone: true }"
+                                placeholder="Tất cả tỉnh thành" optionLabel="name" optionValue="id" [showClear]="true"
+                                [filter]="true" filterBy="name"></p-dropdown>
+                </div>
+            </p-card>
         </div>
     </div>
 </div>
+
+<div *ngIf="visibleSidebarTop" class="all-menu">
+    <div class="w-full bg-white flex align-items-center justify-content-center">
+        <div class="dashboard-container flex flex-column align-items-start justify-content-start">
+            <div class="w-full flex flex-row align-items-center justify-content-start py-4">
+                <i class="pi pi-times text-2xl cursor-pointer" (click)="visibleSidebarTop = false"></i>
+                <h4 class="pl-3 my-0 text-color">Danh sách tất cả ngành nghề</h4>
+            </div>
+            <div class="w-full py-1">
+                <div class="grid">
+                    <div class="col-3">
+                        <div class="pb-2 border-bottom-2 border-blue-500">
+                            <p class="font-semibold text-color">Top 10 ngành nghề</p>
+                        </div>
+                        <div class="py-4">
+                            <p>Nhân viên kinh doanh</p>
+                            <p>Kế toán-kiểm toán</p>
+                            <p>Xây dựng</p>
+                            <p>Bán hàng</p>
+                            <p>Kỹ thuật</p>
+                        </div>
+                        <div class="py-4">
+                            <p>Hành chính-văn phòng</p>
+                            <p>Marketing-PR</p>
+                            <p>Cơ khí chế tạo</p>
+                            <p>Tư vấn</p>
+                            <p>KD bất động sản</p>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="pb-2 border-bottom-2 border-pink-700">
+                            <p class="font-semibold text-color">Ngành khác</p>
+                        </div>
+                        <div class="py-4 border-bottom-1 border-200 grid">
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                        </div>
+                        <div class="py-4 border-bottom-1 border-200 grid">
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                        </div>
+                        <div class="py-4 grid">
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                            <div class="col-3">
+                                <p>Nhân viên kinh doanh</p>
+                                <p>Kế toán-kiểm toán</p>
+                                <p>Xây dựng</p>
+                                <p>Bán hàng</p>
+                                <p>Kỹ thuật</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--<div id="home" class="surface-0 overflow-hidden" [@fadeIn]="{ value: fadeIn, params: { timing: 1, delay: 0 } }">-->
 <!--   <div id="searchGroup" class="sm:absolute sm:ml-8" style="z-index: 1; box-shadow: none;">-->
 <!--        <p-card id="searchbox" class="pl-4 sm:pl-0">-->

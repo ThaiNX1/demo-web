@@ -16,3 +16,28 @@
     background-color: #ffffff;
 }
 
+.all-menu {
+    width: 100%;
+    height: calc(100vh - 65px);
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(128, 128, 128, 0.6);
+}
+
+.dashboard-container {
+    width: 100%;
+    max-width: 1280px;
+}
+
+.box-search {
+    width: calc(50% - 110px);
+    top: calc(50% - 105px);
+    left: 80px;
+}
+
+:host::ng-deep.p-card {
+    background: rgba(0, 0, 0, 0.24);
+    border-radius: 16px;
+}
+
