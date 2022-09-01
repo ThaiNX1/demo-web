@@ -1,0 +1,65 @@
+<p-toast></p-toast>
+<div *ngIf="display" class="grid">
+    <div class="col-12 p-0">
+        <div class="card card-table">
+            <h5 [translate]="isEdit ? 'label.edit_decide' : 'label.add_decide'"></h5>
+            <form [formGroup]="decideForm" autocomplete="off">
+                <div class="grid w-full">
+                    <div class="field col-12 md:col-4 flex flex-column">
+                        <label htmlFor="type">{{'label.type' | translate}}<span class="text-pink-400">*</span></label>
+                        <p-dropdown [options]="types" [formControlName]="'type'" optionLabel="name" [filter]="flase" filterBy="key"
+                            [showClear]="true" [(ngModel)]="decideForm.value.type" [placeholder]="'label.type' | translate" [ngClass]="checkValidValidator('type')">
+                        </p-dropdown>
+                        <small *ngIf="checkValidValidator('type')" class="p-error"
+                            [innerHTML]="'info.code' | translate"></small>
+                    </div>
+                     <div class="field col-12 md:col-4 flex flex-column">
+                        <label htmlFor="employeesName">{{'label.employee_name' | translate}}<span class="text-pink-400">*</span></label>
+                        <p-dropdown [options]="employees" [formControlName]="'employeesName'" optionLabel="fullName" [filter]="flase" filterBy="key"
+                            [showClear]="true" [placeholder]="'label.employee_name' | translate" [ngClass]="checkValidValidator('employeesName')">
+                        </p-dropdown>
+                        <small *ngIf="checkValidValidator('employeesName')" class="p-error"
+                            [innerHTML]="'info.code' | translate"></small>
+                    </div>
+                    <div class="field col-12 md:col-4 flex flex-column">
+                        <label htmlFor="decideTypeName">{{'label.type_decide' | translate}}<span class="text-pink-400">*</span></label>
+                        <p-dropdown [options]="decideTypes" [formControlName]="'decideTypeName'" optionLabel="name" [filter]="flase" filterBy="key"
+                            [showClear]="true" [placeholder]="'label.type_decide' | translate">
+                        </p-dropdown>
+                        <small *ngIf="checkValidValidator('decideTypeName')" class="p-error"
+                            [innerHTML]="'info.code' | translate"></small>
+                    </div>
+                    <div class="field col-12 md:col-4 flex flex-column">
+                        <label htmlFor="date">{{'label.date' | translate}}</label>
+                        <p-calendar [style]="{'width':'100%'}" [showIcon]="true" inputId="icon" [formControlName]="'date'" ></p-calendar>
+                        <small *ngIf="checkValidValidator('date')" class="p-error"
+                            [innerHTML]="'info.code' | translate"></small>
+                    </div>
+                    <div class="field col-12 md:col-4 flex flex-column">
+                        <label htmlFor="description">{{'label.description_short' | translate}}</label>
+                        <input id="float-input" type="text" pInputText [formControlName]="'description'"> 
+                        <small *ngIf="checkValidValidator('description')" class="p-error"
+                            [innerHTML]="'info.code' | translate"></small>
+                    </div>
+                    <div class="field col-12 md:col-4 flex flex-column">
+                        <label htmlFor="note">{{'label.note' | translate}}</label>
+                        <input id="float-input" type="text" pInputText  [formControlName]="'note'"> 
+                        <small *ngIf="checkValidValidator('note')" class="p-error"
+                            [innerHTML]="'info.code' | translate"></small>
+                    </div>
+
+                </div>
+                <div class="col-12">
+                    <div class="p-fluid p-formgrid grid mt-2">
+                        <div class="field col-12 gap-8 flex justify-content-end mt-4 p-0">
+                            <p-button icon="pi pi-times" (click)="onCancel.emit({})" [label]="'button.back' | translate"
+                                styleClass="p-button-outlined"></p-button>
+                            <p-button icon="pi pi-check" (click)="onSubmit()" [label]="'button.save' | translate">
+                            </p-button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,110 @@
+<p-dialog [(visible)]="display" position="top" [header]="title">
+  <ng-container [formGroup]="formGroup" *ngIf="formGroup && display">
+
+    <ng-container [ngSwitch]="currentParentAccount.accGroup">
+
+      <ng-container *ngSwitchCase="accountGroupTypes.Inventory">
+        <div class="flex mb-4">
+          <is-dropdown class="w--50" formControlName="warehouseCode" [options]="wareHouses" [optionLabel]="'name'" optionValue="code"></is-dropdown>
+        </div>
+
+        <div class="flex mb-4">
+          <input uppercase class="w--15 mr-3" type="text" [placeholder]="'label.code'|translate" pInputText formControlName="code" />
+          <input class="w--30 mr-3" type="text" [placeholder]="'label.name'|translate" pInputText formControlName="name" />
+          <input class="w--10 mr-3" type="text" [placeholder]="'label.stock_unit'|translate" pInputText formControlName="stockUnit" />
+
+          <ng-container *ngIf="accountType === accountTypes.HT">
+            <p-inputNumber class="w--10 mr-3" mode="decimal" [placeholder]="'label.stock_quantity'|translate" formControlName="openingStockQuantity"></p-inputNumber>
+            <p-inputNumber class="w--10 mr-3" mode="decimal" [placeholder]="'label.stock_price'|translate" formControlName="stockUnitPrice" [minFractionDigits]="2" (onBlur)="onBlurStockUnitPrice()"></p-inputNumber>
+            <p-inputNumber id="openingDebitControl" mode="decimal" [placeholder]="'label.residual_debt'|translate" formControlName="openingDebit" [minFractionDigits]="2"></p-inputNumber>
+          </ng-container>
+    
+          <ng-container *ngIf="accountType === accountTypes.NB">
+            <p-inputNumber class="w--10 mr-3" mode="decimal" [placeholder]="'label.stock_quantity_nb'|translate" formControlName="openingStockQuantityNb"></p-inputNumber>
+            <p-inputNumber class="w--10 mr-3" mode="decimal" [placeholder]="'label.stock_price_nb'|translate" formControlName="stockUnitPriceNb" [minFractionDigits]="2" (onBlur)="onBlurStockUnitPrice()"></p-inputNumber>
+            <p-inputNumber id="openingDebitControl" mode="decimal" [placeholder]="'label.residual_debt_nb'|translate" formControlName="openingDebitNb" [minFractionDigits]="2"></p-inputNumber>
+          </ng-container>
+
+        </div>
+    
+        <ng-container *ngTemplateOutlet="IsForeignCurrencyTemplate"></ng-container>
+
+      </ng-container>
+
+      <ng-container *ngSwitchCase="accountGroupTypes.ImportExport">
+        <div class="flex mb-4">
+          <input uppercase class="w--15 mr-3" type="text" [placeholder]="'label.code'|translate" pInputText formControlName="code" />
+          <input class="w--30 mr-3" type="text" [placeholder]="'label.name'|translate" pInputText formControlName="name" />
+          <input class="w--10 mr-3" type="text" [placeholder]="'label.stock_unit'|translate" pInputText formControlName="stockUnit" />
+
+          <ng-container *ngIf="accountType === accountTypes.HT">
+            <p-inputNumber class="w--10 mr-3"  mode="decimal" [placeholder]="'label.stock_quantity'|translate" formControlName="openingStockQuantity"></p-inputNumber>
+            <p-inputNumber class="w--10 mr-3"  mode="decimal" [placeholder]="'label.stock_price'|translate" formControlName="stockUnitPrice" [minFractionDigits]="2" (onBlur)="onBlurStockUnitPrice()"></p-inputNumber>
+            <p-inputNumber id="openingDebitControl" mode="decimal" [placeholder]="'label.residual_debt'|translate" formControlName="openingDebit" [minFractionDigits]="2"></p-inputNumber>
+          </ng-container>
+    
+          <ng-container *ngIf="accountType === accountTypes.NB">
+            <p-inputNumber class="w--10 mr-3" mode="decimal" [placeholder]="'label.stock_quantity_nb'|translate" formControlName="openingStockQuantityNb"></p-inputNumber>
+            <p-inputNumber class="w--10 mr-3" mode="decimal" [placeholder]="'label.stock_price_nb'|translate" formControlName="stockUnitPriceNb" [minFractionDigits]="2" (onBlur)="onBlurStockUnitPrice()"></p-inputNumber>
+            <p-inputNumber id="openingDebitControl" mode="decimal" [placeholder]="'label.residual_debt_nb'|translate" formControlName="openingDebitNb" [minFractionDigits]="2"></p-inputNumber>
+          </ng-container>
+
+        </div>
+    
+        <ng-container *ngTemplateOutlet="IsForeignCurrencyTemplate"></ng-container>
+        
+      </ng-container>
+
+      <ng-container *ngSwitchDefault>
+        <div class="flex mb-4">
+          <input uppercase class="w--15 mr-3" type="text" [placeholder]="'label.code'|translate" pInputText formControlName="code" />
+          <input class="w--30 mr-3" type="text" [placeholder]="'label.name'|translate" pInputText formControlName="name" />
+    
+          <ng-container *ngIf="accountType === accountTypes.HT">
+            <ng-container
+              *ngTemplateOutlet="DebtOpeningControlTemplate; context: {controlDebt:'openingDebit', controlOpening:'openingCredit'}">
+            </ng-container>
+          </ng-container>
+    
+          <ng-container *ngIf="accountType === accountTypes.NB">
+            <ng-container
+              *ngTemplateOutlet="DebtOpeningNBControlTemplate; context: {controlDebt:'openingDebitNb', controlOpening:'openingCreditNb'}">
+            </ng-container>
+          </ng-container>
+        </div>
+    
+        <ng-container *ngTemplateOutlet="IsForeignCurrencyTemplate"></ng-container>
+      </ng-container>
+
+    </ng-container>
+
+    <ng-template #IsForeignCurrencyTemplate>
+      <div class="flex mb-4">
+        <p-checkbox class="w--80 mr-5" [label]="'label.is_foreign_currency'|translate" [binary]="true" formControlName="isForeignCurrency"></p-checkbox>
+  
+        <ng-container *ngIf="accountType === accountTypes.HT">
+          <p-inputNumber class="mr-3" mode="decimal" [placeholder]="'label.residual_debt'|translate" formControlName="openingForeignDebit" [minFractionDigits]="2"></p-inputNumber>
+        </ng-container>
+  
+        <ng-container *ngIf="accountType === accountTypes.NB">
+          <p-inputNumber class="mr-3" mode="decimal" [placeholder]="'label.residual_debt_nb'|translate" formControlName="openingForeignDebitNb" [minFractionDigits]="2"></p-inputNumber>
+        </ng-container>
+      </div>
+    </ng-template>
+
+    <ng-template #DebtOpeningControlTemplate let-controlDebt="controlDebt" let-controlOpening="controlOpening">
+      <p-inputNumber class="w--25 mr-3" mode="decimal" [placeholder]="'label.residual_debt'|translate" [formControlName]="controlDebt" [minFractionDigits]="2"></p-inputNumber>
+      <p-inputNumber class="w--25" mode="decimal" [placeholder]="'label.residual_opening'|translate" [formControlName]="controlOpening" [minFractionDigits]="2"></p-inputNumber>
+    </ng-template>
+    <ng-template #DebtOpeningNBControlTemplate let-controlDebt="controlDebt" let-controlOpening="controlOpening">
+      <p-inputNumber class="w--25 mr-3" mode="decimal" [placeholder]="'label.residual_debt_nb'|translate" [formControlName]="controlDebt" [minFractionDigits]="2"></p-inputNumber>
+      <p-inputNumber class="w--25" mode="decimal" [placeholder]="'label.residual_opening_nb'|translate" [formControlName]="controlOpening" [minFractionDigits]="2"></p-inputNumber>
+    </ng-template>
+  </ng-container>
+
+  <ng-template pTemplate="footer">
+    <p-button *ngIf="!currentDetail" icon="pi pi-plus" [disabled]="!valid" (click)="displayBasic=false" label="{{'button.save_continue_F10'|translate}}" styleClass="p-button-text" (click)="onAddContinue()"></p-button>
+    <p-button icon="pi pi-times" (click)="displayBasic=false" label="{{'button.cancelF9'|translate}}" styleClass="p-button-text" (click)="onCancel()"></p-button>
+    <p-button icon="pi pi-check" [disabled]="!valid" (click)="displayBasic=false" label="{{'button.saveF8'|translate}}" styleClass="p-button-text" (click)="onAdd()"></p-button>
+</ng-template>
+</p-dialog>

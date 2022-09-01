@@ -1,0 +1,262 @@
+<div *ngIf="display" class="card card-table">
+    <h5>{{isEdit ? ('label.workflow_edit' | translate) : ('label.workflow_add' | translate)}}</h5>
+    <div class="field grid mb-3">
+        <label for="title"
+               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_title' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <input pInputText id="title" type="text" class="w-full" [(ngModel)]="workflowModel.name"
+                   placeholder="Nhập tiêu đề công việc">
+        </div>
+    </div>
+    <div class="field grid mb-3">
+        <label for="content"
+               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_content' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <textarea id="content" rows="6" pInputTextarea class="w-full"
+                      [(ngModel)]="workflowModel.description" placeholder="Nhập nội dung công việc"></textarea>
+        </div>
+    </div>
+    <div class="field grid mb-3">
+        <label
+            class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_check_list' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <div class="flex flex-column align-items-start justify-content-start max-h-16rem overflow-y-auto">
+                <div *ngFor="let item of workflowModel.checkList"
+                     class="w-full flex flex-row align-items-center justify-content-between mb-3">
+                    <div class="w-full flex flex-row align-items-start justify-content-start">
+                        <p-checkbox [(ngModel)]="item.status" [binary]="true" inputId="binary"></p-checkbox>
+                        <p class="pl-3">{{item.name}}</p>
+                    </div>
+                    <button pButton pRipple type="button" icon="pi pi-times"
+                            class="p-button-rounded p-button-danger p-button-text text-pink-500"
+                            (click)="removeChecklist(item)"></button>
+                </div>
+            </div>
+            <div class="field grid">
+                <div class="col-6 sm:col-12 md:col-6 ld:col-6 xl:col-6 pl-0">
+                    <div class="p-inputgroup">
+                        <input type="text" pInputText placeholder="Nhập nội dung kiểm tra" [(ngModel)]="itemCheckList">
+                        <button type="button" pButton pRipple icon="pi pi-plus" styleClass="p-button-warn"
+                                (click)="onAddCheckList()"></button>
+                    </div>
+                </div>
+                <div class="col-6 sm:col-12 md:col-6 ld:col-6 xl:col-6 pr-0">
+                    <div class="flex align-items-center justify-content-start">
+                        <p-fileUpload mode="basic" name="demo[]" class="ml-3" chooseIcon="pi pi-upload"
+                                      uploadLabel="Tải lên" (onSelect)="onUploadFile($event)"></p-fileUpload>
+                        <p class="text-color text-overflow-ellipsis pl-4">{{fileUpload?.fileName}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="field grid mb-3">
+        <label for="responsible" class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">
+            {{'label.workflow_responsible' | translate}}
+        </label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <div class="field grid">
+                <div class="col-6 sm:col-12 md:col-6 ld:col-6 xl:col-6 pl-0">
+                    <p-multiSelect id="responsible" [options]="users" [(ngModel)]="workflowModel.responsiblePerson"
+                                   defaultLabel="Chọn người chịu trách nhiệm" optionLabel="fullName" showClear="true"
+                                   class="multiselect-custom flex-1" [filter]="true" (onFilter)="onFilterUser($event)">
+                        <ng-template let-value pTemplate="selectedItems">
+                            <div class="w-full h-full">
+                                <p-avatarGroup styleClass="mb-0">
+                                    <p-avatar *ngFor="let selectedUser of workflowModel.responsiblePerson"
+                                              [image]="selectedUser.avatar"
+                                              shape="circle" [title]="selectedUser.fullName"></p-avatar>
+                                </p-avatarGroup>
+                                <div
+                                    *ngIf="!workflowModel.responsiblePerson || workflowModel.responsiblePerson?.length === 0"
+                                    class="p-2">
+                                    Chọn người chịu trách nhiệm
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-user pTemplate="item">
+                            <div class="flex align-items-center justify-content-start">
+                                <img class="h-2rem w-2rem mr-3" [src]="user.avatar"/>
+                                <p>{{user.fullName}}</p>
+                            </div>
+                        </ng-template>
+                    </p-multiSelect>
+                </div>
+                <div class="col-6 sm:col-12 md:col-6 ld:col-6 xl:col-6 flex align-items-start pr-0">
+                    <p-selectButton [options]="userTypeOptions" [(ngModel)]="userTypesSelected" multiple="multiple"
+                                    optionLabel="name" optionValue="value" class="w-full ml-3"
+                                    (onChange)="onChangeSelected($event)"></p-selectButton>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="userTypesSelected?.includes(1)" class="field grid mb-3">
+        <label for="createdBy"
+               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_created_by' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <input id="createdBy" type="text" class="w-full" [disabled]="true" pInputText
+                   [(ngModel)]="workflowModel.userCreateName">
+        </div>
+    </div>
+    <div *ngIf="userTypesSelected?.includes(2)" class="field grid mb-3">
+        <label for="joined"
+               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_join' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <p-multiSelect id="joined" [options]="users" [(ngModel)]="workflowModel.joinedPersons"
+                           defaultLabel="Chọn người chịu trách nhiệm" optionLabel="fullName" showClear="true"
+                           class="multiselect-custom" [filter]="true" (onFilter)="onFilterUser($event)">
+                <ng-template let-value pTemplate="selectedItems">
+                    <div class="w-full h-full">
+                        <p-avatarGroup styleClass="mb-0">
+                            <p-avatar *ngFor="let selectedUser of workflowModel.joinedPersons"
+                                      [image]="selectedUser.avatar"
+                                      shape="circle" [title]="selectedUser.fullName"></p-avatar>
+                        </p-avatarGroup>
+                        <div *ngIf="!workflowModel.joinedPersons || workflowModel.joinedPersons.length === 0"
+                             class="p-2">
+                            Chọn người tham gia
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template let-user pTemplate="item">
+                    <div class="flex align-items-center justify-content-start">
+                        <img class="h-2rem w-2rem mr-3" [src]="user.avatar"/>
+                        <p>{{user.fullName}}</p>
+                    </div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+    <div *ngIf="userTypesSelected?.includes(3)" class="field grid mb-3">
+        <label for="viewedBy"
+               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_view' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <p-multiSelect id="viewedBy" [options]="users" [(ngModel)]="workflowModel.viewedPersons"
+                           defaultLabel="Chọn người chịu trách nhiệm" optionLabel="fullName" showClear="true"
+                           class="multiselect-custom" [filter]="true" (onFilter)="onFilterUser($event)">
+                <ng-template let-value pTemplate="selectedItems">
+                    <div class="w-full h-full">
+                        <p-avatarGroup styleClass="mb-0">
+                            <p-avatar *ngFor="let selectedUser of workflowModel.viewedPersons"
+                                      [image]="selectedUser.avatar"
+                                      shape="circle" [title]="selectedUser.fullName"></p-avatar>
+                        </p-avatarGroup>
+                        <div *ngIf="!workflowModel.viewedPersons || workflowModel.viewedPersons.length === 0"
+                             class="p-2">
+                            Chọn người quan sát
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template let-user pTemplate="item">
+                    <div class="flex align-items-center justify-content-start">
+                        <img class="h-2rem w-2rem mr-3" [src]="user.avatar"/>
+                        <p>{{user.fullName}}</p>
+                    </div>
+                </ng-template>
+            </p-multiSelect>
+        </div>
+    </div>
+    <div class="field grid mb-3">
+        <label for="parentProject" class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">
+            {{'label.workflow_parent_project' | translate}}
+        </label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <p-dropdown id="parentProject" [options]="parentProjects" [(ngModel)]="workflowModel.parentId"
+                        placeholder="Chọn dự án cha" optionLabel="name" optionValue="id" showClear="true"></p-dropdown>
+        </div>
+    </div>
+    <!--    <div class="field grid mb-3">-->
+    <!--        <label for="viewer"-->
+    <!--               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_viewer' | translate}}</label>-->
+    <!--        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">-->
+    <!--            <p-dropdown id="viewer" [options]="viewTypes" [(ngModel)]="workflowModel.viewAll"-->
+    <!--                        placeholder="Chọn người được xem" optionLabel="name" optionValue="value">-->
+    <!--            </p-dropdown>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <div class="field grid mb-3">
+        <label for="department"
+               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_viewer' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <p-dropdown id="department" [options]="departments" [(ngModel)]="workflowModel.departmentId"
+                        placeholder="Chọn người được xem" optionLabel="name" optionValue="id" [filter]="true"
+                        (onFilter)="onFilterDepartment($event)"></p-dropdown>
+        </div>
+    </div>
+    <div class="field grid mb-3">
+        <label for="deadline"
+               class="col-2 sm:col-12 md:col-2 ld:col-2 xl:col-2 align-items-start">{{'label.workflow_expired' | translate}}</label>
+        <div class="col-10 sm:col-12 md:col-10 ld:col-10 xl:col-10">
+            <p-calendar id="deadline" [(ngModel)]="workflowModel.dueDate" dateFormat="dd/mm/yy"
+                        showIcon="true" class="w-full"></p-calendar>
+        </div>
+    </div>
+    <div class="w-full flex flex-column align-items-start justify-content-start mb-1">
+        <p-accordion class="w-full">
+            <p-accordionTab *ngFor="let comment of comments" class="accordion-custom">
+                <ng-template pTemplate="header">
+                    <div class="w-full flex align-items-center justify-content-start">
+                        <p-avatar image="/assets/demo/images/avatar/amyelsner.png" shape="circle"></p-avatar>
+                        <a class="ml-2">{{comment.nameOfUser}}</a><span class="ml-2 font-normal text-color"> đã thêm một bình luận - </span>
+                        <p class="ml-1 font-normal text-color">{{comment.createdDate | date:'dd/MM/yy HH:mm'}}</p>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <!--                    <p>{{comment.comment}}</p>-->
+                    <div [innerHTML]="comment.commentHTML"></div>
+                </ng-template>
+            </p-accordionTab>
+        </p-accordion>
+    </div>
+    <div *ngIf="isAddComment" class="w-full flex flex-column align-items-start justify-content-start mb-1">
+        <p-editor [style]="{'height':'150px'}" class="w-full"
+                  (onTextChange)="onChangeEditor($event)">
+            <ng-template pTemplate="header">
+                <div class="flex align-items-center justify-content-between">
+                    <div class="flex align-items-center justify-content-start">
+                        <span class="ql-formats">
+                            <button type="button" class="ql-bold" aria-label="Bold"></button>
+                            <button type="button" class="ql-italic" aria-label="Italic"></button>
+                            <button type="button" class="ql-underline" aria-label="Underline"></button>
+                        </span>
+                        <select title="Font" class="ql-font">
+                            <option value="sans-serif" selected="">Sans Serif</option>
+                            <option value="serif">Serif</option>
+                            <option value="monospace">Monospace</option>
+                        </select>
+                        <select title="Size" class="ql-size">
+                            <option value="10px">Small</option>
+                            <option value="13px" selected="">Normal</option>
+                            <option value="18px">Large</option>
+                            <option value="32px">Huge</option>
+                        </select>
+                        <span class="ql-formats">
+                            <button type="button" class="ql-link" aria-label="Link"></button>
+                            <button type="button" class="ql-image" aria-label="Image"></button>
+                        </span>
+                    </div>
+                    <div class="flex align-items-center justify-content-end">
+                        <button pButton pRipple type="button" class="w-auto p-button-raised p-button-text mr-2"
+                                (click)="onAddComment()">
+                            Thêm
+                        </button>
+                        <button pButton pRipple type="button" (click)="isAddComment = false"
+                                class="w-auto p-button-raised p-button-secondary p-button-text">
+                            Hủy
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+        </p-editor>
+    </div>
+    <div *ngIf="!isAddComment && workflowModel.id"
+         class="w-full flex flex-column align-items-start justify-content-start mb-3">
+        <button pButton pRipple type="button" icon="pi pi-comment" label="Bình luận"
+                class="p-button-raised p-button-secondary p-button-text" (click)="isAddComment = true"></button>
+    </div>
+    <div class="w-full flex align-items-center justify-content-center">
+        <button pButton (click)="onSave()">{{'button.save' | translate}}</button>
+        <button pButton class="p-button-outlined p-button-secondary ml-3"
+                (click)="onCancel.emit({})">{{'button.back' | translate}}</button>
+    </div>
+</div>

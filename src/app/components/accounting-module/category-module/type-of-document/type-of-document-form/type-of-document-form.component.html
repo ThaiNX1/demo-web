@@ -1,0 +1,98 @@
+<p-toast></p-toast>
+<div *ngIf="display" class="card card-table">
+    <form [formGroup]="documentForm" class="grid">
+        <div class="col-12 py-2"><h5 class="m-0" [translate]="isEdit ? 'label.edit_type_of_document' : 'label.add_type_of_document'"></h5></div>
+
+        <!--stt-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="stt">{{'label.numerical_order' | translate}}<span class="text-pink-400">*</span></label>
+            <input pInputText id="stt" [(ngModel)]="documentForm.value.stt" formControlName="stt" [readonly]="!isEdit"
+            [ngClass]="checkValidValidator('stt')" />
+            <small *ngIf="checkValidValidator('stt')" class="p-error" [innerHTML]="'info.numerical_order' | translate"></small>
+        </div>
+
+        <!--code-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="code">{{'label.code' | translate}}<span class="text-pink-400">*</span></label>
+            <input pInputText id="code" [(ngModel)]="documentForm.value.code" formControlName="code" [readonly]="isEdit"
+                [ngClass]="checkValidValidator('code')" (ngModelChange)="onChangeCode()" />
+            <small *ngIf="checkValidValidator('code')" class="p-error" [innerHTML]="'info.code' | translate"></small>
+        </div>
+
+        <!--name-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="name">{{'label.name' | translate}}<span class="text-pink-400">*</span></label>
+            <input pInputText id="name" [(ngModel)]="documentForm.value.name" formControlName="name"
+                [ngClass]="checkValidValidator('name')" />
+            <small *ngIf="checkValidValidator('name')" class="p-error" [innerHTML]="'info.name' | translate"></small>
+        </div>
+
+        <!--title-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="title">{{'label.title' | translate}}</label>
+            <input pInputText id="title" [(ngModel)]="documentForm.value.title" formControlName="title"
+                [ngClass]="checkValidValidator('title')" />
+            <small *ngIf="checkValidValidator('title')" class="p-error" [innerHTML]="'info.title' | translate"></small>
+        </div>
+
+        <!--debitCode-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="debitCode" [translate]="'label.debit_code_name'"></label>
+            <p-dropdown id="debitCode" [options]="chartOfAccounts" [optionValue]="'code'" [appendTo]="'body'" [filter]="true"
+                [(ngModel)]="documentForm.value.debitCode" [formControlName]="'debitCode'" [showClear]="true"
+                [placeholder]="'label.empty' | translate" [ngClass]="checkValidValidator('debitCode')">
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="selectedItem">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="item">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+            </p-dropdown>
+            <small *ngIf="checkValidValidator('debitCode')" class="p-error" [innerHTML]="'info.debit_code' | translate"></small>
+        </div>
+
+        <!--creditCode-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="creditCode" [translate]="'label.credit_code_name'"></label>
+            <p-dropdown id="creditCode" [options]="chartOfAccounts" [optionValue]="'code'" [appendTo]="'body'" [filter]="true"
+                [(ngModel)]="documentForm.value.creditCode" [formControlName]="'creditCode'" [showClear]="true"
+                [placeholder]="'label.empty' | translate" [ngClass]="checkValidValidator('creditCode')">
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="selectedItem">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="item">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+            </p-dropdown>
+            <small *ngIf="checkValidValidator('creditCode')" class="p-error" [innerHTML]="'info.credit_code' | translate"></small>
+        </div>
+
+        <!--user-->
+        <div class="field p-fluid col-12">
+            <label htmlFor="userCode" [translate]="'label.manager'"></label>
+            <p-dropdown id="userCode" [options]="users" [optionValue]="'code'" [appendTo]="'body'" [filter]="true"
+                [(ngModel)]="documentForm.value.userCode" [formControlName]="'userCode'" [showClear]="true"
+                [placeholder]="'label.empty' | translate" [ngClass]="checkValidValidator('userCode')">
+                <ng-template let-user pTemplate="user" pTemplate="selectedItem">
+                    <span>{{user.code}} - {{user.fullName}}</span>
+                </ng-template>
+                <ng-template let-user pTemplate="user" pTemplate="item">
+                    <span>{{user.code}} - {{user.fullName}}</span>
+                </ng-template>
+            </p-dropdown>
+            <small *ngIf="checkValidValidator('userCode')" class="p-error"
+                [innerHTML]="'info.user_code' | translate"></small>
+        </div>
+
+        <div class="col-12">
+            <div class="p-fluid p-formgrid grid mt-2">
+                <div class="field col-12 gap-8 flex justify-content-end mt-4 p-0">
+                    <p-button icon="pi pi-times" (click)="onCancel.emit({})" [label]="'button.back' | translate"
+                        styleClass="p-button-outlined"></p-button>
+                    <p-button icon="pi pi-check" (click)="onSubmit()" [label]="'button.save' | translate">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

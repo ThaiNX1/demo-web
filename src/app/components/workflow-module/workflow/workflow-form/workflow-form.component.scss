@@ -1,0 +1,22 @@
+:host ::ng-deep .multiselect-custom {
+    .p-multiselect-label {
+        padding: 0.25rem !important;
+    }
+
+    //.p-multiselect .p-multiselect-label
+}
+
+:host ::ng-deep .p-accordion p-accordiontab .p-accordion-tab {
+    margin-bottom: 0 !important;
+}
+:host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+    border-radius: unset !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+:host ::ng-deep .p-accordion .p-accordion-content {
+    border-radius: unset !important;
+}
+.accordion-custom:hover{
+    border-left-color: #0b4d85;
+}

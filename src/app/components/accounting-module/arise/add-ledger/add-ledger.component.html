@@ -1,0 +1,617 @@
+<p-toast></p-toast>
+<div class="mt-6 md:mt-0 flex flex-column-reverse md:flex-column h-full">
+    <!--buttons event-->
+    <div class="flex flex-wrap py-1 gap-2">
+        <button type="button" pButton label="F8. Lưu" class="p-button-sm p-button-primary"
+                icon="pi pi-save" (click)="onSave()"></button>
+        <button type="button" pButton label="F9. Hủy" class="p-button-sm p-button-secondary"
+                icon="pi pi-trash" (click)="onCancelEvent();"></button>
+        <button type="button" pButton label="F2. Thêm định khoản" class="p-button-sm p-button-success"
+                icon="pi pi-check-square" (click)="onAddChartOfAccount()"></button>
+        <button type="button" pButton label="F4. Thêm hóa đơn" class="p-button-sm p-button-warning"
+                icon="pi pi-chart-line" (click)="onAddBills()"></button>
+        <button type="button" pButton label="F8. Định khoản thuế" class="p-button-sm p-button-help"
+                icon="pi pi-dollar" (click)="defineTax()"></button>
+        <button #btn type="button" pButton icon="pi pi-bars" label="F7. Các lệnh khác"
+                class="p-button-sm p-button-info" (click)="menu.toggle($event)"></button>
+        <p-tieredMenu #menu [model]="buttonMenus" [popup]="true"></p-tieredMenu>
+    </div>
+    <form [formGroup]="ledgerForm" class="text-sm py-2" pFocusTrap pFocusTrapDisabled="true">
+        <div class="grid">
+            <div class="col-12 md:col-4 flex flex-column md:flex-row">
+                <!--orginalVoucherNumber-->
+                <div class="field flex font-weight-bold">
+                    <label class="font-bold w-120" [translate]="'label.code'"></label>
+                    <input type="text" class="p-inputtext-sm w-full md:ml-2" pInputText
+                           [(ngModel)]="ledgerForm.value.orginalVoucherNumber"
+                           formControlName="orginalVoucherNumber"/>
+                </div>
+                <!--orginalBookDate-->
+                <div class="field flex font-weight-bold mt-1 md:mt-0 md:pl-0">
+                    <label class="font-bold w-120 md:pl-1" [translate]="'label.date_added'"></label>
+                    <p-inputMask mask="99/99/9999" [(ngModel)]="ledgerForm.value.orginalBookDate" [showClear]="true"
+                                 id="orginalBookDate"
+                                 formControlName="orginalBookDate" class="p-inputtext-sm w-full"></p-inputMask>
+                </div>
+            </div>
+            <div class="col-12 md:col-8 md:pl-0">
+                <div *ngIf="paramToGetLedgers.documentType === 'PC'" class="flex">
+                    <div class="field">
+                        <label class="font-bold w-80" [translate]="'label.enter_coupon'"></label>
+                    </div>
+                    <!--referenceVoucherNumber-->
+                    <input type="text" class="p-inputtext-sm w-10rem md:ml-3" pInputText
+                           [(ngModel)]="ledgerForm.value.referenceVoucherNumber"
+                           formControlName="referenceVoucherNumber"/>
+                    <!--referenceBookDate-->
+                    <p-inputMask mask="99/99/9999" [(ngModel)]="ledgerForm.value.referenceBookDate" [showClear]="true"
+                                 id="referenceBookDate" formControlName="referenceBookDate"
+                                 class="p-inputtext-sm ml-2"></p-inputMask>
+                    <!--referenceFullName-->
+                    <input type="text" class="p-inputtext-sm w-12rem md:ml-2" pInputText
+                           [(ngModel)]="ledgerForm.value.referenceFullName"
+                           formControlName="referenceFullName"/>
+                    <!--referenceAddress-->
+                    <input type="text" class="p-inputtext-sm w-full md:ml-2" pInputText
+                           [(ngModel)]="ledgerForm.value.referenceAddress"
+                           formControlName="referenceAddress"/>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 flex flex-column">
+                <!--orginalCompanyName-->
+                <div class="field flex font-weight-bold">
+                    <label class="font-bold w-100" [translate]="'label.submitter'"></label>
+                    <div class="p-inputgroup w-full">
+                        <p-autoComplete [(ngModel)]="ledgerForm.value.orginalCompanyName"
+                                        formControlName="orginalCompanyName"
+                                        [suggestions]="filteredPayerNames" [showEmptyMessage]="true"
+                                        #orginalCompanyName (completeMethod)="filterPayerName($event)"
+                                        class="p-inputtext-sm" [completeOnFocus]="true">
+                        </p-autoComplete>
+                        <span class="p-inputgroup-addon"><i class="pi pi-save"></i></span>
+                    </div>
+                </div>
+                <!--orginalAddress-->
+                <div class="field flex font-weight-bold md:pt-1">
+                    <label class="font-bold w-100" [translate]="'label.address'"></label>
+                    <input type="text" class="p-inputtext-sm w-full" pInputText
+                           [(ngModel)]="ledgerForm.value.orginalAddress" formControlName="orginalAddress"/>
+                </div>
+            </div>
+            <div class="col-12 md:col-8 pl-0">
+                <!--orginalDescription-->
+                <div class="field flex align-items-center font-weight-bold pl-0">
+                    <label class="font-bold w-100 pl-1 md:pl-0" [translate]="'label.explain'"></label>
+                    <div class="p-inputgroup w-full">
+                        <p-autoComplete [(ngModel)]="ledgerForm.value.orginalDescription"
+                                        formControlName="orginalDescription"
+                                        [suggestions]="filteredDescNames" [showEmptyMessage]="true"
+                                        (completeMethod)="filterDescriptionName($event)"
+                                        class="p-inputtext-sm ml-2" [completeOnFocus]="true">
+                        </p-autoComplete>
+                        <span class="p-inputgroup-addon"><i class="pi pi-save"></i></span>
+                    </div>
+                </div>
+                <!--attachVoucher-->
+                <div class="field flex align-items-center font-weight-bold pt-1 pl-0">
+                    <label class="font-bold w-100 pl-1 md:pl-0" [translate]="'label.attach_voucher'"></label>
+                    <input type="text" class="p-inputtext-sm w-full ml-2" pInputText
+                           formControlName="attachVoucher" [(ngModel)]="ledgerForm.value.attachVoucher"/>
+                </div>
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="grid">
+            <div class="col-12 md:col-2">
+                <!--invoiceCode-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="font-bold" style="min-width: 80px;" [translate]="'label.invoice_code'"></label>
+                    <p-autoComplete #invoiceCode [(ngModel)]="ledgerForm.value.invoiceCode"
+                                    formControlName="invoiceCode"
+                                    [suggestions]="filteredTaxRates" (onSelect)="onInvoiceNameSelect($event)"
+                                    (onClear)="onClearInvoice()"
+                                    (keydown.Tab)="invoiceCodeOnPress($event)"
+                                    (completeMethod)="filterInvoiceName($event)"
+                                    class="p-inputtext-sm ml-1" [completeOnFocus]="true" [showEmptyMessage]="true">
+                    </p-autoComplete>
+                    <p-dropdown id="internalType" [options]="types.billType" [optionLabel]="'label'"
+                                [optionValue]="'value'" [(ngModel)]="ledgerForm.value.invoiceAdditionalDeclarationCode"
+                                class="ml-2" [disabled]="!ledgerForm.value.invoiceCode"
+                                formControlName="invoiceAdditionalDeclarationCode">
+                    </p-dropdown>
+                </div>
+                <!--invoiceSerial-->
+                <div class="field flex align-items-center font-weight-bold pt-1 md:pt-0">
+                    <label class="font-bold" style="min-width: 80px;" [translate]="'label.invoice_serial'"></label>
+                    <input type="text" class="p-inputtext-sm w-full ml-1" pInputText
+                           [readonly]="!ledgerForm.value.invoiceCode"
+                           formControlName="invoiceSerial" [(ngModel)]="ledgerForm.value.invoiceSerial"
+                           [tabindex]="!(ledgerForm.value.invoiceCode)? -1: 0"/>
+                </div>
+            </div>
+            <div class="col-12 md:col-2">
+                <!--invoiceNumber-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="font-bold w-120" [translate]="'label.invoice_number'"></label>
+                    <input type="text" class="p-inputtext-sm w-full ml-2" pInputText
+                           [readonly]="!ledgerForm.value.invoiceCode"
+                           formControlName="invoiceNumber" [(ngModel)]="ledgerForm.value.invoiceNumber"/>
+                </div>
+                <!--invoiceDate-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="font-bold w-120" [translate]="'label.invoice_date'"></label>
+                    <p-inputMask mask="99/99/9999" class="p-inputtext-sm w-full ml-1"
+                                 [readonly]="!ledgerForm.value.invoiceCode"
+                                 formControlName="invoiceDate" [(ngModel)]="ledgerForm.value.invoiceDate">
+                    </p-inputMask>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 pl-0">
+                <!--invoiceTaxCode-->
+                <div class="field flex align-items-center font-weight-bold pl-0">
+                    <label class="font-bold w-120 pl-1 md:pl-0" [translate]="'label.tax_code'"></label>
+                    <div class="p-inputgroup w-full">
+                        <input type="text" class="p-inputtext-sm w-full" pInputText
+                               [readonly]="!ledgerForm.value.invoiceCode"
+                               formControlName="invoiceTaxCode" [(ngModel)]="ledgerForm.value.invoiceTaxCode"/>
+                        <span class="p-inputgroup-addon"><i class="pi pi-save"></i></span>
+                    </div>
+                </div>
+                <!--invoiceName-->
+                <div class="field flex align-items-center font-weight-bold pl-0">
+                    <label class="font-bold w-120 pl-1 md:pl-0" [translate]="'label.invoice_name'"></label>
+                    <input type="text" class="p-inputtext-sm w-full" pInputText
+                           [readonly]="!ledgerForm.value.invoiceCode"
+                           formControlName="invoiceName" [(ngModel)]="ledgerForm.value.invoiceName"/>
+                </div>
+            </div>
+            <div class="col-12 md:col-4">
+                <!--invoiceAddress-->
+                <div class="field flex align-items-center font-weight-bold pl-0 md:-ml-1">
+                    <label class="font-bold w-150" [translate]="'label.address'"></label>
+                    <input type="text" class="p-inputtext-sm w-full md:ml-1" pInputText
+                           [readonly]="!ledgerForm.value.invoiceCode"
+                           formControlName="invoiceAddress" [(ngModel)]="ledgerForm.value.invoiceAddress"/>
+                </div>
+                <!--invoiceProductItem-->
+                <div class="field flex align-items-center font-weight-bold md:-ml-1">
+                    <label class="font-bold w-150" [translate]="'label.sale_product'"></label>
+                    <input type="text" class="p-inputtext-sm w-full md:ml-1" pInputText
+                           [readonly]="!ledgerForm.value.invoiceCode"
+                           formControlName="invoiceProductItem" [(ngModel)]="ledgerForm.value.invoiceProductItem"/>
+                </div>
+            </div>
+        </div>
+
+        <p-divider></p-divider>
+
+        <div class="grid mt-1">
+            <div class="col-12 md:col-8 grid mr-0 pr-0 md:pr-2">
+                <!--debit-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="font-bold w-120 pl-1 md:pl-0" [translate]="'label.debit_code_name'"></label>
+                        <div class="p-inputgroup w-full">
+                            <!--                            <p-autoComplete [(ngModel)]="ledgerForm.value.debitCode" [suggestions]="filteredDebitNames"-->
+                            <!--                                #debit (completeMethod)="filterDebitName($event)" [completeOnFocus]="true"-->
+                            <!--                                (onHide)="onDebitSelect(debit, 'hide')" (onSelect)="onDebitSelect($event, 'select')"-->
+                            <!--                                class="pl-1 p-inputtext-sm" (onClear)="onDebitSelect(null, 'clear')"-->
+                            <!--                                [ngModelOptions]="{ standalone: true }" [showEmptyMessage]="true">-->
+                            <!--                            </p-autoComplete>-->
+                            <!--                            <div class="p-inputgroup-addon cursor-pointer" (click)="onDebitSelect(null, 'clear'); onFocus(vcDebit);"><i class="pi pi-times"></i></div>-->
+                            <p-autoComplete [(ngModel)]="ledgerForm.value.debitCode"
+                                            [suggestions]="filteredDebitNames"
+                                            #debit (completeMethod)="filterDebitName1($event)"
+                                            [completeOnFocus]="true"
+                                            (onSelect)="onDebitSelect1($event)"
+                                            (onClear)="filterDebitName1($event)"
+                                            formControlName="debitCode"
+                                            field="value" class="pl-1 p-inputtext-sm">
+                                <ng-template let-debit pTemplate="item">
+                                    <div class="country-item">
+                                        <div>{{debit.label}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                            <div class="p-inputgroup-addon cursor-pointer"
+                                 (click)="clearValue(ledgerForm, 'debitCode'); resetDebit(); onFocus(vcDebit);">
+                                <i class="pi pi-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--debitName-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="p-inputgroup w-12">
+                        <input type="text" class="p-inputtext-sm" pInputText disabled [(ngModel)]="selectedDebit.name"
+                               [ngModelOptions]="{ standalone: true }">
+                        <span class="p-inputgroup-addon"><i class="pi pi-plus"></i></span>
+                    </div>
+                </div>
+                <!--closingDebit-->
+                <div class="col-12 md:col-6 pl-0 md:pr-0">
+                    <div class="field flex align-items-center justify-content-between font-weight-bold">
+                        <label class="w-120 font-bold text-color-secondary" [translate]="'label.last_stock'"></label>
+                        <input type="text" class="p-inputtext-sm w-full text-right" pInputText disabled
+                               [(ngModel)]="selectedDebit.closingDebit"
+                               [ngModelOptions]="{ standalone: true }">
+                    </div>
+                </div>
+                <!--debit1-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="font-bold w-120" [translate]="'label.debit_1_code_name'"></label>
+                        <div class="p-inputgroup w-full">
+                            <!--  -->
+                            <!--                            <p-autoComplete [(ngModel)]="ledgerForm.value.debitDetailCodeFirst"-->
+                            <!--                                            (onClear)="onDebit1Select(null, 'clear')"-->
+                            <!--                                            #debit1 [suggestions]="filteredDebit1Names"-->
+                            <!--                                            (completeMethod)="filterDebit1Name($event)"-->
+                            <!--                                            (onHide)="onDebit1Select(debit1, 'hide')"-->
+                            <!--                                            (onSelect)="onDebit1Select($event, 'select')"-->
+                            <!--                                            [disabled]="debits1.length === 0" [ngModelOptions]="{ standalone: true }"-->
+                            <!--                                            class="pl-1 p-inputtext-sm" [completeOnFocus]="true"-->
+                            <!--                                            [showEmptyMessage]="true">-->
+                            <!--                            </p-autoComplete>-->
+                            <!--                            <div class="p-inputgroup-addon cursor-pointer"-->
+                            <!--                                 (click)="onDebit1Select(null, 'clear'); onFocus(vcDebit1);"><i class="pi pi-times"></i>-->
+                            <!--                            </div>-->
+                            <p-autoComplete [(ngModel)]="ledgerForm.value.debitDetailCodeFirst"
+                                            [suggestions]="filteredDebit1Names"
+                                            #debit1 (completeMethod)="filterDebit1Name1($event)"
+                                            [completeOnFocus]="true" [disabled]="!debits1.length"
+                                            (onSelect)="onDebit1Select1($event)"
+                                            (onClear)="filterDebit1Name1($event)"
+                                            formControlName="debitDetailCodeFirst"
+                                            field="value" class="pl-1 p-inputtext-sm">
+                                <ng-template let-debit pTemplate="item">
+                                    <div class="country-item">
+                                        <div>{{debit.label}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                            <div class="p-inputgroup-addon cursor-pointer"
+                                 (click)="clearValue(ledgerForm, 'debitDetailCodeFirst'); resetDebit1(); onFocus(vcDebit1);">
+                                <i class="pi pi-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--debit1Name-->
+                <div class="col-12 md:col-3 pl-0 p-inputgroup">
+                    <input type="text" class="p-inputtext-sm" pInputText disabled [(ngModel)]="selectedDebit1.name"
+                           [ngModelOptions]="{ standalone: true }">
+                    <span class="p-inputgroup-addon"><i class="pi pi-plus"></i></span>
+                </div>
+                <!--closingDebit1-->
+                <div class="col-12 md:col-6 pl-0 md:pr-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="w-120 font-bold text-color-secondary" [translate]="'label.last_stock'"></label>
+                        <input type="text" class="p-inputtext-sm w-full text-right" pInputText disabled
+                               [(ngModel)]="selectedDebit1.closingDebit"
+                               [ngModelOptions]="{ standalone: true }">
+                    </div>
+                </div>
+                <!--debit2-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="font-bold w-120" [translate]="'label.debit_2_code_name'"></label>
+                        <div class="p-inputgroup w-full">
+                            <!--                            <p-autoComplete [(ngModel)]="ledgerForm.value.debitDetailCodeSecond"-->
+                            <!--                                            (onClear)="onDebit2Select(null, 'clear')"-->
+                            <!--                                            [disabled]="debits2.length === 0" [suggestions]="filteredDebit2Names"-->
+                            <!--                                            (onHide)="onDebit2Select(debit2, 'hide')"-->
+                            <!--                                            (onSelect)="onDebit2Select($event, 'select')"-->
+                            <!--                                            (completeMethod)="filterDebit2Name($event)"-->
+                            <!--                                            [ngModelOptions]="{ standalone: true }"-->
+                            <!--                                            #debit2 class="pl-1 p-inputtext-sm" [completeOnFocus]="true"-->
+                            <!--                                            [showEmptyMessage]="true">-->
+                            <!--                            </p-autoComplete>-->
+                            <!--                            <div class="p-inputgroup-addon cursor-pointer"-->
+                            <!--                                 (click)="onDebit2Select(null, 'clear'); onFocus(vcDebit2);"><i-->
+                            <!--                                class="pi pi-times"></i></div>-->
+
+                            <p-autoComplete [(ngModel)]="ledgerForm.value.debitDetailCodeSecond"
+                                            [suggestions]="filteredDebit2Names"
+                                            #debit2 (completeMethod)="filterDebit2Name1($event)"
+                                            [completeOnFocus]="true" [disabled]="!debits2.length"
+                                            (onSelect)="onDebit2Select1($event)"
+                                            (onClear)="filterDebit2Name1($event)"
+                                            formControlName="debitDetailCodeSecond"
+                                            field="value" class="pl-1 p-inputtext-sm">
+                                <ng-template let-debit pTemplate="item">
+                                    <div class="country-item">
+                                        <div>{{debit.label}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                            <div class="p-inputgroup-addon cursor-pointer"
+                                 (click)="clearValue(ledgerForm, 'debitDetailCodeSecond'); resetDebit2(); onFocus(vcDebit2);">
+                                <i class="pi pi-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--debit2Name-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="p-inputgroup w-12">
+                        <input type="text" class="p-inputtext-sm" pInputText disabled [ngModel]="selectedDebit2.name"
+                               [ngModelOptions]="{ standalone: true }">
+                        <span class="p-inputgroup-addon"><i class="pi pi-plus"></i></span>
+                    </div>
+                </div>
+                <!--closingDebit2-->
+                <div class="col-12 md:col-6 pl-0 md:pr-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="w-120 font-bold text-color-secondary" [translate]="'label.last_stock'"></label>
+                        <input type="text" class="p-inputtext-sm w-full text-right" pInputText disabled
+                               [(ngModel)]="selectedDebit2.closingDebit"
+                               [ngModelOptions]="{ standalone: true }">
+                    </div>
+                </div>
+                <!--credit-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="font-bold w-120" [translate]="'label.credit_code_name'"></label>
+                        <div class="p-inputgroup w-full">
+                            <!--                            <p-autoComplete [(ngModel)]="ledgerForm.value.creditCode"-->
+                            <!--                                            (onClear)="onCreditSelect(null, 'clear')"-->
+                            <!--                                            [suggestions]="filteredCreditNames"-->
+                            <!--                                            (completeMethod)="filterCreditName($event)"-->
+                            <!--                                            (onHide)="onCreditSelect(credit, 'hide')"-->
+                            <!--                                            (onSelect)="onCreditSelect($event, 'select')"-->
+                            <!--                                            #credit [ngModelOptions]="{ standalone: true }" class="pl-1 p-inputtext-sm"-->
+                            <!--                                            [completeOnFocus]="true"-->
+                            <!--                                            [tabindex]="!isWaitingDebit() ? -1 : 0"-->
+                            <!--                                            [showEmptyMessage]="true">-->
+                            <!--                            </p-autoComplete>-->
+                            <!--                            <div class="p-inputgroup-addon cursor-pointer"-->
+                            <!--                                 (click)="onCreditSelect(null, 'clear'); onFocus(vcCredit);"><i-->
+                            <!--                                class="pi pi-times"></i></div>-->
+
+                            <p-autoComplete [(ngModel)]="ledgerForm.value.creditCode"
+                                            [suggestions]="filteredCreditNames"
+                                            #credit (completeMethod)="filterCreditName1($event)"
+                                            [completeOnFocus]="true"
+                                            (onSelect)="onCreditSelect1($event)"
+                                            (onClear)="filterCreditName1($event)"
+                                            formControlName="creditCode"
+                                            field="value" class="pl-1 p-inputtext-sm">
+                                <ng-template let-debit pTemplate="item">
+                                    <div class="country-item">
+                                        <div>{{debit.label}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                            <div class="p-inputgroup-addon cursor-pointer"
+                                 (click)="clearValue(ledgerForm, 'creditCode'); resetCredit(); onFocus(vcCredit);">
+                                <i class="pi pi-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--creditName-->
+                <div class="col-12 md:col-3 p-inputgroup pl-0">
+                    <input type="text" class="p-inputtext-sm" pInputText disabled [(ngModel)]="selectedCredit.name"
+                           [ngModelOptions]="{ standalone: true }">
+                    <span class="p-inputgroup-addon"><i class="pi pi-plus"></i></span>
+                </div>
+                <!--closingCredit-->
+                <div class="col-12 md:col-6 pl-0 md:pr-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="w-120 font-bold text-color-secondary" [translate]="'label.last_stock'"></label>
+                        <input type="text" class="p-inputtext-sm w-full text-right" pInputText disabled
+                               [(ngModel)]="selectedCredit.closingCredit"
+                               [ngModelOptions]="{ standalone: true }">
+                    </div>
+                </div>
+                <!--credit1-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="font-bold w-120" [translate]="'label.credit_1_code_name'"></label>
+                        <div class="p-inputgroup w-full">
+                            <!--                            <p-autoComplete [(ngModel)]="ledgerForm.value.creditDetailCodeFirst"-->
+                            <!--                                            (onClear)="onCredit1Select(null, 'clear')"-->
+                            <!--                                            [suggestions]="filteredCredit1Names" [showEmptyMessage]="true"-->
+                            <!--                                            (onHide)="onCredit1Select(credit1, 'hide')"-->
+                            <!--                                            (onSelect)="onCredit1Select($event, 'select')"-->
+                            <!--                                            (completeMethod)="filterCredit1Name($event)"-->
+                            <!--                                            [disabled]="credits1.length === 0"-->
+                            <!--                                            #credit1 [ngModelOptions]="{ standalone: true }" class="pl-1 p-inputtext-sm"-->
+                            <!--                                            [completeOnFocus]="true">-->
+                            <!--                            </p-autoComplete>-->
+                            <!--                            <div class="p-inputgroup-addon cursor-pointer"-->
+                            <!--                                 (click)="onCredit1Select(null, 'clear'); onFocus(vcCredit1);"><i-->
+                            <!--                                class="pi pi-times"></i></div>-->
+
+                            <p-autoComplete [(ngModel)]="ledgerForm.value.creditDetailCodeFirst"
+                                            [suggestions]="filteredCredit1Names"
+                                            #credit1 (completeMethod)="filterCredit1Name1($event)"
+                                            [completeOnFocus]="true" [disabled]="!credits1.length"
+                                            (onSelect)="onCredit1Select1($event)"
+                                            (onClear)="filterCredit1Name1($event)"
+                                            formControlName="creditDetailCodeFirst"
+                                            field="value" class="pl-1 p-inputtext-sm">
+                                <ng-template let-debit pTemplate="item">
+                                    <div class="country-item">
+                                        <div>{{debit.label}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                            <div class="p-inputgroup-addon cursor-pointer"
+                                 (click)="clearValue(ledgerForm, 'creditDetailCodeFirst'); resetCredit1(); onFocus(vcCredit1);">
+                                <i class="pi pi-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--credit1Name-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="p-inputgroup w-12">
+                        <input type="text" class="p-inputtext-sm" pInputText disabled
+                               [(ngModel)]="selectedCredit1.name" [ngModelOptions]="{ standalone: true }">
+                        <span class="p-inputgroup-addon"><i class="pi pi-plus"></i></span>
+                    </div>
+                </div>
+                <!--closingCredit1-->
+                <div class="col-12 md:col-6 pl-0 md:pr-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="w-120 font-bold text-color-secondary" [translate]="'label.last_stock'"></label>
+                        <input type="text" class="p-inputtext-sm w-full text-right" pInputText disabled
+                               [(ngModel)]="selectedCredit1.closingCredit"
+                               [ngModelOptions]="{ standalone: true }">
+                    </div>
+                </div>
+                <!--credit2-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="font-bold w-120" [translate]="'label.credit_2_code_name'"></label>
+                        <div class="p-inputgroup w-full">
+                            <!--                            <p-autoComplete [(ngModel)]="ledgerForm.value.creditDetailCodeSecond"-->
+                            <!--                                            (onClear)="onCredit2Select(null, 'clear')"-->
+                            <!--                                            [disabled]="credits2.length === 0" [suggestions]="filteredCredit2Names"-->
+                            <!--                                            (onHide)="onCredit2Select(credit2, 'hide')"-->
+                            <!--                                            (onSelect)="onCredit2Select($event, 'select')"-->
+                            <!--                                            (completeMethod)="filterCredit2Name($event)"-->
+                            <!--                                            [ngModelOptions]="{ standalone: true }"-->
+                            <!--                                            #credit2 class="pl-1 p-inputtext-sm" [completeOnFocus]="true"-->
+                            <!--                                            [showEmptyMessage]="true">-->
+                            <!--                            </p-autoComplete>-->
+                            <!--                            <div class="p-inputgroup-addon cursor-pointer"-->
+                            <!--                                 (click)="onCredit2Select(null, 'clear'); onFocus(vcCredit2);"><i-->
+                            <!--                                class="pi pi-times"></i></div>-->
+
+                            <p-autoComplete [(ngModel)]="ledgerForm.value.creditDetailCodeSecond"
+                                            [suggestions]="filteredCredit2Names"
+                                            #credit2 (completeMethod)="filterCredit2Name1($event)"
+                                            [completeOnFocus]="true" [disabled]="!credits2.length"
+                                            (onSelect)="onCredit2Select1($event)"
+                                            (onClear)="filterCredit2Name1($event)"
+                                            formControlName="creditDetailCodeSecond"
+                                            field="value" class="pl-1 p-inputtext-sm">
+                                <ng-template let-debit pTemplate="item">
+                                    <div class="country-item">
+                                        <div>{{debit.label}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                            <div class="p-inputgroup-addon cursor-pointer"
+                                 (click)="clearValue(ledgerForm, 'creditDetailCodeSecond'); resetCredit2(); onFocus(vcCredit2);">
+                                <i class="pi pi-times"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--credit2Name-->
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="p-inputgroup w-12">
+                        <input *ngIf="selectedCredit2" type="text" class="p-inputtext-sm" pInputText disabled
+                               [(ngModel)]="selectedCredit2.name"
+                               [ngModelOptions]="{ standalone: true }">
+                        <span class="p-inputgroup-addon"><i class="pi pi-plus"></i></span>
+                    </div>
+                </div>
+                <!--closingCredit2-->
+                <div class="col-12 md:col-6 pl-0 md:pr-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="w-120 font-bold text-color-secondary" [translate]="'label.last_stock'"></label>
+                        <input type="text" class="p-inputtext-sm w-full text-right" pInputText disabled
+                               [(ngModel)]="selectedCredit2.closingCredit"
+                               [ngModelOptions]="{ standalone: true }">
+                    </div>
+                </div>
+                <!--warehouse --need update-->
+                <div class="field col-12 md:col-3 flex pl-0">
+                    <label class="font-bold w-120 mr-1" [translate]="'label.warehouse_code'"></label>
+                    <div class=" flex">
+                        <input type="text" class="ml-1 p-inputtext-sm w-full" pInputText [(ngModel)]="warehouseCode"
+                               [disabled]="!(selectedDebit.classification === 4)"
+                               [ngModelOptions]="{ standalone: true }"/>
+                        <input type="text" class="p-inputtext-sm w-6rem" pInputText [disabled]="true"/>
+                    </div>
+                </div>
+                <div class="col-12 md:col-3 pl-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="w-100 font-bold block md:hidden"></label>
+                        <input type="text" class="p-inputtext-sm w-full" pInputText disabled
+                               [(ngModel)]="selectedDebit.warehouseName"
+                               [ngModelOptions]="{ standalone: true }"/>
+                    </div>
+                </div>
+                <div class="col-12 md:col-6 pl-0 md:pr-0">
+                    <div class="field flex align-items-center font-weight-bold">
+                        <label class="w-120 font-bold text-color-secondary" [translate]="'label.last_stock'"></label>
+                        <input type="text" class="p-inputtext-sm w-full text-right" pInputText disabled/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 flex flex-column p-0 pr-2 -mt-1">
+                <!--projectCode-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="w-100 font-bold w-150 pl-1 md:pl-0" [translate]="'label.project_code'"></label>
+                    <input type="text" class="text-right p-inputtext-sm w-full ml-1" pInputText
+                           [readonly]="!(selectedDebit.classification === 6 || selectedCredit.classification === 6)"
+                           [(ngModel)]="ledgerForm.value.projectCode" formControlName="projectCode"
+                           [tabindex]="!(selectedDebit.classification === 6 || selectedCredit.classification === 6)? -1: 0"/>
+                </div>
+                <!--depreciaMonth-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="w-100 font-bold w-150 pl-1 md:pl-0" [translate]="'label.depreciation_month'"></label>
+                    <p-inputNumber class="p-inputtext-sm w-full ml-1" [(ngModel)]="ledgerForm.value.depreciaMonth"
+                                   formControlName="depreciaMonth"
+                                   [disabled]="!(selectedDebit.classification === 4 || selectedDebit.classification === 5)">
+                    </p-inputNumber>
+                </div>
+                <!--orginalCurrency-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="w-100 font-bold w-150 pl-1 md:pl-0" [translate]="'label.foreign_currency'"></label>
+                    <p-inputNumber class="p-inputtext-sm w-full ml-1" [(ngModel)]="ledgerForm.value.orginalCurrency"
+                                   formControlName="orginalCurrency"
+                                   [disabled]="!((selectedDebit?.isForeignCurrency && !debits1?.length) ||
+                                                 (selectedDebit1?.isForeignCurrency && !debits2?.length) ||
+                                                 selectedDebit2?.isForeignCurrency ||
+                                                 (selectedCredit?.isForeignCurrency && !credits1?.length) ||
+                                                 (selectedCredit1?.isForeignCurrency && !credits2?.length) ||
+                                                 selectedCredit2?.isForeignCurrency)">
+                    </p-inputNumber>
+                </div>
+                <!--exchangeRate-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="w-100 font-bold w-150" [translate]="'label.exchange_rate'"></label>
+                    <p-inputNumber class="p-inputtext-sm w-full ml-1" [(ngModel)]="ledgerForm.value.exchangeRate"
+                                   formControlName="exchangeRate"
+                                   [disabled]="!((selectedDebit?.isForeignCurrency && !debits1?.length) ||
+                                                 (selectedCredit?.isForeignCurrency && !credits1?.length) ||
+                                                 (selectedDebit1?.isForeignCurrency && !debits2?.length) ||
+                                                 (selectedCredit1?.isForeignCurrency && !credits2?.length))">
+                    </p-inputNumber>
+                </div>
+                <!--quantity-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="w-100 font-bold w-150" [translate]="'label.stock_quantity'"></label>
+                    <p-inputNumber class="p-inputtext-sm w-full ml-1" [(ngModel)]="ledgerForm.value.quantity"
+                                   formControlName="quantity"
+                                   [disabled]="!([3,4].includes(selectedDebit?.classification) || [3,4].includes(selectedCredit?.classification))">
+                    </p-inputNumber>
+                </div>
+                <!--unitPrice-->
+                <div class="field flex align-items-center font-weight-bold">
+                    <label class="w-100 font-bold w-150" [translate]="'label.unit_price'"></label>
+                    <p-inputNumber class="p-inputtext-sm w-full ml-1" [(ngModel)]="ledgerForm.value.unitPrice"
+                                   formControlName="unitPrice"
+                                   [disabled]="!([3,4].includes(selectedDebit?.classification) || [3,4].includes(selectedCredit?.classification))">
+                    </p-inputNumber>
+                </div>
+                <!--amount-->
+                <div class="field flex align-items-center font-weight-bold pt-2">
+                    <label class="w-100 font-bold w-150" [translate]="'label.amount'"></label>
+                    <p-inputNumber class="p-inputtext-sm w-full ml-1" [(ngModel)]="ledgerForm.value.amount"
+                                   formControlName="amount">
+                    </p-inputNumber>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

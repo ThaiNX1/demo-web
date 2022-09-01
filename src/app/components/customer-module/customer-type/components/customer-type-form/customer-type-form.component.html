@@ -1,0 +1,65 @@
+<p-toast></p-toast>
+<form *ngIf="display" class="w-12" [formGroup]="customerType" autocomplete="off">
+    <div class="p-0 md:p-4 card grid">
+        <div class="col-12 md:col-9">
+            <p-accordion>
+                <!--Update customer classification data-->
+                <p-accordionTab>
+                    <ng-template pTemplate="header">
+                        <div class="flex flex-wrap">
+                            <h5 class="m-0 mr-2" [translate]="'label.customer_type_infor'"></h5>
+                            <div class="flex align-items-center"
+                                *ngIf="(isInvalidForm && checkValidMultiValidator(['name', 'purchase', 'color']))">
+                                <span class="p-error" style="margin-top: 2px;"
+                                    [translate]="'info.enter_customer_type_infor' | translate"></span>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                        <div class="grid w-full mx-auto">
+                            <!--Name-->
+                            <div class="field col-12 md:col-4 flex flex-column">
+                                <label htmlFor="customerType" [translate]="'label.customer_type'"></label>
+                                <input pInputText id="customerType" [(ngModel)]="customerType.name"
+                                    formControlName="name" [class.ng-invalid]="checkValidValidator('name')"
+                                    [class.ng-dirty]="checkValidValidator('name')" />
+                                <small *ngIf="checkValidValidator('name')" class="p-error"
+                                    [innerHTML]="'info.customer_code' | translate"></small>
+
+                            </div>
+                            <!--Purchase value-->
+                            <div class="field col-12 md:col-4 flex flex-column">
+                                <label htmlFor="customerValue" [translate]="'label.customer_value'"></label>
+                                <input pInputText id="customerValue" [(ngModel)]="customerType.purchase"
+                                    formControlName="purchase" [class.ng-invalid]="checkValidValidator('purchase')"
+                                    [class.ng-dirty]="checkValidValidator('purchase')" />
+                                <small *ngIf="checkValidValidator('purchase')" class="p-error"
+                                    [innerHTML]="'info.customer_code' | translate"></small>
+
+                            </div>
+                            <!--Choose color code-->
+                            <div class="field col-12 md:col-4 flex flex-column">
+                                <label htmlFor="color" [translate]="'label.phone_number'"></label>
+                                <input pInputText id="color" [(ngModel)]="customerType.color" formControlName="color"
+                                    [class.ng-invalid]="checkValidValidator('color')"
+                                    [class.ng-dirty]="checkValidValidator('color')" />
+                                <small *ngIf="checkValidValidator('color')" class="p-error"
+                                    [innerHTML]="'info.customer_code' | translate"></small>
+
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
+        <div class="col-12">
+            <div class="p-fluid p-formgrid grid mt-2">
+                <div class="field col-12 gap-8 flex justify-content-end mt-4 p-0">
+                    <p-button icon="pi pi-times" (click)="onCancel.emit({})" [label]="'button.back' | translate"
+                        styleClass="p-button-outlined"></p-button>
+                    <p-button icon="pi pi-check" (click)="onSubmit()" [label]="'button.save' | translate"></p-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

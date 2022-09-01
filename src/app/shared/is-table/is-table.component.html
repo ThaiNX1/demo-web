@@ -1,0 +1,203 @@
+<div [class]="styleClass" class="is-table">
+  <p-table #pTableView *ngIf="isShow"
+    [columns]="isTable.columns" 
+    [dataKey]="isTable.dataKey" 
+    [loading]="isTable.isLoading" 
+    [value]="isTable.data"
+    [class]="{'is-table--scroll': scrollable}"
+    responsiveLayout="scroll"
+  >
+
+    <ng-template pTemplate="caption">
+      <div class="table-header row" *ngIf="showHeaderButton || showHeaderDropdown || isTable.isSearchable || headerActionItems.length > 0">
+        <div class="col-8 flex" *ngIf="showHeaderButton || showHeaderDropdown">
+          <div class="table-header__button m-0 p-0 mr-1" *ngIf="showHeaderButton">
+            <p-button [label]="'Thêm'" icon="pi pi-plus" (click)="onHeaderButtonClick()"></p-button>
+          </div>
+          <div class="table-header__dropdown m-0 p-0" *ngIf="showHeaderDropdown">
+            <p-dropdown 
+              [options]="headerDropdownOptions" 
+              appendTo="body" optionLabel="name"
+              (onChange)="onChangeHeaderDropdown($event)"
+            >
+              <ng-template let-data pTemplate="selectedItem">
+                <span>{{data?.name | translate}}</span>
+              </ng-template>
+              <ng-template let-data pTemplate="item">
+                <span>{{data?.name | translate}}</span>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="col-4 flex justify-content-end" *ngIf="isTable.isSearchable || headerActionItems.length > 0">
+          <div class="table-header__search m-0 p-0">
+            <span class="p-input-icon-left">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" (input)="pTableView.filterGlobal($event.target.value, 'contains')"
+                placeholder="Search" />
+            </span>
+          </div>
+          <div class="ml-3 table-header__actions m-0 p-0" *ngIf="headerActionItems.length > 0">
+            <p-splitButton 
+              [label]="headerActionLabel|translate" 
+              [model]="headerActionItems" appendTo="body"
+            >
+            </p-splitButton>
+          </div>
+        </div>
+      </div>
+  </ng-template>
+
+    <!-- Header -->
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <th *ngIf="!col.hidden" pSortableColumn="{{col.isSortable ? col.field : ''}}" [ngClass]="col.styleClass">
+            <span [translate]="col.header"></span>
+            <p-sortIcon *ngIf="col.isSortable" [field]="col.field"></p-sortIcon>
+          </th>
+        </ng-container>
+        
+      </tr>
+    </ng-template>
+
+    <!-- Body -->
+    <ng-template pTemplate="body" let-rowData let-columns="columns"
+      (onRowCollapse)="onRowCollapse($event)">
+      <tr>
+        <ng-container *ngFor="let col of columns">
+          <td *ngIf="!col.hidden" [ngClass]="col.styleClass">
+            <ng-container [ngSwitch]="col.type">
+              <ng-container *ngSwitchCase="columnType.Expand">
+                <button *ngIf="rowData[col.field]"  type="button" pButton pRipple class="p-button-text p-button-rounded p-button-plain"
+                [icon]="rowData[col.innerFields[0]] ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+                (click)="onExpand(rowData)">
+              </button>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="columnType.Index">
+                {{rowIndex}}
+              </ng-container>
+
+              <ng-container *ngSwitchCase="columnType.AccountAction">
+                <div class="d-flex">
+                  <button pButton 
+                    type="button" 
+                    icon="pi pi-times" 
+                    class="p-button p-button-rounded p-button-danger mr-1" 
+                    [disabled]="!rowData[col.innerFields[1]]"
+                    (click)="onActionButtonClick($event, rowData, columnActionType.Delete)"
+                  ></button>
+                  <button pButton 
+                    type="button" 
+                    icon="pi pi-pencil" 
+                    class="p-button p-button-rounded mr-1" 
+                    (click)="onActionButtonClick($event, rowData, columnActionType.Edit)"
+                  ></button>
+                  <button pButton 
+                    type="button" 
+                    icon="pi pi-plus" 
+                    class="p-button p-button-rounded mr-1" 
+                    [disabled]="!rowData[col.innerFields[0]]"
+                    (click)="onActionButtonClick($event, rowData, columnActionType.Add)"
+                  ></button>
+                  <p-dropdown 
+                    [options]="excelActions" 
+                    [readOnly]="true" 
+                    appendTo="body"
+                    placeholder="Excel" 
+                    class="excel-dropdown" optionLabel="name"
+                    (onChange)="onChangeExcelAction($event.value, rowData)"
+                  >
+                    <ng-template let-data pTemplate="selectedItem">
+                      <span>{{data?.name | translate}}</span>
+                    </ng-template>
+                    <ng-template let-data pTemplate="item">
+                      <span>{{data.name | translate}}</span>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="columnType.AccountActionDetail2">
+                <div class="d-flex">
+                  <button pButton 
+                    type="button" 
+                    icon="pi pi-times" 
+                    class="p-button p-button-rounded p-button-danger mr-1" 
+                    [disabled]="!rowData[col.innerFields[1]]"
+                    (click)="onActionButtonClick($event, rowData, columnActionType.Delete)"
+                  ></button>
+                  <button pButton 
+                    type="button" 
+                    icon="pi pi-pencil" 
+                    class="p-button p-button-rounded mr-1" 
+                    (click)="onActionButtonClick($event, rowData, columnActionType.Edit)"
+                  ></button>
+                </div>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="columnType.ForeignCurrency">
+                {{rowData[col.field] ? ('label.yes'|translate) : ''}}
+
+              </ng-container>
+
+              <ng-container *ngSwitchCase="columnType.AccountGroupAutoComplete">
+                <p-autoComplete *ngIf="rowData[col.field]" appendTo="body"
+                  [(ngModel)]="rowData[col.field].model" 
+                  [suggestions]="autoCompleteResults" 
+                  (completeMethod)="onAccountAutoCompleteSearch($event, rowData[col.field])" 
+                  [multiple]="rowData[col.field].multiple"
+                 >
+                </p-autoComplete>
+              </ng-container>
+
+              <ng-container *ngSwitchCase="columnType.AccountGroupSyncActions">
+                <div class="d-flex">
+                  <button pButton 
+                    type="button" 
+                    icon="pi pi-save" 
+                    class="p-button p-button-rounded mr-1" 
+                    (click)="onActionButtonClick($event, rowData, columnActionType.Edit)"
+                  ></button>
+
+                  <button pButton 
+                    type="button" 
+                    icon="pi pi-times" 
+                    class="p-button p-button-rounded p-button-danger mr-1" 
+                    (click)="onActionButtonClick($event, rowData, columnActionType.Delete)"
+                  ></button>
+                </div>
+              </ng-container>
+              
+              <ng-container *ngSwitchCase="columnType.DoubleInString">
+                  {{rowData[col.field] | doubleInString}}
+              </ng-container>
+  
+              <ng-container *ngSwitchDefault>
+                {{rowData[col.field] == null || rowData[col.field] == undefined ? '' : rowData[col.field].toString()}}
+              </ng-container>
+            </ng-container>
+            <ng-template #ExpandButtonTemplate>
+              
+            </ng-template>
+            <input type="file" [ngStyle]="{display: 'none'}" (change)="onFileSelected($event, rowData)" #fileUpload>
+          </td>
+        </ng-container>
+      </tr>
+
+      <tr *ngIf="isTable.columns.length > 0 && isTable.columns[0].type === columnType.Expand && rowData[isTable.columns[0].innerFields[0]]">
+        <td [colSpan]="isTable.columns.length">
+          <ng-container *ngFor="let template of templates">
+            <ng-container [ngSwitch]="template.getType()">
+              <ng-container *ngSwitchCase="columnType.Expand.toString()">
+                <ng-container *ngTemplateOutlet="expandTemplate"></ng-container>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </td>
+      </tr>
+    </ng-template>
+
+  </p-table>
+</div>

@@ -1,0 +1,160 @@
+<div class="grid m-0 p-0">
+    <div class="col-12 md:col-6 p-0">
+        <div class="card card-table p-0 pr-1">
+            <!-- Phòng bàn / Hàng hóa-->
+            <p-tabView [(activeIndex)]="activeTableOrGoods">
+                <p-tabPanel [header]="'Phòng bàn'">
+                    <p-tabView *ngIf="floorTabs.length > 0" [(activeIndex)]="activeFloor" [scrollable]="true">
+                        <p-tabPanel *ngFor="let tab of floorTabs;" [header]="tab.title">
+                            <p-dataView #dv [value]="products" [paginator]="true" [rows]="8" filterBy="name" [sortField]="sortField"
+                                [sortOrder]="sortOrder" layout="grid">
+                                <ng-template pTemplate="header">
+                                    <div class="flex flex-column md:flex-row md:justify-content-between">
+                                        <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
+                                            (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+                                        <span class="p-input-icon-left mb-2 md:mb-0">
+                                            <i class="pi pi-search"></i>
+                                            <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)">
+                                        </span>
+                                        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                                    </div>
+                                </ng-template>
+                                <ng-template let-product pTemplate="listItem" scrollHeight="200px">
+                                    <div class="col-6 md:col-12">
+                                        <div class="product-list-item">
+                                            <img [src]="'assets/layout/images/icon-bell.svg'" [alt]="product.name" width="110" height="110"/>
+                                            <div class="product-list-detail">
+                                                <span [class]="'obsolute product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                                                <div class="mt-3 text-primary font-bold white-space-nowrap overflow-hidden text-overflow-ellipsis" [pTooltip]="product.name">
+                                                    {{product.name}}</div>
+                                                <div class="mt-2 text-sm product-description white-space-nowrap overflow-hidden text-overflow-ellipsis">
+                                                    {{product.description}}</div>
+                                            </div>
+                                            <div class="product-list-action flex justify-content-center">
+                                                <p-button icon="pi pi-shopping-cart" label="Add new Bill"
+                                                    [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                                <ng-template let-product pTemplate="gridItem">
+                                    <div class="col-6 md:col-3 mt-2">
+                                        <div class="product-grid-item card h-full m-1">
+                                            <div class="flex justify-content-end">
+                                                <span [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                                            </div>
+                                            <div class="product-grid-item-content">
+                                                <img [src]="'assets/layout/images/icon-bell.svg'" [alt]="product.name" />
+                                                <div class="text-primary font-bold white-space-nowrap overflow-hidden text-overflow-ellipsis"
+                                                    [pTooltip]="product.name">{{product.name}}</div>
+                                                <div class="text-sm product-description white-space-nowrap overflow-hidden text-overflow-ellipsis">{{product.description}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </p-dataView>
+                                <!-- <p>{{tab.content}}</p> -->
+                        </p-tabPanel>
+                    </p-tabView>
+                </p-tabPanel>
+                <p-tabPanel [header]="'Hàng hóa'">
+                    <!--Hàng hóa-->
+                    <p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name" [sortField]="sortField"
+                        [sortOrder]="sortOrder" layout="grid">
+                        <ng-template pTemplate="header">
+                            <div class="flex flex-column md:flex-row md:justify-content-between">
+                                <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price"
+                                    (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+                                <span class="p-input-icon-left mb-2 md:mb-0">
+                                    <i class="pi pi-search"></i>
+                                    <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)">
+                                </span>
+                                <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                            </div>
+                        </ng-template>
+                        <ng-template let-product pTemplate="listItem">
+                            <div class="col-12">
+                                <div class="product-list-item">
+                                    <img [src]="'assets/layout/images/fast-food-1851561-1569286.webp'" height="100%" width="100%"
+                                        [alt]="product.name" />
+                                    <div class="product-list-detail">
+                                        <div class="product-name">{{product.name}}</div>
+                                        <div class="product-description">{{product.description}}</div>
+                                        <p-rating [ngModel]="product.rating" [readonly]="true" [cancel]="false"></p-rating>
+                                        <i class="pi pi-tag product-category-icon"></i><span
+                                            class="product-category">{{product.category}}</span>
+                                    </div>
+                                    <div class="product-list-action">
+                                        <span class="product-price">${{product.price}}</span>
+                                        <p-button icon="pi pi-shopping-cart" label="Add to Cart"
+                                            [disabled]="product.inventoryStatus === 'OUTOFSTOCK'"></p-button>
+                                        <span
+                                            [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-product pTemplate="gridItem">
+                            <div class="col-6 md:col-4 mt-2">
+                                <div class="product-grid-item card h-full m-1">
+                                    <div class="product-grid-item-top flex flex-column">
+                                        <span
+                                            [class]="'product-badge status-' + product.inventoryStatus.toLowerCase()">{{product.inventoryStatus}}</span>
+                                        <div class="flex">
+                                            <i class="pi pi-tag product-category-icon"></i>
+                                            <span class="product-category">{{product.category}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-grid-item-content">
+                                        <img [src]="'assets/layout/images/fast-food-1851561-1569286.webp'" [alt]="product.name" />
+                                        <div class="product-name">{{product.name}}</div>
+                                        <div class="product-description">{{product.description}}</div>
+                                    </div>
+                                    <div class="product-grid-item-bottom flex justify-content-between align-items-center">
+                                        <span class="product-price">${{product.price}}</span>
+                                        <p-button icon="pi pi-shopping-cart" [disabled]="product.inventoryStatus === 'OUTOFSTOCK'">
+                                        </p-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-dataView>
+                </p-tabPanel>
+            </p-tabView>
+
+        </div>
+    </div>
+    <!--Bill-->
+    <div class="col-12 md:col-6 p-0">
+        <div class="card card-table h-full p-0 pr-1">
+            <p-tabView [(activeIndex)]="activeBill" [scrollable]="true">
+                <p-tabPanel *ngFor="let tab of billTabs;" [header]="tab.title">
+                    <div class="p-2">
+                        <!-- <p>{{tab.content}}</p> -->
+                        <p-orderList [value]="products" [listStyle]="{'max-height':'30rem'}" header="List of Products" filterBy="name"
+                            filterPlaceholder="Filter by name" [dragdrop]="true" [stripedRows]="false">
+                            <ng-template let-product pTemplate="item">
+                                <div class="flex justify-content-between">
+                                    <div class="flex">
+                                        <img [src]="'assets/layout/images/fast-food-1851561-1569286.webp'" [alt]="product.name" class="product-image" width="50"
+                                            height="50" />
+                                        <h5 class="pl-2">{{product.name}}</h5>
+                                    </div>
+                                    <div class="flex flex-column">
+                                        <div class="flex">
+                                            <i class="pi pi-tag product-category-icon"></i>
+                                            <span class="product-category">{{product.category}}</span>
+                                        </div>
+                                        <div class="flex justify-content-end align-items-end h-full">
+                                            <h6>${{product.price}}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-orderList>
+                    </div>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>

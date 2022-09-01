@@ -1,0 +1,30 @@
+::ng-deep {
+    .account-component {
+
+        &__first-child-table {
+            ::ng-deep {
+                .p-datatable {
+                    .p-datatable-header {
+                        display: none;
+                    }
+                    .p-datatable-thead tr th {
+                        background-color: white;
+                    }
+                }
+            }
+        }
+
+        &__second-child-table {
+            ::ng-deep {
+                .p-datatable {
+                    .p-datatable-header {
+                        display: none;
+                    }
+                    .p-datatable-thead tr th {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}

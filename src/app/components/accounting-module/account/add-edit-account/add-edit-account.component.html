@@ -1,0 +1,59 @@
+<p-dialog [(visible)]="display" position="top" [header]="title | translate">
+  <ng-container [formGroup]="formGroup" *ngIf="formGroup && display">
+    <div class="flex mb-4">
+      <input uppercase class="w--15 mr-3" type="text" id="code" [placeholder]="'label.code'|translate" pInputText formControlName="code" (blur)="onBlurCode()"/>
+      <input class="w--30 mr-3" type="text" id="name" [placeholder]="'label.name'|translate" pInputText formControlName="name" />
+
+      <ng-container *ngIf="accountType === accountTypes.HT">
+        <ng-container
+          *ngTemplateOutlet="DebtOpeningControlTemplate; context: {controlDebt:'openingDebit', controlOpening:'openingCredit'}">
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="accountType === accountTypes.NB">
+        <ng-container
+          *ngTemplateOutlet="DebtOpeningNBControlTemplate; context: {controlDebt:'openingDebitNb', controlOpening:'openingCreditNb'}">
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="flex mb-4">
+      <p-checkbox class="w--45 mr-5" [label]="'label.is_foreign_currency'|translate" [binary]="true" formControlName="isForeignCurrency"></p-checkbox>
+
+      <ng-container *ngIf="accountType === accountTypes.HT">
+        <ng-container
+          *ngTemplateOutlet="DebtOpeningControlTemplate; context: {controlDebt:'openingForeignDebit', controlOpening:'openingForeignCredit'}">
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="accountType === accountTypes.NB">
+        <ng-container
+          *ngTemplateOutlet="DebtOpeningNBControlTemplate; context: {controlDebt:'openingForeignDebitNb', controlOpening:'openingForeignCreditNb'}">
+        </ng-container>
+      </ng-container>
+    </div>
+
+    <div class="flex">
+      <is-dropdown class="w--20 mr-3" [label]="'label.duration_time'|translate" formControlName="duration" [options]="durationList" [optionLabel]="'name'" optionValue="value"></is-dropdown>
+      <is-dropdown class="w--25 mr-3" [label]="'label.account_group'|translate" formControlName="accGroup" [options]="groupList" [optionLabel]="'name'" optionValue="value" [countIdentity]="true"></is-dropdown>
+      <is-dropdown class="w--25 mr-3" [label]="'label.type'|translate" formControlName="classification" [options]="classificationList" [optionLabel]="'name'" optionValue="value" [countIdentity]="true"></is-dropdown>
+      <is-dropdown class="w--20" [label]="'label.credit_number'|translate" formControlName="protected" [options]="protectedList" [optionLabel]="'name'" optionValue="value" [countIdentity]="true"></is-dropdown>
+
+    </div>
+
+    <ng-template #DebtOpeningControlTemplate let-controlDebt="controlDebt" let-controlOpening="controlOpening">
+      <p-inputNumber class="w--25 mr-3" mode="decimal" [placeholder]="'label.residual_debt'|translate" [formControlName]="controlDebt" [minFractionDigits]="2"></p-inputNumber>
+      <p-inputNumber class="w--25" mode="decimal" [placeholder]="'label.residual_opening'|translate" [formControlName]="controlOpening" [minFractionDigits]="2"></p-inputNumber>
+    </ng-template>
+    <ng-template #DebtOpeningNBControlTemplate let-controlDebt="controlDebt" let-controlOpening="controlOpening">
+      <p-inputNumber class="w--25 mr-3" mode="decimal" [placeholder]="'label.residual_debt_nb'|translate" [formControlName]="controlDebt" [minFractionDigits]="2"></p-inputNumber>
+      <p-inputNumber class="w--25" mode="decimal" [placeholder]="'label.residual_opening_nb'|translate" [formControlName]="controlOpening" [minFractionDigits]="2"></p-inputNumber>
+    </ng-template>
+  </ng-container>
+
+  <ng-template pTemplate="footer">
+    <p-button *ngIf="!currentAccount" icon="pi pi-plus" [disabled]="!valid" (click)="displayBasic=false" label="{{'button.save_continue_F10'|translate}}" styleClass="p-button-text" (click)="onAddContinue($event)"></p-button>
+    <p-button icon="pi pi-times" (click)="displayBasic=false" label="{{'button.cancelF9'|translate}}" styleClass="p-button-text" (click)="onCancel()"></p-button>
+    <p-button icon="pi pi-check" [disabled]="!valid" (click)="displayBasic=false" label="{{'button.saveF8'|translate}}" styleClass="p-button-text" (click)="onAdd($event)"></p-button>
+</ng-template>
+</p-dialog>

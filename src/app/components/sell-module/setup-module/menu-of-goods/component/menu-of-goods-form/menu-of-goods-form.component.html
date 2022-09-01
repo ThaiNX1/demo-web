@@ -1,0 +1,58 @@
+<div *ngIf="display" class="card card-table">
+    <h5 [translate]="isEdit ? 'label.edit_category' : 'label.add_category'"></h5>
+    <form [formGroup]="categoryForm">
+        <div class="p-fluid formgrid grid mt-4">
+            <div class="field col">
+                <label htmlFor="code">{{ "label.category_code" | translate }} <span
+                        class="text-pink-400">*</span></label>
+                <input pInputText id="code" [(ngModel)]="categoryForm.value.code" formControlName="code"
+                    [ngClass]="checkValidValidator('code')" />
+                <small *ngIf="checkValidValidator('code')" class="p-error"
+                    [innerHTML]="'info.code' | translate"></small>
+            </div>
+        </div>
+        <div class="p-fluid formgrid grid mt-4">
+            <div class="field col">
+                <label htmlFor="name">{{ "label.name_viet_nam" | translate }} <span class="text-pink-400">*</span>
+                </label>
+                <input pInputText id="name" [(ngModel)]="categoryForm.value.name" formControlName="name"
+                    [ngClass]="checkValidValidator('name')" />
+                <small *ngIf="checkValidValidator('name')" class="p-error"
+                    [innerHTML]="'info.name_viet_nam' | translate"></small>
+            </div>
+        </div>
+        <div class="p-fluid formgrid grid mt-4">
+            <div class="field col">
+                <label htmlFor="nameEnglish">{{ "label.name_english" | translate }}</label>
+                <input pInputText id="nameEnglish" [(ngModel)]="categoryForm.value.nameEnglish"
+                    formControlName="nameEnglish" />
+            </div>
+        </div>
+        <div class="p-fluid formgrid grid mt-4">
+            <div class="field col">
+                <label htmlFor="nameKorea">{{ "label.name_korea" | translate }}</label>
+                <input pInputText id="nameKorea" [(ngModel)]="categoryForm.value.nameKorea"
+                    formControlName="nameKorea" />
+            </div>
+        </div>
+        <div class="p-fluid formGrid grid mt-4">
+            <div class="field col">
+                <label htmlFor="type">{{ "label.category_type" | translate }}</label>
+                <p-dropdown id="type" [options]="types.category" [optionLabel]="'label'" [optionValue]="'value'"
+                    showClear="true" [formControlName]="'type'" [appendTo]="'body'"
+                    [placeholder]="'label.empty' | translate" [filter]="true" filterBy="name"></p-dropdown>
+            </div>
+        </div>
+        <div class="p-fluid formgrid grid mt-4">
+            <div class="field col">
+                <label htmlFor="note">{{ "label.description" | translate }}</label>
+                <input pInputText id="note" [(ngModel)]="categoryForm.value.note" formControlName="note" />
+            </div>
+        </div>
+        <div class="w-full col-12 flex align-items-center justify-content-end mt-5 gap-8">
+            <p-button icon="pi pi-times" (click)="onCancel.emit({})" [label]="'button.back' | translate"
+                styleClass="p-button-outlined"></p-button>
+            <p-button icon="pi pi-check" (click)="onSubmit()" [label]="'button.save' | translate"></p-button>
+        </div>
+    </form>
+</div>

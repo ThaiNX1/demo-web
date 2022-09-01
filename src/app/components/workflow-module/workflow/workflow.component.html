@@ -1,0 +1,363 @@
+<div *ngIf="!display" class="card card-table">
+    <div class="flex flex-row align-items-center justify-content-start pt-2 pb-3">
+        <h5 class="mb-0 pr-3">{{'label.workflow_management' | translate}}</h5>
+        <i class="pi pi-clock mr-4 p-text-secondary text-4xl" title="Quá hạn" pBadge value="2"></i>
+        <i class="pi pi-comment mr-4 p-text-secondary text-4xl" title="Bình luận" pBadge value="2"></i>
+    </div>
+    <div class="grid">
+        <div class="col-5 pr-0">
+            <p-tabMenu [model]="items" [activeItem]="activeItem"></p-tabMenu>
+        </div>
+        <div class="col-7 pl-0">
+            <div class="h-full flex flex-row align-items-center justify-content-end border-300 border-bottom-2">
+                <p-calendar inputId="basic" dateFormat="dd/mm/yy" [(ngModel)]="exportParam.startDate"></p-calendar>
+                <p-calendar inputId="basic" dateFormat="dd/mm/yy" [(ngModel)]="exportParam.endDate"></p-calendar>
+                <p-dropdown placeholder="Chọn trạng thái" optionLabel="name" [showClear]="true"
+                            [(ngModel)]="exportParam.status" [options]="status"></p-dropdown>
+                <p-dropdown placeholder="Chọn phòng ban" optionLabel="name" [showClear]="true"
+                            [(ngModel)]="exportParam.departmentId" [options]="departments" [filter]="true"
+                            (onFilter)="onFilterDepartment($event)"></p-dropdown>
+                <p-button icon="pi pi-download" (onClick)="exportData()"></p-button>
+            </div>
+        </div>
+    </div>
+    <p-table *ngIf="activeItem?.id === '1'" #dt1 [value]="result.data" dataKey="id" [rows]="10" [loading]="loading"
+             [rowHover]="true"
+             styleClass="p-datatable-gridlines mt-2" [paginator]="true" responsiveLayout="scroll'"
+             [totalRecords]="result.totalItems" [rowsPerPageOptions]="[5, 10, 25, 50]"
+             [showCurrentPageReport]="true" [lazy]="true" (onLazyLoad)="getWorkList($event)"
+             scrollable="true" scrollDirection="both"
+             currentPageReportTemplate="Hiển thị {first} đến {last} trong tổng số {totalRecords} bản ghi">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div class="flex align-items-center justify-content-start py-2">
+                    <p-dropdown [options]="actions" placeholder="Chọn hành động" optionLabel="name"
+                                [showClear]="true"></p-dropdown>
+                    <button pButton>{{'button.save' | translate}}</button>
+                </div>
+                <button pButton (click)="onAddWorkflow()">{{'button.add' | translate}}</button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="w-1">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="w-2">
+                    {{'label.workflow_title' | translate}}
+                </th>
+                <th class="w-2">
+                    {{'label.workflow_created_date' | translate}}
+                </th>
+                <th class="w-1">
+                    {{'label.workflow_expired' | translate}}
+                </th>
+                <th class="w-1">
+                    {{'label.workflow_total_hour' | translate}}
+                </th>
+                <th class="w-1">
+                    {{'label.workflow_created_by' | translate}}
+                </th>
+                <th class="w-2">
+                    {{'label.workflow_responsible' | translate}}
+                </th>
+                <th class="w-1">
+                    {{'label.workflow_parent_project' | translate}}
+                </th>
+                <th class="w-1">
+                    {{'label.workflow_view' | translate}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td class="w-1 flex align-items-center justify-content-between">
+                    <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                    <i class="pi pi-ellipsis-h cursor-pointer text-400 text-lg"
+                       (click)="op.toggle($event); selectedJob = item"></i>
+                </td>
+                <td class="w-2">
+                    {{item.name}}
+                </td>
+                <td class="w-2">
+                    {{item.createdDate | date:'dd/MM/yyyy'}}
+                </td>
+                <td class="w-1">
+                    {{item.dueDate | date:'dd/MM/yyyy'}}
+                </td>
+                <td class="w-1 justify-content-end">
+                    {{item.actualHours | number:'1.0-2'}}
+                </td>
+                <td class="w-1">
+                    <p-avatar [image]="serverImg+item.responsibleUserCreated?.avatar" shape="circle"
+                              [title]="item.responsibleUserCreated?.fullName"></p-avatar>
+                </td>
+                <td class="w-2">
+                    <p-avatarGroup>
+                        <p-avatar *ngFor="let person of item.responsiblePerson || []" [image]="serverImg+person.avatar"
+                                  shape="circle" [title]="person.fullName"></p-avatar>
+                    </p-avatarGroup>
+                </td>
+                <td class="w-1">
+                    {{item.project}}
+                </td>
+                <td class="w-1 justify-content-end">
+                    {{item.viewer | number:'1.0-0'}}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr class="p-rowgroup-footer">
+                <td colspan="10" class="w-full pt-4 pb-4">{{'info.no_data' | translate}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+            <tr>
+                <td colspan="10" class="w-full pt-4 pb-4">{{'info.loading' | translate}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div *ngIf="activeItem?.id === '2'">
+        <div class="w-full flex align-items-start justify-content-center">
+            <div class="flex-1 border-right-1 border-y-none border-left-none border-dotted border-500 relative">
+                <p-virtualScroller [value]="expiredWork.expired" scrollHeight="calc(100vh - 265px)" [itemSize]="100"
+                                   [lazy]="true" (onLazyLoad)="getWorkList($event)">
+                    <ng-template pTemplate="header">
+                        <div class="w-full flex align-items-center justify-content-start bg-pink-400 p-3">
+                            <p>Quá hạn</p>
+                        </div>
+                    </ng-template>
+                    <ng-template let-work pTemplate="item">
+                        <div
+                            class="h-full flex flex-column align-items-start justify-content-center border-1 border-400 border-round my-3 p-2">
+                            <p>{{work.name}}</p>
+                            <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                            <p-avatar [image]="work.responsibleUserCreated?.avatar" shape="circle"></p-avatar>
+                        </div>
+                    </ng-template>
+                </p-virtualScroller>
+            </div>
+            <div class="flex-1 border-right-1 border-y-none border-left-none border-dotted border-500 sticky top-0">
+                <p-virtualScroller [value]="expiredWork.expiredToday" scrollHeight="calc(100vh - 265px)"
+                                   [itemSize]="100" [lazy]="true" (onLazyLoad)="getWorkList($event)">
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center justify-content-start bg-yellow-400 p-3">
+                            <p>Đến hạn hôm nay</p>
+                        </div>
+                    </ng-template>
+                    <ng-template let-work pTemplate="item">
+                        <div
+                            class="h-full flex flex-column align-items-start justify-content-center border-1 border-400 border-round my-3 p-2">
+                            <p>{{work.name}}</p>
+                            <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                            <p-avatar [image]="work.responsibleUserCreated?.avatar" shape="circle"></p-avatar>
+                        </div>
+                    </ng-template>
+                </p-virtualScroller>
+            </div>
+            <div class="flex-1 border-right-1 border-y-none border-left-none border-dotted border-500 sticky top-0">
+                <p-virtualScroller [value]="expiredWork.expiredCurrentWeek" scrollHeight="calc(100vh - 265px)"
+                                   [itemSize]="100" [lazy]="true" (onLazyLoad)="getWorkList($event)">
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center justify-content-start bg-green-400 p-3">
+                            <p>Đến hạn tuần này</p>
+                        </div>
+                    </ng-template>
+                    <ng-template let-work pTemplate="item">
+                        <div
+                            class="h-full flex flex-column align-items-start justify-content-center border-1 border-400 border-round my-3 p-2">
+                            <p>{{work.name}}</p>
+                            <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                            <p-avatar [image]="work.responsibleUserCreated?.avatar" shape="circle"></p-avatar>
+                        </div>
+                    </ng-template>
+                </p-virtualScroller>
+            </div>
+            <div class="flex-1 border-right-1 border-y-none border-left-none border-dotted border-500 sticky top-0">
+                <p-virtualScroller [value]="expiredWork.expiredNextWeek" scrollHeight="calc(100vh - 265px)"
+                                   [itemSize]="100" [lazy]="true" (onLazyLoad)="getWorkList($event)">
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center justify-content-start bg-teal-400 p-3">
+                            <p>Đến hạn tuần tới</p>
+                        </div>
+                    </ng-template>
+                    <ng-template let-work pTemplate="item">
+                        <div
+                            class="h-full flex flex-column align-items-start justify-content-center border-1 border-400 border-round my-3 p-2">
+                            <p>{{work.name}}</p>
+                            <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                            <p-avatar [image]="work.responsibleUserCreated?.avatar" shape="circle"></p-avatar>
+                        </div>
+                    </ng-template>
+                </p-virtualScroller>
+            </div>
+            <div class="flex-1 border-right-1 border-y-none border-left-none border-dotted border-500 sticky top-0">
+                <p-virtualScroller [value]="expiredWork.notExpired" scrollHeight="calc(100vh - 265px)" [itemSize]="100"
+                                   [lazy]="true" (onLazyLoad)="getWorkList($event)">
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center justify-content-start bg-bluegray-400 p-3">
+                            <p>Không có thời gian</p>
+                        </div>
+                    </ng-template>
+                    <ng-template let-work pTemplate="item">
+                        <div
+                            class="flex flex-column align-items-start justify-content-center border-1 border-400 border-round my-3 p-2">
+                            <p>{{work.name}}</p>
+                            <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                            <p-avatar [image]="work.responsibleUserCreated?.avatar" shape="circle"></p-avatar>
+                        </div>
+                    </ng-template>
+                </p-virtualScroller>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full flex flex-column align-items-start justify-content-start py-2"
+         [style.visibility]="activeItem?.id === '3' ? 'visible' : 'hidden'"
+         [style.height]="activeItem?.id === '3' ? '100%' : '0'">
+        <full-calendar #calendar class="w-full" [options]="calendarOption"
+                       [deepChangeDetection]="true"
+                       [style.visibility]="activeItem?.id === '3' ? 'visible' : 'hidden'"></full-calendar>
+    </div>
+
+    <div *ngIf="activeItem?.id === '4'" class="">
+        <ng-container *ngFor="let kanban of kanbanWorks">
+            <div class="flex align-items-center justify-content-start p-2">
+                <img [src]="kanban?.user?.avatar" class="h-3rem w-3rem">
+                <p class="pl-3 font-semibold text-blue-400">{{kanban?.user?.fullName}}</p>
+            </div>
+            <div class="w-full grid">
+                <div class="col-4" pDroppable="jobs" (onDrop)="dropTodo($event)">
+                    <p-virtualScroller [value]="kanban.todo" scrollHeight="calc(100vh - 250px)" [itemSize]="100"
+                                       [lazy]="true" (onLazyLoad)="getWorkListKanban($event)" class="h-13rem">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center justify-content-start bg-teal-400 p-3">
+                                <p class="text-white">Chưa bắt đầu</p>
+                            </div>
+                        </ng-template>
+                        <ng-template let-work pTemplate="item">
+                            <div [id]="'kanbanTodo-'+work.id" pDraggable="jobs"
+                                 (onDragStart)="dragStartTodo(work)" (onDragEnd)="dragEndTodo()"
+                                 class="h-full flex flex-column align-items-start justify-content-center surface-50 px-2 py-1">
+                                <div [id]="'subKanbanTodo-'+work.id"
+                                     class="h-full w-full shadow-3 flex align-items-start justify-content-between border-left-3 border-teal-400 bg-white p-2">
+                                    <div class="flex flex-column align-items-start justify-content-start">
+                                        <p>{{work.name}}</p>
+                                        <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                                    </div>
+                                    <p-avatar image="/assets/demo/images/avatar/amyelsner.png" size="large"
+                                              shape="circle" [pTooltip]="'CreatedBy: '+work.createPerson"
+                                              tooltipPosition="bottom"></p-avatar>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-virtualScroller>
+                </div>
+                <div class="col-4" pDroppable="jobs" (onDrop)="dropInProgress($event)">
+                    <p-virtualScroller [value]="kanban.inProgress" scrollHeight="calc(100vh - 250px)"
+                                       [itemSize]="100" [lazy]="true" (onLazyLoad)="getWorkListKanban($event)"
+                                       class="h-13rem">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center justify-content-start bg-green-400 p-3">
+                                <p class="text-white">Đang tiến hành</p>
+                            </div>
+                        </ng-template>
+                        <ng-template let-work pTemplate="item">
+                            <div [id]="'kanbanInProgress-'+work.id" pDraggable="jobs"
+                                 (onDragStart)="dragStartInProgress(work)"
+                                 (onDragEnd)="dragEndInProgress()"
+                                 class="h-full flex flex-column align-items-start justify-content-center surface-50 px-2 py-1">
+                                <div [id]="'subKanbanInProgress-'+work.id"
+                                     class="h-full w-full shadow-3 flex align-items-start justify-content-between border-left-3 border-green-400 bg-white p-2">
+                                    <div class="flex flex-column align-items-start justify-content-start">
+                                        <p>{{work.name}}</p>
+                                        <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                                    </div>
+                                    <p-avatar image="/assets/demo/images/avatar/amyelsner.png" size="large"
+                                              shape="circle" [pTooltip]="'CreatedBy: '+work.createPerson"
+                                              tooltipPosition="bottom"></p-avatar>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-virtualScroller>
+                </div>
+                <div class="col-4" pDroppable="jobs" (onDrop)="dropDone($event)">
+                    <p-virtualScroller [value]="kanban.done" scrollHeight="calc(100vh - 250px)" [itemSize]="100"
+                                       [lazy]="true" (onLazyLoad)="getWorkListKanban($event)" class="h-13rem">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center justify-content-start bg-indigo-400 p-3">
+                                <p class="text-white">Hoàn thành</p>
+                            </div>
+                        </ng-template>
+                        <ng-template let-work pTemplate="item">
+                            <div [id]="'kanbanDone-'+work.id" pDraggable="jobs" (onDragStart)="dragStartDone(work)"
+                                 (onDragEnd)="dragEndDone()"
+                                 class="h-full flex flex-column align-items-start justify-content-center surface-50 px-2 py-1">
+                                <div [id]="'subKanbanDone-'+work.id"
+                                     class="h-full w-full shadow-3 flex align-items-start justify-content-between border-left-3 border-indigo-400 bg-white p-2">
+                                    <div class="flex flex-column align-items-start justify-content-start">
+                                        <p>{{work.name}}</p>
+                                        <p>{{work.dueDate | date:'dd/MM/yyyy'}}</p>
+                                    </div>
+                                    <p-avatar image="/assets/demo/images/avatar/amyelsner.png" size="large"
+                                              shape="circle" [pTooltip]="'CreatedBy: '+work.createPerson"
+                                              tooltipPosition="bottom"></p-avatar>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-virtualScroller>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<app-workflow-form [display]="display" [formData]="formData" (onCancel)="onCancelForm($event)"></app-workflow-form>
+<p-overlayPanel #op class="px-0">
+    <ng-template pTemplate>
+        <div class="flex flex-column align-items-start">
+            <div
+                class="item-panel w-full flex align-items-center justify-content-start border-bottom-1 border-400 py-2 cursor-pointer item-overlay"
+                (click)="onPinWorkflow()">
+                <i class="pi pi-check mr-4"></i>
+                <p>{{'label.workflow_panel_pin' | translate}}</p>
+            </div>
+            <div
+                class="item-panel w-full flex align-items-center justify-content-start border-bottom-1 border-400 py-2 cursor-pointer"
+                (click)="onChangeStatusWorkflow(UserTaskStatusEnum.DOING)">
+                <i class="pi pi-play mr-4"></i>
+                <p>{{'label.workflow_panel_start' | translate}}</p>
+            </div>
+            <div
+                class="item-panel w-full flex align-items-center justify-content-start border-bottom-1 border-400 py-2 cursor-pointer"
+                (click)="onChangeStatusWorkflow(UserTaskStatusEnum.PAUSE)">
+                <i class="pi pi-pause mr-4"></i>
+                <p>{{'label.workflow_panel_pause' | translate}}</p>
+            </div>
+            <div
+                class="item-panel w-full flex align-items-center justify-content-start border-bottom-1 border-400 py-2 cursor-pointer"
+                (click)="onChangeStatusWorkflow(UserTaskStatusEnum.COMPLETE)">
+                <i class="pi pi-check mr-4"></i>
+                <p>{{'label.workflow_panel_complete' | translate}}</p>
+            </div>
+            <div
+                class="item-panel w-full flex align-items-center justify-content-start border-bottom-1 border-400 py-2 cursor-pointer"
+                (click)="onCopyWorkflow()">
+                <i class="pi pi-copy mr-4"></i>
+                <p>{{'label.workflow_panel_copy' | translate}}</p>
+            </div>
+            <div
+                class="item-panel w-full flex align-items-center justify-content-start border-bottom-1 border-400 py-2 cursor-pointer"
+                (click)="onEditWorkflow()">
+                <i class="pi pi-pencil mr-4"></i>
+                <p>{{'label.workflow_panel_edit' | translate}}</p>
+            </div>
+            <div
+                class="item-panel w-full flex align-items-center justify-content-start border-bottom-1 border-400 py-2 cursor-pointer"
+                (click)="onDeleteWorkflow()">
+                <i class="pi pi-trash mr-4"></i>
+                <p>{{'label.workflow_panel_delete' | translate}}</p>
+            </div>
+        </div>
+    </ng-template>
+</p-overlayPanel>

@@ -1,0 +1,93 @@
+<p-panel>
+    <ng-template pTemplate="header">
+        <h5 class="m-0 text-white" [translate]="'label.extract_data'"></h5>
+    </ng-template>
+    <div class="flex text-sm grid">
+        <div class="col-7 flex">
+            <div class="flex flex-column w-10rem gap-8">
+                <div class="field-radiobutton">
+                    <p-radioButton id="filterType" name="filterType" [value]="1" [(ngModel)]="filter.filterType"
+                        [ngModelOptions]="{ standalone: true }" (onClick)="onChangeType()"></p-radioButton>
+                    <label for="cooperate" [translate]="'label.month_type'"></label>
+                </div>
+                <div class="field-radiobutton">
+                    <p-radioButton id="filterType" name="filterType" [value]="2" [(ngModel)]="filter.filterType"
+                        [ngModelOptions]="{ standalone: true }" (onClick)="onChangeType()"></p-radioButton>
+                    <label for="stop_cooperate" [translate]="'label.date_type'"></label>
+                </div>
+                <div class="flex align-items-center pt-1">
+                    <p-checkbox id="remember" [binary]="true" [(ngModel)]="filter.fillName"
+                        [ngModelOptions]="{ standalone: true }" class="pr-2"></p-checkbox>
+                    <label for="remember" [translate]="'label.fill_name'"></label>
+                </div>
+            </div>
+            <div class="flex flex-column">
+                <div class="flex">
+                    <div class="flex flex-column gap-8">
+                        <!--start month-->
+                        <div class="flex align-items-center">
+                            <label class="font-bold text-primary w-7rem" [translate]="'label.start_month'"></label>
+                            <p-dropdown [options]="types.month" [(ngModel)]="filter.startMonth" [filter]="true"
+                                class="w-full px-2 p-inputtext-sm" [disabled]="!(filter.filterType === 1)">
+                            </p-dropdown>
+                        </div>
+                        <!--start date-->
+                        <div class="flex align-items-center">
+                            <label class="font-bold text-primary w-7rem" [translate]="'label.start_date'"></label>
+                            <p-inputMask mask="99/99/9999" [(ngModel)]="filter.startDate" [disabled]="!(filter.filterType === 2)"
+                                [ngModelOptions]="{standalone: true }" class="w-full px-2 p-inputtext-sm"
+                                slotChar="dd/mm/yyyy"></p-inputMask>
+                        </div>
+                    </div>
+                    <div class="flex flex-column gap-8">
+                        <!--end month-->
+                        <div class="flex align-items-center">
+                            <label class="font-bold text-primary w-7rem" [translate]="'label.end_month'"></label>
+                            <p-dropdown [options]="types.month" [(ngModel)]="filter.endMonth" [filter]="true"
+                                class="w-full px-2 p-inputtext-sm" [disabled]="!(filter.filterType === 1)">
+                            </p-dropdown>
+                        </div>
+                        <!--end date-->
+                        <div class="flex align-items-center">
+                            <label class="font-bold text-primary w-7rem" [translate]="'label.end_date'"></label>
+                            <p-inputMask mask="99/99/9999" [(ngModel)]="filter.endDate"
+                                [ngModelOptions]="{standalone: true }" class="w-full px-2 p-inputtext-sm"
+                                slotChar="dd/mm/yyyy" [disabled]="!(filter.filterType === 2)"></p-inputMask>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex pt-2 w-full">
+                    <label class="font-bold text-primary w-6rem mt-2 pt-1" [translate]="'label.scheduler'"></label>
+                    <input type="text" [(ngModel)]="filter.scheduler" pInputText class="w-full p-inputtext-sm mx-2" />
+                </div>
+            </div>
+        </div>
+        <div class="col-3 flex flex-column gap-8">
+            <div class="flex align-items-center justify-content-start">
+                <label class="font-bold text-primary w-7rem" [translate]="'label.account'"></label>
+                <p-dropdown [options]="chartOfAccounts" [(ngModel)]="filter.accountId" optionLabel="name" optionValue="code"
+                    [filter]="true" class="w-full p-inputtext-sm" [placeholder]="'label.empty' | translate">
+                </p-dropdown>
+            </div>
+            <div class="flex align-items-center justify-content-start">
+                <label class="font-bold text-primary w-5rem" [translate]="'label.print_type'"></label>
+                <p-multiSelect [options]="types.print" [(ngModel)]="filter.printType" [filter]="true" optionLabel="label"
+                    optionValue="value" class="p-inputtext-sm" [style]="{ 'max-width': '100px;' }">
+                </p-multiSelect>
+            </div>
+        </div>
+        <div class="col-2 flex flex-column gap-8">
+            <div>
+                <button pButton type="button" [translate]="'button.preview'" (click)="onChangePreview()" class="text-sm"></button>
+            </div>
+            <div>
+                <button pButton type="button" [translate]="'button.export_pdf'" (click)="onChangePrint()"
+                    class="text-sm p-button-info"></button>
+            </div>
+            <div>
+                <button class="text-sm p-button-success" pButton type="button" [translate]="'label.export_excel'"
+                    (click)="onChangePrintExcel()"></button>
+            </div>
+        </div>
+    </div>
+</p-panel>

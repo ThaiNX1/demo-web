@@ -1,20 +1,12 @@
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "./app.module";
-import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
-async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter());
-  const docsConfig = new DocumentBuilder()
-    .setTitle("Tomeo's API")
-    .setVersion("1.0")
-    .addBearerAuth()
-    .build();
-  const document = SwaggerModule.createDocument(app, docsConfig);
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
 
-  SwaggerModule.setup("docs", app, document);
-  await app.listen(process.env.PORT || 3000);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+if (environment.production) {
+  enableProdMode();
 }
 
-bootstrap();
+platformBrowserDynamic().bootstrapModule(AppModule)
+  .catch(err => console.error(err));

@@ -1,0 +1,101 @@
+<p-toast></p-toast>
+<div *ngIf="display" class="card card-table">
+    <form [formGroup]="billsForm" class="grid">
+        <div class="col-12 py-2"><h5 class="m-0" [translate]="isEdit ? 'label.edit_bills' : 'label.add_bills'"></h5></div>
+
+        <!--code-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="code">{{'label.code' | translate}}<span class="text-pink-400">*</span></label>
+            <input pInputText id="code" [(ngModel)]="billsForm.value.code" formControlName="code"
+                [ngClass]="checkValidValidator('code')" (ngModelChange)="onChangeCode()" />
+            <small *ngIf="checkValidValidator('code')" class="p-error" [innerHTML]="'info.code' | translate"></small>
+        </div>
+
+        <!--name-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="name">{{'label.name' | translate}}<span class="text-pink-400">*</span></label>
+            <input pInputText id="name" [(ngModel)]="billsForm.value.name" formControlName="name"
+                [ngClass]="checkValidValidator('name')" />
+            <small *ngIf="checkValidValidator('name')" class="p-error" [innerHTML]="'info.name' | translate"></small>
+        </div>
+
+        <!--percent-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="percent" [translate]="'label.percent'"></label><span class="text-pink-400">*</span>
+            <p-inputNumber id="percent" [(ngModel)]="billsForm.value.percent" formControlName="percent"
+                [ngClass]="checkValidValidator('percent')">
+            </p-inputNumber>
+            <small *ngIf="checkValidValidator('percent')" class="p-error" [innerHTML]="'info.percent' | translate"></small>
+        </div>
+
+        <!--description-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="description">{{'label.description' | translate}}</label>
+            <input pInputText id="description" [(ngModel)]="billsForm.value.description" formControlName="description"
+                [ngClass]="checkValidValidator('description')" />
+            <small *ngIf="checkValidValidator('description')" class="p-error" [innerHTML]="'info.description' | translate"></small>
+        </div>
+
+        <!--type-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="type" [translate]="'label.type'"></label><span class="text-pink-400">*</span>
+            <p-dropdown id="type" [options]="types.inOut" [optionLabel]="'label'" [optionValue]="'value'" [appendTo]="'body'"
+                [(ngModel)]="billsForm.value.type" [formControlName]="'type'" [placeholder]="'label.empty' | translate"
+                [ngClass]="checkValidValidator('type')">
+            </p-dropdown>
+            <small *ngIf="checkValidValidator('type')" class="p-error" [innerHTML]="'info.type' | translate"></small>
+        </div>
+
+        <!--order-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="order" [translate]="'label.display_order'"></label><span class="text-pink-400">*</span>
+            <p-inputNumber id="order" [(ngModel)]="billsForm.value.order" formControlName="order"
+                [ngClass]="checkValidValidator('order')">
+            </p-inputNumber>
+            <small *ngIf="checkValidValidator('order')" class="p-error" [innerHTML]="'info.order' | translate"></small>
+        </div>
+
+        <!--debitCode-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="debitCode" [translate]="'label.debit_code_name'"></label>
+            <p-dropdown id="debitCode" [options]="chartOfAccounts" [optionValue]="'code'" [appendTo]="'body'" [showClear]="true" [filter]="true"
+                [(ngModel)]="billsForm.value.debitCode" [formControlName]="'debitCode'" [placeholder]="'label.empty' | translate"
+                [ngClass]="checkValidValidator('debitCode')">
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="selectedItem">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="item">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+            </p-dropdown>
+            <small *ngIf="checkValidValidator('debitCode')" class="p-error" [innerHTML]="'info.debit_code' | translate"></small>
+        </div>
+
+        <!--creditCode-->
+        <div class="field p-fluid col-12 md:col-6">
+            <label htmlFor="creditCode" [translate]="'label.credit_code_name'"></label>
+            <p-dropdown id="creditCode" [options]="chartOfAccounts" [optionValue]="'code'" [appendTo]="'body'"
+                [(ngModel)]="billsForm.value.creditCode" [formControlName]="'creditCode'" [showClear]="true" [filter]="true"
+                [placeholder]="'label.empty' | translate" [ngClass]="checkValidValidator('creditCode')">
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="selectedItem">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+                <ng-template let-chartOfAccount pTemplate="chartOfAccount" pTemplate="item">
+                    <span>{{chartOfAccount.code}} | {{chartOfAccount.name}}</span>
+                </ng-template>
+            </p-dropdown>
+            <small *ngIf="checkValidValidator('creditCode')" class="p-error" [innerHTML]="'info.credit_code' | translate"></small>
+        </div>
+
+        <div class="col-12">
+            <div class="p-fluid p-formgrid grid mt-2">
+                <div class="field col-12 gap-8 flex justify-content-end mt-4 p-0">
+                    <p-button icon="pi pi-times" (click)="onCancel.emit({})" [label]="'button.back' | translate"
+                        styleClass="p-button-outlined"></p-button>
+                    <p-button icon="pi pi-check" (click)="onSubmit()" [label]="'button.save' | translate">
+                    </p-button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

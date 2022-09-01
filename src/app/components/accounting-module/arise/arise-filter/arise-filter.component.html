@@ -1,0 +1,32 @@
+<div class="flex text-sm p-1 flex-column md:flex-row">
+    <div class="flex align-items-center gap-1 md:w-full md:w-3">
+        <label class="font-bold text-primary w-3 md:text-right" style="min-width: 60px" [translate]="'left_menu.license'"></label>
+        <p-dropdown [options]="documentList" [(ngModel)]="filter.documentType" optionLabel="name"
+            optionValue="code" [filter]="true" class="w-full px-2 p-inputtext-sm" (onChange)="search()">
+        </p-dropdown>
+    </div>
+    <div class="flex align-items-center gap-1 md:w-full md:w-2">
+        <label class="font-bold text-primary w-3 md:text-right" [translate]="'label.month'"></label>
+        <p-dropdown [options]="types.month" [(ngModel)]="filter.filterMonth" [filter]="true" class="w-full px-2 p-inputtext-sm">
+        </p-dropdown>
+    </div>
+    <div class="flex align-items-center gap-1 md:w-full md:w-2">
+        <label class="font-bold text-primary w-3 md:text-right" style="min-width: 40px" [translate]="'label.internal'"></label>
+        <p-dropdown [options]="types.internalType" [(ngModel)]="filter.transferModelTypeData" optionLabel="name" class="w-full px-2 p-inputtext-sm">
+            <ng-template let-item pTemplate="item">
+                <div>
+                    <div>{{item.name}}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+    <div class="flex align-items-center gap-1 md:w-full md:w-2">
+        <label class="font-bold text-primary w-3 md:text-right" [translate]="'label.key_word'"></label>
+        <div class="px-2 w-full">
+            <input type="text" [(ngModel)]="filter.keyword" pInputText class="w-full p-inputtext-sm" />
+        </div>
+    </div>
+    <div class="text-center">
+        <button pButton type="button" [translate]="'label.search'" (click)="search()"></button>
+    </div>
+</div>

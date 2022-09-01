@@ -1,0 +1,42 @@
+<div class="grid account-component">
+    <div class="col-12 p-0">
+        <div class="card card-table p-0">
+            <h5 class="pl-4 pt-5">{{'left_menu.account'|translate}}</h5>
+            <is-table #accountTable
+                [showHeaderButton]="true"
+                [showHeaderDropdown]="true"
+                [headerDropdownOptions]="accountTypeList"
+                [scrollable]="true"
+                [scrollHeight]="'77vh'"
+                [headerActionLabel]="'label.tool'"
+                [headerActionItems]="menuActionItems"
+                (expandChange)="onExpandChange($event)"
+                (excelActionChange)="onExcelActionChange($event)"
+                (headerButtonClick)="onAddAccount()"
+                (changeHeaderDropdown)="onChangeHTNB($event)"
+                (actionButtonClick)="onActionClick($event)"
+            >
+                <ng-template [pTemplate]="columnType.Expand.toString()">
+                    <is-table #accountTableChild 
+                        [styleClass]="'account-component__first-child-table'"
+                        (expandChange)="onExpandChildNodeChange($event)" 
+                        (actionButtonClick)="onActionDetail1Click($event)"
+                        (excelActionChange)="onExcelActionForFirstChildChange($event)"
+                    >
+                        <ng-template [pTemplate]="columnType.Expand.toString()">
+                            <is-table #accountTableSecondChild 
+                                [styleClass]="'account-component__second-child-table'" 
+                                (actionButtonClick)="onActionDetail2Click($event)"
+                            >
+                            </is-table>
+                        </ng-template>
+                    </is-table>
+                </ng-template>
+             </is-table>
+        </div>
+    </div>
+</div>
+
+<add-edit-account #addEditAccount [accountType]="currentAccountType" (updateSuccessfull)="onAddEditAccountSuccessfull()"></add-edit-account>
+<add-edit-account-details #addEditAccountDetail [accountType]="currentAccountType" (updateSuccessfull)="onAddEditFirstChildAccountSuccessfull()"></add-edit-account-details>
+<add-edit-account-group #addEditAccountGroup></add-edit-account-group>

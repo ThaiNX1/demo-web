@@ -1,0 +1,114 @@
+<div class="layout-topbar">
+    <a class="layout-topbar-logo" routerLink="">
+        <img src="assets/layout/images/{{layoutService.config.colorScheme === 'light' ? 'logo-dark' : 'logo-white'}}.svg"
+            alt="logo">
+        <span>SAKAI</span>
+    </a>
+
+    <button #menubutton class="p-link layout-menu-button layout-topbar-button" (click)="layoutService.onMenuToggle()">
+        <i class="pi pi-bars"></i>
+    </button>
+
+    <button #topbarmenubutton class="p-link layout-topbar-menu-button layout-topbar-button"
+        (click)="layoutService.showProfileSidebar()">
+        <i class="pi pi-ellipsis-v"></i>
+    </button>
+
+    <div #topbarmenu class="layout-topbar-menu"
+        [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
+        </button>
+        <button class="p-link layout-topbar-button">
+            <i class="pi pi-user"></i>
+            <span>Profile</span>
+        </button>
+        <button class="p-link layout-topbar-button" [routerLink]="'/documentation'">
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </button>
+    </div>
+</div>
+
+<form class="w-12 grid" [formGroup]="registFrm" autocomplete="off">
+<div class="layout-topbar">
+    <div class="flex">
+        <a class="layout-topbar-logo" routerLink="/uikit">
+            <!-- src="assets/layout/images/{{appMain.config.dark ? 'logo-white' : 'logo-dark'}}.svg" -->
+            <img src="assets/layout/images/logo-xl-jwk.png" alt="Isoft logo" style="width:50px; height:50px;">
+        </a>
+
+        <a class="mt-1 p-link layout-menu-button layout-topbar-button" href="#" (click)="appMain.toggleMenu($event)">
+            <i class="pi pi-bars"></i>
+        </a>
+
+        <a class="mt-1 p-link layout-topbar-menu-button layout-topbar-button" href="#" (click)="appMain.toggleTopMenu($event)">
+            <i class="pi pi-ellipsis-v"></i>
+        </a>
+    </div>
+
+    <div class="w-full mt-1 hidden sm:block text-center flex">
+        <h4 class="m-0" *ngIf="company">{{company.name}}</h4>
+    </div>
+
+    <div #menu class="layout-topbar-menu" [ngClass]="{'layout-topbar-menu-mobile-active': layoutService.state.profileSidebarVisible}">
+        <a (click)="layoutService.showConfigSidebar()" class="p-link layout-topbar-button">
+            <i class="pi pi-cog"></i>
+            <span>Setting</span>
+        </a>
+        <a (click)="displayChangePassword = true; registFrm.reset()" class="p-link layout-topbar-button">
+            <i class="pi pi-lock"></i>
+            <span>Password</span>
+        </a>
+        <a class="p-link layout-topbar-button" (click)="doLogout()">
+            <i class="pi pi-sign-out"></i>
+            <span>Sign out</span>
+        </a>
+    </div>
+</div>
+
+<p-dialog [header]="'label.change_password' | translate" [(visible)]="displayChangePassword" [modal]="true"
+    [style]="{'padding': '0'}" [draggable]="false" [resizable]="false">
+        <div class="grid">
+            <!--old password-->
+            <div class="col-12 sm:col-4 flex flex-column mt-2">
+                <label for="oldPassword" class="block text-900 font-bold mb-2" [translate]="'label.old_password'"></label>
+                <p-password id="oldPassword" [(ngModel)]="registFrm.value.oldPassword"
+                    placeholder="{{'label.old_password' | translate}}" formControlName="oldPassword"
+                    [class.ng-invalid]="checkValidValidator('oldPassword')" [class.ng-dirty]="checkValidValidator('oldPassword')"
+                    [toggleMask]="registFrm.value.oldPassword"></p-password>
+                <small *ngIf="checkValidValidator('oldPassword') && (!registFrm.value.oldPassword)" class="p-error mt-2"
+                    [innerHTML]="'info.invalid_old_password' | translate"></small>
+            </div>
+
+            <!--password-->
+            <div class="col-12 sm:col-4 flex flex-column mt-2">
+                <label for="password" class="block text-900 font-bold mb-2" [translate]="'label.password'"></label>
+                <p-password id="password" [(ngModel)]="registFrm.value.password" placeholder="{{'label.password' | translate}}"
+                    formControlName="password" [toggleMask]="registFrm.value.password"
+                    [class.ng-invalid]="checkValidValidator('password')" [class.ng-dirty]="checkValidValidator('password')"></p-password>
+                <small *ngIf="checkValidValidator('password') && (!registFrm.value.password)" class="p-error mt-2"
+                    [innerHTML]="'info.invalid_new_password' | translate"></small>
+            </div>
+
+            <!--confirmPassword-->
+            <div class="col-12 sm:col-4 flex flex-column mt-2">
+                <label for="confirmPassword" class="block text-900 font-bold mb-2"
+                    [translate]="'label.confirm_password'"></label>
+                <p-password id="confirmPassword" [(ngModel)]="registFrm.value.confirmPassword"
+                    placeholder="{{'label.confirm_password' | translate}}" formControlName="confirmPassword"
+                    [toggleMask]="registFrm.value.confirmPassword"
+                    [class.ng-invalid]="checkValidValidator('confirmPassword')" [class.ng-dirty]="checkValidValidator('confirmPassword')">
+                </p-password>
+                <small *ngIf="checkValidValidator('confirmPassword') && (!registFrm.value.confirmPassword)" class="p-error mt-2"
+                    [innerHTML]="'info.invalid_confirm_password' | translate"></small>
+            </div>
+
+            <div class="col-12 flex justify-content-end">
+                <button (click)="onChangePass()" pButton icon="pi pi-check" pRipple
+                    [label]="'button.apply' | translate"></button>
+            </div>
+        </div>
+    </p-dialog>
+</form>
